@@ -1,0 +1,23 @@
+# Normalize text files
+* text=auto eol=lf
+
+# Godot project files
+*.gd text eol=lf
+*.tscn text eol=lf
+*.tres text eol=lf
+*.godot text eol=lf
+
+# Documentation
+*.md text eol=lf
+*.txt text eol=lf
+
+# Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+
+# Audio
+*.wav binary
+*.ogg binary
+*.mp3 binary
