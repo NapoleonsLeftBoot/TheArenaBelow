@@ -6,7 +6,7 @@ extends Node2D
 func enter() -> void:
 	pass
 	
-func exit() -> void:
+func exit(new_state: State = null) -> void:
 	pass
 	
 func process_frame(delta: float) -> State:
