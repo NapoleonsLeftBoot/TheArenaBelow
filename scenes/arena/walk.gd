@@ -10,18 +10,17 @@ func exit(new_state: State = null)-> void:
 
 func process_input(event: InputEvent) -> State:
 	super(event)
-	if event.is_action_pressed("Jump"):
-		return jump_squat_state
 	if event.is_action_pressed(movement_key): determine_sprite_flipped(event.as_text())
 	#if event.is_action_pressed(right_key): determine_sprite_flipped(event.as_text())
 	return null
 
 func process_physics(delta: float) -> State:
 	do_move(get_move_dir())
-	if get_move_dir() == 0.0: 
-		return idle_state
-	
 	super(delta)
+	if player.buffer.consume(jump_key):
+		return jump_squat_state
+	if get_move_dir() == 0.0:
+		return idle_state
 	return null
 	
 func do_move(move_dir: float) -> void:

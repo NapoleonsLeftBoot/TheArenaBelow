@@ -342,6 +342,8 @@ fall_state = NodePath("../Fall")
 script = ExtResource("16_236mk")
 land_state = NodePath("../Land")
 
-[node name="Land" type="Node2D" parent="State Machine" unique_id=1358895619 node_paths=PackedStringArray("idle_state")]
+[node name="Land" type="Node2D" parent="State Machine" unique_id=1358895619 node_paths=PackedStringArray("idle_state", "walk_state", "jump_squat_state")]
 script = ExtResource("17_236mk")
 idle_state = NodePath("../Idle")
+walk_state = NodePath("../Walk")
+jump_squat_state = NodePath("../JumpSquat")

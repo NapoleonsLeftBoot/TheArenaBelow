@@ -16,4 +16,7 @@ func process_frame(delta: float) -> State:
 
 func process_physics(delta: float) -> State:
 	player.velocity.x *= land_traction
-	return super(delta)
+	var next_state: State = super(delta)
+	if player.buffer.consume(jump_key):
+		return jump_squat_state
+	return next_state

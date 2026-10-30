@@ -43,6 +43,12 @@ var movement_key: String = "movement"
 var left_key: String = "Left"
 var right_key: String = "Right"
 var jump_key: String = "Jump"
+var down_key: String = "Down"
+
+#Fall Attributes
+var terminal_velocity: float = 350.0
+var fast_fall_velocity: float = 450.0
+var fast_fall_accel: float = 1800.0
 
 #Input Action
 var left_actions: Array = InputMap.action_get_events(left_key).map(func(action: InputEvent) -> String: return action.as_text().get_slice(" -", 0))

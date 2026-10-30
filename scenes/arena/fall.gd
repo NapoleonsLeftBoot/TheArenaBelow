@@ -7,7 +7,17 @@ func enter() -> void:
 
 func process_physics(delta: float) -> State:
 	do_air_move(delta)
+
+	if player.velocity.y > 0.0 and player.buffer.consume(down_key):
+		player.fast_falling = true
+
+	if player.fast_falling:
+		player.velocity.y = move_toward(player.velocity.y, fast_fall_velocity, fast_fall_accel * delta)
+	else:
+		player.velocity.y = min(player.velocity.y, terminal_velocity)
+
 	var next_state: State = super(delta)
 	if player.is_on_floor():
+		player.fast_falling = false
 		return land_state
 	return null
