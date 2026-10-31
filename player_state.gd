@@ -13,8 +13,8 @@ var Air_acceleration: float = 400.0
 var squat_duration: float = 0.08
 var full_hop_velocity: float = -350.0
 var short_hop_velocity: float = -250.0
-var jump_squat_traction: float = 0.9
-var land_duration: float = 0.05
+var jump_squat_traction: float = 0.95
+var land_duration: float = 0.1
 var land_traction: float = .9
 
 
@@ -34,6 +34,7 @@ var land_anim: String = "land"
 @export var jump_state: PlayerState
 @export var fall_state: PlayerState
 @export var land_state: PlayerState
+@export var dash_state: PlayerState
 
 #State Variables
 var sprite_flipped: bool = false
@@ -44,11 +45,19 @@ var left_key: String = "Left"
 var right_key: String = "Right"
 var jump_key: String = "Jump"
 var down_key: String = "Down"
+var dash_key: String = "Dash"
 
 #Fall Attributes
 var terminal_velocity: float = 350.0
 var fast_fall_velocity: float = 450.0
 var fast_fall_accel: float = 1800.0
+
+#Dash Attributes
+var dash_speed: float = 350.0
+var dash_end_speed: float = 280.0 
+var dash_decel: float = 1000.0
+var dash_frames: int  = 8
+var min_dash_frames: int = 2
 
 #Input Action
 var left_actions: Array = InputMap.action_get_events(left_key).map(func(action: InputEvent) -> String: return action.as_text().get_slice(" -", 0))

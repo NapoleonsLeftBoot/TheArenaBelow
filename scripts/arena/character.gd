@@ -6,15 +6,15 @@ extends CharacterBody2D
 @onready var animation: AnimationPlayer = $Animation
 @onready var sprite: AnimatedSprite2D = $Sprite
 
-var buffer: InputBuffer = InputBuffer.new()
-
 var fast_falling: bool = false
+var buffer: InputBuffer = InputBuffer.new()
 
 func _ready(): state_machine.init()
 
 func _process(delta): state_machine.process_frame(delta)
 
-func _physics_process(delta): state_machine.process_physics(delta)
+func _physics_process(delta): 
+	state_machine.process_physics(delta)
 
 func _input(event): 
 	buffer.record(event)
