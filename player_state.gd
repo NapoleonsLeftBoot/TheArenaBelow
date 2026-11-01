@@ -26,6 +26,7 @@ var jump_anim: String = "jump"
 var fall_anim: String = "fall"
 var land_anim: String = "land"
 
+
 #States
 @export_group("states")
 @export var idle_state: PlayerState
@@ -35,6 +36,7 @@ var land_anim: String = "land"
 @export var fall_state: PlayerState
 @export var land_state: PlayerState
 @export var dash_state: PlayerState
+@export var attack_state: PlayerState
 
 #State Variables
 var sprite_flipped: bool = false
@@ -46,6 +48,7 @@ var right_key: String = "Right"
 var jump_key: String = "Jump"
 var down_key: String = "Down"
 var dash_key: String = "Dash"
+var attack_key: String = "Attack"
 
 #Fall Attributes
 var terminal_velocity: float = 350.0

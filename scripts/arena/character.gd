@@ -5,6 +5,8 @@ extends CharacterBody2D
 @onready var state_machine: StateMachine = $"State Machine"
 @onready var animation: AnimationPlayer = $Animation
 @onready var sprite: AnimatedSprite2D = $Sprite
+@onready var hitbox: Area2D = $Hitbox
+@onready var hitbox_shape: CollisionShape2D = $Hitbox/CollisionShape2D
 
 var fast_falling: bool = false
 var buffer: InputBuffer = InputBuffer.new()

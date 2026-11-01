@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://blf2lohdvq68x"]
+
+[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://art/characters/Test/moves/move_data.gd" id="1_fp6bo"]
+
+[resource]
+script = ExtResource("1_fp6bo")
+animation = "jab"
+startup_frames = 3
+active_frames = 2
+recovery_frames = 4
+hitbox_size = Vector2(20, 14)
+hitbox_offset = Vector2(18, -4)
+damage = 4
+knockback = Vector2(80, -40)
+traction = 0.9
+metadata/_custom_type_script = "uid://dumcnysw81a4l"

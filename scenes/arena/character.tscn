@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://cab7lwmht86j" path="res://scripts/arena/character.gd" id="1_hivrc"]
 [ext_resource type="Texture2D" uid="uid://csfqgsiu8laho" path="res://art/characters/Test/jump_3.png" id="2_43r7q"]
 [ext_resource type="Texture2D" uid="uid://bhiv1ok7mb7c0" path="res://art/characters/Test/fall_1.png" id="2_ol3dl"]
+[ext_resource type="Texture2D" uid="uid://dfymj2r0gbofl" path="res://art/characters/Test/attack_1.png" id="2_x72q6"]
+[ext_resource type="Texture2D" uid="uid://dso165pl7s2dy" path="res://art/characters/Test/attack_2.png" id="3_1ns2v"]
 [ext_resource type="Texture2D" uid="uid://bkatq7brhpjr3" path="res://art/characters/Test/stand_3.png" id="3_jx0ua"]
 [ext_resource type="Texture2D" uid="uid://bitfpwqsx0u88" path="res://art/characters/Test/stand_4.png" id="4_u52cf"]
 [ext_resource type="Texture2D" uid="uid://c6rv8n8q6avu0" path="res://art/characters/Test/walk_2.png" id="5_68qih"]
@@ -18,6 +20,8 @@
 [ext_resource type="Script" uid="uid://c37xejt6dlvsp" path="res://scenes/arena/fall.gd" id="16_236mk"]
 [ext_resource type="Script" uid="uid://c3mmegmtidrbx" path="res://scenes/arena/land.gd" id="17_236mk"]
 [ext_resource type="Script" uid="uid://cxy3cefqh4nr2" path="res://scenes/arena/dash.gd" id="18_vkbhh"]
+[ext_resource type="Script" uid="uid://0el6a2wwisl2" path="res://scenes/arena/attack.gd" id="19_p1wou"]
+[ext_resource type="Resource" uid="uid://blf2lohdvq68x" path="res://art/characters/Test/moves/fists_jab.tres" id="20_flb6u"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_yy16p"]
 animations = [{
@@ -41,6 +45,17 @@ animations = [{
 }],
 "loop": 1,
 "name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_x72q6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_1ns2v")
+}],
+"loop": 1,
+"name": &"Jab",
 "speed": 5.0
 }, {
 "frames": [{
@@ -178,6 +193,34 @@ tracks/1/keys = {
 "values": [0, 1, 2, 1]
 }
 
+[sub_resource type="Animation" id="Animation_0tay8"]
+resource_name = "jab"
+length = 0.36666667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Jab"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.23333333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 0]
+}
+
 [sub_resource type="Animation" id="Animation_ol3dl"]
 resource_name = "jump"
 length = 0.26666668
@@ -296,13 +339,19 @@ _data = {
 &"RESET": SubResource("Animation_60n01"),
 &"fall": SubResource("Animation_ahp72"),
 &"idle": SubResource("Animation_s1w26"),
+&"jab": SubResource("Animation_0tay8"),
 &"jump": SubResource("Animation_ol3dl"),
 &"jump_squat": SubResource("Animation_b34lc"),
 &"land": SubResource("Animation_236mk"),
 &"walk": SubResource("Animation_vavqj")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_opx04"]
+resource_local_to_scene = true
+size = Vector2(18, 24)
+
 [node name="Player" type="CharacterBody2D" unique_id=1279432752 groups=["Player"]]
+collision_layer = 2
 script = ExtResource("1_hivrc")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1843441239]
@@ -316,6 +365,15 @@ shape = SubResource("RectangleShape2D_6aheq")
 [node name="Animation" type="AnimationPlayer" parent="." unique_id=80370030]
 libraries/ = SubResource("AnimationLibrary_68qih")
 
+[node name="Hitbox" type="Area2D" parent="." unique_id=776822281]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=517192110]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_opx04")
+
 [node name="State Machine" type="Node2D" parent="." unique_id=1639182318 node_paths=PackedStringArray("starting_state")]
 script = ExtResource("6_c1cp6")
 starting_state = NodePath("Idle")
@@ -325,17 +383,19 @@ metadata/_custom_type_script = "uid://cpad24nv51cxb"
 script = ExtResource("11_b34lc")
 jump_state = NodePath("../Jump")
 
-[node name="Idle" type="Node2D" parent="State Machine" unique_id=954886316 node_paths=PackedStringArray("walk_state", "jump_squat_state", "dash_state")]
+[node name="Idle" type="Node2D" parent="State Machine" unique_id=954886316 node_paths=PackedStringArray("walk_state", "jump_squat_state", "dash_state", "attack_state")]
 script = ExtResource("7_60n01")
 walk_state = NodePath("../Walk")
 jump_squat_state = NodePath("../JumpSquat")
 dash_state = NodePath("../Dash")
+attack_state = NodePath("../Attack")
 
-[node name="Walk" type="Node2D" parent="State Machine" unique_id=627338446 node_paths=PackedStringArray("idle_state", "jump_squat_state", "dash_state")]
+[node name="Walk" type="Node2D" parent="State Machine" unique_id=627338446 node_paths=PackedStringArray("idle_state", "jump_squat_state", "dash_state", "attack_state")]
 script = ExtResource("7_s1w26")
 idle_state = NodePath("../Idle")
 jump_squat_state = NodePath("../JumpSquat")
 dash_state = NodePath("../Dash")
+attack_state = NodePath("../Attack")
 
 [node name="Jump" type="Node2D" parent="State Machine" unique_id=904750572 node_paths=PackedStringArray("fall_state", "dash_state")]
 script = ExtResource("14_l0ddl")
@@ -355,4 +415,11 @@ jump_squat_state = NodePath("../JumpSquat")
 
 [node name="Dash" type="Node2D" parent="State Machine" unique_id=495037606 node_paths=PackedStringArray("land_state")]
 script = ExtResource("18_vkbhh")
+land_state = NodePath("../Land")
+
+[node name="Attack" type="Node2D" parent="State Machine" unique_id=2050174945 node_paths=PackedStringArray("idle_state", "walk_state", "land_state")]
+script = ExtResource("19_p1wou")
+move_data = ExtResource("20_flb6u")
+idle_state = NodePath("../Idle")
+walk_state = NodePath("../Walk")
 land_state = NodePath("../Land")
