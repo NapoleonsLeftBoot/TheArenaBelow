@@ -1,4 +1,4 @@
-class_name PlayerAttackState
+class_name PlayerJabState
 extends PlayerState
 
 @export var move_data: MoveData
