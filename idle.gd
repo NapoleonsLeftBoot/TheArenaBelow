@@ -22,6 +22,8 @@ func process_physics(delta: float) -> State:
 		return jump_squat_state
 	if player.buffer.consume(jab_key):
 		return jab_state
+	if player.buffer.consume(heavy_key):
+		return heavy_state
 	if get_move_dir() != 0.0 and player.buffer.consume(dash_key):
 		return dash_state
 	return null

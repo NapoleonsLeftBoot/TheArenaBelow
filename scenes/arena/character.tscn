@@ -20,8 +20,9 @@
 [ext_resource type="Script" uid="uid://c37xejt6dlvsp" path="res://scenes/arena/fall.gd" id="16_236mk"]
 [ext_resource type="Script" uid="uid://c3mmegmtidrbx" path="res://scenes/arena/land.gd" id="17_236mk"]
 [ext_resource type="Script" uid="uid://cxy3cefqh4nr2" path="res://scenes/arena/dash.gd" id="18_vkbhh"]
-[ext_resource type="Script" uid="uid://0el6a2wwisl2" path="res://scenes/arena/jab.gd" id="19_p1wou"]
+[ext_resource type="Script" uid="uid://0el6a2wwisl2" path="res://scenes/arena/attack.gd" id="19_p1wou"]
 [ext_resource type="Resource" uid="uid://blf2lohdvq68x" path="res://art/characters/Test/moves/fists_jab.tres" id="20_flb6u"]
+[ext_resource type="Resource" uid="uid://cq73ia8nphx48" path="res://art/characters/Test/moves/fists_heavy.tres" id="23_1ns2v"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_yy16p"]
 animations = [{
@@ -383,19 +384,21 @@ metadata/_custom_type_script = "uid://cpad24nv51cxb"
 script = ExtResource("11_b34lc")
 jump_state = NodePath("../Jump")
 
-[node name="Idle" type="Node2D" parent="State Machine" unique_id=954886316 node_paths=PackedStringArray("walk_state", "jump_squat_state", "dash_state", "jab_state")]
+[node name="Idle" type="Node2D" parent="State Machine" unique_id=954886316 node_paths=PackedStringArray("walk_state", "jump_squat_state", "dash_state", "jab_state", "heavy_state")]
 script = ExtResource("7_60n01")
 walk_state = NodePath("../Walk")
 jump_squat_state = NodePath("../JumpSquat")
 dash_state = NodePath("../Dash")
 jab_state = NodePath("../Jab")
+heavy_state = NodePath("../Heavy")
 
-[node name="Walk" type="Node2D" parent="State Machine" unique_id=627338446 node_paths=PackedStringArray("idle_state", "jump_squat_state", "dash_state", "jab_state")]
+[node name="Walk" type="Node2D" parent="State Machine" unique_id=627338446 node_paths=PackedStringArray("idle_state", "jump_squat_state", "dash_state", "jab_state", "heavy_state")]
 script = ExtResource("7_s1w26")
 idle_state = NodePath("../Idle")
 jump_squat_state = NodePath("../JumpSquat")
 dash_state = NodePath("../Dash")
 jab_state = NodePath("../Jab")
+heavy_state = NodePath("../Heavy")
 
 [node name="Jump" type="Node2D" parent="State Machine" unique_id=904750572 node_paths=PackedStringArray("fall_state")]
 script = ExtResource("14_l0ddl")
@@ -418,4 +421,9 @@ land_state = NodePath("../Land")
 [node name="Jab" type="Node2D" parent="State Machine" unique_id=2050174945 node_paths=PackedStringArray("idle_state")]
 script = ExtResource("19_p1wou")
 move_data = ExtResource("20_flb6u")
+idle_state = NodePath("../Idle")
+
+[node name="Heavy" type="Node2D" parent="State Machine" unique_id=1864155616 node_paths=PackedStringArray("idle_state")]
+script = ExtResource("19_p1wou")
+move_data = ExtResource("23_1ns2v")
 idle_state = NodePath("../Idle")

@@ -15,7 +15,7 @@ var full_hop_velocity: float = -350.0
 var short_hop_velocity: float = -250.0
 var jump_squat_traction: float = 0.95
 var land_duration: float = 0.1
-var land_traction: float = .9
+var land_traction: float = .95
 
 
 #Animation Names
@@ -37,6 +37,7 @@ var land_anim: String = "land"
 @export var land_state: PlayerState
 @export var dash_state: PlayerState
 @export var jab_state: PlayerState
+@export var heavy_state: PlayerState
 
 #State Variables
 var sprite_flipped: bool = false
@@ -49,6 +50,7 @@ var jump_key: String = "Jump"
 var down_key: String = "Down"
 var dash_key: String = "Dash"
 var jab_key: String = "Jab"
+var heavy_key: String = "Heavy"
 
 #Fall Attributes
 var terminal_velocity: float = 350.0
@@ -59,7 +61,7 @@ var fast_fall_accel: float = 1800.0
 var dash_speed: float = 350.0
 var dash_end_speed: float = 280.0 
 var dash_decel: float = 1000.0
-var dash_frames: int  = 8
+var dash_frames: int  = 16
 var min_dash_frames: int = 2
 
 #Input Action
@@ -74,6 +76,7 @@ func determine_sprite_flipped(event_text: String) -> void:
 	pass
 	
 func get_move_dir() -> float:
+	
 	var left_held = Input.is_action_pressed(left_key)
 	var right_held = Input.is_action_pressed(right_key)
 	
@@ -94,6 +97,15 @@ func get_move_dir() -> float:
 		return 1.0
 		
 	return 0.0
+
+
+func face_move_dir() -> void:
+	var dir: float = get_move_dir()
+	if dir == 0.0:
+		return
+	sprite_flipped = dir < 0.0
+	player.sprite.flip_h = sprite_flipped
+	
 
 func do_air_move(delta: float) -> void:
 	var move_dir: float = get_move_dir()

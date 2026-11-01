@@ -1,4 +1,4 @@
-class_name PlayerJabState
+class_name PlayerAttackState
 extends PlayerState
 
 @export var move_data: MoveData
@@ -15,6 +15,7 @@ func enter() -> void:
 		player.animation.play(move_data.animation)
 
 	# size and place of hitbox for move
+	
 	var facing: int = -1 if sprite_flipped else 1
 	(player.hitbox_shape.shape as RectangleShape2D).size = move_data.hitbox_size 
 	player.hitbox.position = Vector2(move_data.hitbox_offset.x * facing, move_data.hitbox_offset.y)
@@ -23,6 +24,8 @@ func exit(new_state: State = null) -> void:
 	super(new_state)
 	player.hitbox.monitoring = false
 	player.hitbox_shape.set_deferred("disabled", true)
+	
+
 
 func process_physics(delta: float) -> State:
 	if move_data.aerial:
@@ -49,6 +52,7 @@ func process_physics(delta: float) -> State:
 	if tick >= total:
 		if not player.is_on_floor():
 			return fall_state
+		
 		#return walk_state if get_move_dir() != 0.0 else idle_state
 		return idle_state
 	return next_state
