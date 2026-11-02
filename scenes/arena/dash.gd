@@ -24,7 +24,7 @@ func process_physics(delta: float) -> State:
 	var next_state: State = super(delta)
 	tick += 1
 
-	if player.buffer.consume(jump_key):
+	if player.buffer.consume_big(jump_key):
 		return jump_squat_state
 
 	if not braking:

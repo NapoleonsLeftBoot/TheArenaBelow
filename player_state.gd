@@ -8,6 +8,8 @@ var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity", -
 var Speed: float = 140
 var Air_speed: float = 130
 var Air_acceleration: float = 400.0
+var traction: float = .75
+var crouch_traction: float = 0.7
 
 #Jump Attributes
 var squat_duration: float = 0.08
@@ -15,7 +17,7 @@ var full_hop_velocity: float = -350.0
 var short_hop_velocity: float = -250.0
 var jump_squat_traction: float = 0.95
 var land_duration: float = 0.1
-var land_traction: float = .95
+var land_traction: float = .9
 
 
 #Animation Names
@@ -25,6 +27,7 @@ var jump_squat_anim: String = "jump_squat"
 var jump_anim: String = "jump"
 var fall_anim: String = "fall"
 var land_anim: String = "land"
+var crouch_anim: String = "crouch"
 
 
 #States
@@ -38,6 +41,7 @@ var land_anim: String = "land"
 @export var dash_state: PlayerState
 @export var jab_state: PlayerState
 @export var heavy_state: PlayerState
+@export var crouch_state: PlayerState
 
 #State Variables
 var sprite_flipped: bool = false

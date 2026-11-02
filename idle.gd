@@ -2,7 +2,6 @@ class_name PlayerIdleState
 extends PlayerState
 
 func enter() -> void:
-	player.velocity.x = 0.0
 	player.animation.play(idle_anim)
 	
 func exit(new_state: State = null) -> void:
@@ -18,8 +17,11 @@ func process_input(event: InputEvent) -> State:
 
 func process_physics(delta: float) -> State:
 	super(delta)
+	player.velocity.x *= traction
 	if player.buffer.consume(jump_key):
 		return jump_squat_state
+	if player.buffer.consume(down_key):
+		return crouch_state
 	if player.buffer.consume(jab_key):
 		return jab_state
 	if player.buffer.consume(heavy_key):

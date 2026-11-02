@@ -21,6 +21,8 @@ func process_physics(delta: float) -> State:
 	super(delta)
 	if player.buffer.consume(jump_key):
 		return jump_squat_state
+	if player.buffer.consume(down_key):
+		return crouch_state
 	if player.buffer.consume(jab_key):
 		return jab_state
 	if player.buffer.consume(heavy_key):

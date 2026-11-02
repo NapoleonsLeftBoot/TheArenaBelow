@@ -2,6 +2,7 @@ class_name InputBuffer
 extends RefCounted
 
 const BUFFER_FRAMES: int = 3
+const BIG_BUFFER_FRAMES: int = 12
 
 var _press_frames: Dictionary[StringName, int] = {}
 
@@ -14,6 +15,11 @@ func record(event: InputEvent) -> void:
 		if event.is_action_pressed(action):
 			_press_frames[action] = Engine.get_physics_frames()
 
+func is_buffered_big(action: StringName) -> bool:
+	if not _press_frames.has(action):
+		return false
+	return Engine.get_physics_frames() - _press_frames[action] < BIG_BUFFER_FRAMES
+
 func is_buffered(action: StringName) -> bool:
 	if not _press_frames.has(action):
 		return false
@@ -21,6 +27,12 @@ func is_buffered(action: StringName) -> bool:
 
 func consume(action: StringName) -> bool:
 	if is_buffered(action):
+		_press_frames.erase(action)
+		return true
+	return false
+	
+func consume_big(action: StringName) -> bool:
+	if is_buffered_big(action):
 		_press_frames.erase(action)
 		return true
 	return false
