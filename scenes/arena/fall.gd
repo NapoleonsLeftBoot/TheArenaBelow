@@ -17,6 +17,8 @@ func process_physics(delta: float) -> State:
 		player.velocity.y = min(player.velocity.y, terminal_velocity)
 
 	var next_state: State = super(delta)
+	if not player.is_on_floor() and player.buffer.consume(jab_key):
+		return air_attack_state
 	if player.is_on_floor():
 		player.fast_falling = false
 		return land_state

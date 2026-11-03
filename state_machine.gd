@@ -4,6 +4,8 @@ extends Node2D
 
 var current_state: State
 @export var starting_state: State
+@export var hitstun_state: State
+@export var ko_state: State
 
 func init() -> void: change_state(starting_state)
 

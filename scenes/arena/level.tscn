@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://c53ss6jb5b17j" path="res://art/arena/tileset.png" id="1_da8cs"]
 [ext_resource type="PackedScene" uid="uid://disqqu6qqxio5" path="res://scenes/arena/character.tscn" id="2_0ik2u"]
 [ext_resource type="PackedScene" uid="uid://dlcl1g46uygte" path="res://art/characters/dummy.tscn" id="3_5jwvv"]
+[ext_resource type="Resource" uid="uid://cq73ia8nphx48" path="res://art/characters/Test/moves/fists_heavy.tres" id="3_yq72a"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0ik2u"]
 texture = ExtResource("1_da8cs")
@@ -583,5 +584,6 @@ tile_set = SubResource("TileSet_6aheq")
 zoom = Vector2(3, 3)
 
 [node name="Player" parent="." unique_id=1279432752 instance=ExtResource("2_0ik2u")]
+test_move = ExtResource("3_yq72a")
 
 [node name="Dummy" parent="." unique_id=4804184 instance=ExtResource("3_5jwvv")]

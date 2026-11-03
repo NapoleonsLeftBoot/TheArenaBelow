@@ -11,6 +11,9 @@ var Air_acceleration: float = 400.0
 var traction: float = .75
 var crouch_traction: float = 0.7
 
+#Hit Attributes
+var hitstun_friction: float = 600.0
+
 #Jump Attributes
 var squat_duration: float = 0.08
 var full_hop_velocity: float = -350.0
@@ -28,6 +31,8 @@ var jump_anim: String = "jump"
 var fall_anim: String = "fall"
 var land_anim: String = "land"
 var crouch_anim: String = "crouch"
+var hitstun_anim: String = "hitstun"
+var ko_anim: String = "ko"
 
 
 #States
@@ -41,6 +46,7 @@ var crouch_anim: String = "crouch"
 @export var dash_state: PlayerState
 @export var jab_state: PlayerState
 @export var heavy_state: PlayerState
+@export var air_attack_state: PlayerState
 @export var crouch_state: PlayerState
 
 #State Variables

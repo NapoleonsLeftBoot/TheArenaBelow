@@ -24,6 +24,9 @@
 [ext_resource type="Resource" uid="uid://blf2lohdvq68x" path="res://art/characters/Test/moves/fists_jab.tres" id="20_flb6u"]
 [ext_resource type="Resource" uid="uid://cq73ia8nphx48" path="res://art/characters/Test/moves/fists_heavy.tres" id="23_1ns2v"]
 [ext_resource type="Script" uid="uid://d0jqk8pm2qfgt" path="res://scenes/arena/crouch.gd" id="24_0tay8"]
+[ext_resource type="Script" uid="uid://c521gpus7q35" path="res://scenes/arena/hitstun.gd" id="25_0qwb4"]
+[ext_resource type="Script" uid="uid://c6nfqhvvrl881" path="res://scenes/arena/ko.gd" id="26_def7b"]
+[ext_resource type="Resource" uid="uid://bdbmjirsg01sw" path="res://art/characters/Test/moves/fists_air_jab.tres" id="27_83ti1"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_yy16p"]
 animations = [{
@@ -390,6 +393,9 @@ _data = {
 resource_local_to_scene = true
 size = Vector2(18, 24)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0qwb4"]
+size = Vector2(18, 26)
+
 [node name="Player" type="CharacterBody2D" unique_id=1279432752 groups=["Player"]]
 collision_layer = 2
 script = ExtResource("1_hivrc")
@@ -414,9 +420,19 @@ monitorable = false
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_opx04")
 
-[node name="State Machine" type="Node2D" parent="." unique_id=1639182318 node_paths=PackedStringArray("starting_state")]
+[node name="Hurtbox" type="Area2D" parent="." unique_id=363817472]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1235133391]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_0qwb4")
+
+[node name="State Machine" type="Node2D" parent="." unique_id=1639182318 node_paths=PackedStringArray("starting_state", "hitstun_state", "ko_state")]
 script = ExtResource("6_c1cp6")
 starting_state = NodePath("Idle")
+hitstun_state = NodePath("Hitstun")
+ko_state = NodePath("Ko")
 metadata/_custom_type_script = "uid://cpad24nv51cxb"
 
 [node name="JumpSquat" type="Node2D" parent="State Machine" unique_id=1441475815 node_paths=PackedStringArray("jump_state")]
@@ -441,13 +457,15 @@ jab_state = NodePath("../Jab")
 heavy_state = NodePath("../Heavy")
 crouch_state = NodePath("../Crouch")
 
-[node name="Jump" type="Node2D" parent="State Machine" unique_id=904750572 node_paths=PackedStringArray("fall_state")]
+[node name="Jump" type="Node2D" parent="State Machine" unique_id=904750572 node_paths=PackedStringArray("fall_state", "air_attack_state")]
 script = ExtResource("14_l0ddl")
 fall_state = NodePath("../Fall")
+air_attack_state = NodePath("../AirJab")
 
-[node name="Fall" type="Node2D" parent="State Machine" unique_id=778010749 node_paths=PackedStringArray("land_state")]
+[node name="Fall" type="Node2D" parent="State Machine" unique_id=778010749 node_paths=PackedStringArray("land_state", "air_attack_state")]
 script = ExtResource("16_236mk")
 land_state = NodePath("../Land")
+air_attack_state = NodePath("../AirJab")
 
 [node name="Land" type="Node2D" parent="State Machine" unique_id=1358895619 node_paths=PackedStringArray("idle_state", "walk_state", "jump_squat_state", "crouch_state")]
 script = ExtResource("17_236mk")
@@ -475,3 +493,20 @@ idle_state = NodePath("../Idle")
 script = ExtResource("24_0tay8")
 idle_state = NodePath("../Idle")
 walk_state = NodePath("../Walk")
+
+[node name="Hitstun" type="Node2D" parent="State Machine" unique_id=513943074 node_paths=PackedStringArray("idle_state", "walk_state", "fall_state")]
+script = ExtResource("25_0qwb4")
+idle_state = NodePath("../Idle")
+walk_state = NodePath("../Walk")
+fall_state = NodePath("../Fall")
+
+[node name="Ko" type="Node2D" parent="State Machine" unique_id=506363148]
+script = ExtResource("26_def7b")
+
+[node name="AirJab" type="Node2D" parent="State Machine" unique_id=53034571 node_paths=PackedStringArray("idle_state", "walk_state", "fall_state", "land_state")]
+script = ExtResource("19_p1wou")
+move_data = ExtResource("27_83ti1")
+idle_state = NodePath("../Idle")
+walk_state = NodePath("../Walk")
+fall_state = NodePath("../Fall")
+land_state = NodePath("../Land")

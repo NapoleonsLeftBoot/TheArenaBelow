@@ -16,6 +16,8 @@ func exit(new_state: State = null) -> void:
 func process_physics(delta: float) -> State:
 	do_air_move(delta)
 	var next_state: State = super(delta)
+	if player.buffer.consume(jab_key):
+		return air_attack_state
 	if player.velocity.y > 0.0:
 		return fall_state
 	return null

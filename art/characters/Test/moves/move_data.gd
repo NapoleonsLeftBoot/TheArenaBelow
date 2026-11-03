@@ -15,6 +15,7 @@ extends Resource
 @export_group("Hit effect")
 @export var damage: int = 5
 @export var knockback: Vector2 = Vector2(150, -100)   # x is opposite when facing left
+@export var hitstun_frames: int = 12   # how long target is stunned
 
 @export_group("Movement")
 @export var traction: float = 0.8 
