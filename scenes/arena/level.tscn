@@ -1,9 +1,10 @@
 [gd_scene format=4 uid="uid://df0qipnift53o"]
 
+[ext_resource type="Script" uid="uid://cuc1kwm5gk7wx" path="res://scripts/arena/hud.gd" id="1_8amx1"]
 [ext_resource type="Texture2D" uid="uid://c53ss6jb5b17j" path="res://art/arena/tileset.png" id="1_da8cs"]
 [ext_resource type="PackedScene" uid="uid://disqqu6qqxio5" path="res://scenes/arena/character.tscn" id="2_0ik2u"]
+[ext_resource type="PackedScene" uid="uid://cmnl76s1q35yh" path="res://scenes/arena/boss.tscn" id="2_8amx1"]
 [ext_resource type="PackedScene" uid="uid://dlcl1g46uygte" path="res://scripts/enemies/dummy.tscn" id="3_5jwvv"]
-[ext_resource type="Resource" uid="uid://cq73ia8nphx48" path="res://scripts/arena/moves/fists_heavy.tres" id="3_yq72a"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0ik2u"]
 texture = ExtResource("1_da8cs")
@@ -583,7 +584,37 @@ tile_set = SubResource("TileSet_6aheq")
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1214843172]
 zoom = Vector2(3, 3)
 
-[node name="Player" parent="." unique_id=1279432752 instance=ExtResource("2_0ik2u")]
-test_move = ExtResource("3_yq72a")
+[node name="Hud" type="CanvasLayer" parent="." unique_id=1795638382 node_paths=PackedStringArray("player", "boss")]
+layer = 6
+offset = Vector2(0, -58.525)
+transform = Transform2D(1, 0, 0, 1, 0, -58.525)
+script = ExtResource("1_8amx1")
+player = NodePath("../Player")
+boss = NodePath("../Boss")
+
+[node name="PlayerBar" type="ProgressBar" parent="Hud" unique_id=782725907]
+custom_minimum_size = Vector2(300, 40)
+offset_left = -162.465
+offset_top = -106.165
+offset_right = -78.549995
+offset_bottom = -96.165
+value = 100.0
+rounded = true
+show_percentage = false
+
+[node name="BossBar" type="ProgressBar" parent="Hud" unique_id=133414553]
+offset_left = 85.45
+offset_top = -105.595
+offset_right = 169.36499
+offset_bottom = -95.595
+value = 100.0
+rounded = true
+fill_mode = 1
+show_percentage = false
+
+[node name="Boss" parent="." unique_id=1279432752 instance=ExtResource("2_8amx1")]
+position = Vector2(68.885, 0)
+
+[node name="Player" parent="." unique_id=475324690 instance=ExtResource("2_0ik2u")]
 
 [node name="Dummy" parent="." unique_id=4804184 instance=ExtResource("3_5jwvv")]

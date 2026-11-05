@@ -2,6 +2,7 @@ class_name Player
 extends CharacterBody2D
 
 signal ko
+signal health_changed(current: int, maximum: int)
 
 @onready var state_machine: StateMachine = $"State Machine"
 @onready var animation: AnimationPlayer = $Animation
@@ -10,7 +11,9 @@ signal ko
 @onready var hitbox_shape: CollisionShape2D = $Hitbox/CollisionShape2D
 
 @export var max_health: int = 100
-@export var test_move: MoveData   #temp
+
+@export var is_ai: bool = false
+var ai_held: Dictionary = {}
 
 # shared runtime state
 var health: int = 100
@@ -29,19 +32,19 @@ func _physics_process(delta):
 	state_machine.process_physics(delta)
 
 func _input(event):
+	if is_ai:
+		return
 	buffer.record(event)
-	# temp
-	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_H and test_move:
-		take_hit(test_move, 1)
 	state_machine.process_input(event)
 
 func take_hit(move: MoveData, facing: int) -> void:
 	if is_ko:
 		return
 	health -= move.damage
+	health_changed.emit(maxi(health, 0), max_health)
 	velocity = Vector2(move.knockback.x * facing, move.knockback.y)
 	hitstun_ticks = move.hitstun_frames
-	print("player hit! health = ", health)
+	print(name, " hit! health = ", health)
 
 	if health <= 0:
 		print("player ko'd")
@@ -50,3 +53,21 @@ func take_hit(move: MoveData, facing: int) -> void:
 		ko.emit()
 		return
 	state_machine.change_state(state_machine.hitstun_state)
+
+func is_held(action: String) -> bool:
+	if is_ai:
+		return ai_held.get(action, false)
+	return Input.is_action_pressed(action)
+	
+
+func just_pressed(action: String) -> bool:
+	if is_ai:
+		return false
+	return Input.is_action_just_pressed(action)
+
+func face(dir: float) -> void:
+	if dir == 0.0:
+		return
+	var flipped: bool = dir < 0.0
+	sprite.flip_h = flipped
+	(state_machine.current_state as PlayerState).sprite_flipped = flipped

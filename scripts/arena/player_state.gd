@@ -1,7 +1,8 @@
 class_name PlayerState
 extends State
 
-@onready var player: Player = get_tree().get_first_node_in_group("Player")
+#@onready var player: Player = get_tree().get_first_node_in_group("Player")
+@onready var player: Player = get_parent().get_parent() as Player
 
 #General Mvmt Attributes
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity", -9.8)
@@ -86,14 +87,13 @@ func determine_sprite_flipped(event_text: String) -> void:
 	pass
 	
 func get_move_dir() -> float:
-	
-	var left_held = Input.is_action_pressed(left_key)
-	var right_held = Input.is_action_pressed(right_key)
+	var left_held = player.is_held(left_key)
+	var right_held = player.is_held(right_key)
 	
 	if left_held and right_held:
-		if Input.is_action_just_pressed(right_key):
+		if player.just_pressed(right_key):
 			return 1.0
-		elif Input.is_action_just_pressed(left_key):
+		elif player.just_pressed(left_key):
 			return -1.0
 		
 		if player.velocity.x > 0:

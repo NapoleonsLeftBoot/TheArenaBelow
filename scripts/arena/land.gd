@@ -19,6 +19,6 @@ func process_physics(delta: float) -> State:
 	var next_state: State = super(delta)
 	if player.buffer.consume(jump_key):
 		return jump_squat_state
-	if Input.is_action_pressed(down_key):
+	if player.is_held(down_key):
 		return crouch_state
 	return next_state

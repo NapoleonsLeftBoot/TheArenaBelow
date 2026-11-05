@@ -28,7 +28,7 @@ func process_physics(delta: float) -> State:
 		return jump_squat_state
 
 	if not braking:
-		var key_released: bool = tick >= min_dash_frames and not Input.is_action_pressed(dash_key)
+		var key_released: bool = tick >= min_dash_frames and not player.is_held(dash_key)
 		var timer_finished: bool = tick >= dash_frames
 
 		if key_released or timer_finished:

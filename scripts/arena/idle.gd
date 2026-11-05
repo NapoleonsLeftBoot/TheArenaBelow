@@ -11,7 +11,7 @@ func exit(new_state: State = null) -> void:
 func process_input(event: InputEvent) -> State:
 	super(event)
 	if event.is_action_pressed(movement_key): 
-		determine_sprite_flipped(event.as_text())
+		#determine_sprite_flipped(event.as_text())
 		return walk_state
 	return null
 
@@ -28,4 +28,6 @@ func process_physics(delta: float) -> State:
 		return heavy_state
 	if get_move_dir() != 0.0 and player.buffer.consume(dash_key):
 		return dash_state
+	if get_move_dir() != 0.0:
+		return walk_state
 	return null

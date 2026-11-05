@@ -5,9 +5,9 @@
 [resource]
 script = ExtResource("1_fp6bo")
 animation = "jab"
-startup_frames = 3
+startup_frames = 2
 active_frames = 2
-recovery_frames = 4
+recovery_frames = 12
 hitbox_size = Vector2(20, 14)
 hitbox_offset = Vector2(18, -4)
 damage = 4

@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_3rkjm")
 animation = "jab"
-active_frames = 4
+active_frames = 11
 recovery_frames = 12
 hitbox_size = Vector2(28, 24)
 hitbox_offset = Vector2(18, 4)

@@ -39,3 +39,6 @@ func consume_big(action: StringName) -> bool:
 
 func clear() -> void:
 	_press_frames.clear()
+
+func press(action: StringName) -> void:
+	_press_frames[action] = Engine.get_physics_frames()
