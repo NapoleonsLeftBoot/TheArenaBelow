@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://blf2lohdvq68x"]
 
-[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://art/characters/Test/moves/move_data.gd" id="1_fp6bo"]
+[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://scripts/arena/moves/move_data.gd" id="1_fp6bo"]
 
 [resource]
 script = ExtResource("1_fp6bo")

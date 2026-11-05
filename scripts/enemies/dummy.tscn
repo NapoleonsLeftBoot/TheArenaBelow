@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dlcl1g46uygte"]
 
-[ext_resource type="Script" uid="uid://dkk345hbul30n" path="res://art/characters/dummy.gd" id="1_8okiv"]
+[ext_resource type="Script" uid="uid://dkk345hbul30n" path="res://scripts/enemies/dummy.gd" id="1_8okiv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6aheq"]
 
