@@ -11,6 +11,7 @@ recovery_frames = 12
 hitbox_size = Vector2(20, 14)
 hitbox_offset = Vector2(18, -4)
 damage = 4
+hitfreeze_frames = 4
 knockback = Vector2(80, -40)
 traction = 0.9
 metadata/_custom_type_script = "uid://dumcnysw81a4l"

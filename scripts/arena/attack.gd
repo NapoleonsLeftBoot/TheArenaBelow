@@ -66,3 +66,4 @@ func check_hits() -> void:
 		if target.has_method("take_hit"):
 			hit_targets.append(target)
 			target.take_hit(move_data, facing)
+			player.apply_hitfreeze(move_data.hitfreeze_frames)

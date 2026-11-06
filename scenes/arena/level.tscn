@@ -6,6 +6,18 @@
 [ext_resource type="PackedScene" uid="uid://cmnl76s1q35yh" path="res://scenes/arena/boss.tscn" id="2_8amx1"]
 [ext_resource type="PackedScene" uid="uid://dlcl1g46uygte" path="res://scripts/enemies/dummy.tscn" id="3_5jwvv"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tfkaf"]
+bg_color = Color(0.28627452, 0.050980393, 0.06666667, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h1fw1"]
+bg_color = Color(0.9529412, 0, 0.15686275, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8amx1"]
+bg_color = Color(0.28754985, 0.051146083, 0.065628, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a5r5p"]
+bg_color = Color(0.9529412, 0, 0.15686275, 1)
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0ik2u"]
 texture = ExtResource("1_da8cs")
 0:0/0 = 0
@@ -551,6 +563,51 @@ sources/0 = SubResource("TileSetAtlasSource_0ik2u")
 
 [node name="level" type="Node2D" unique_id=550869359]
 
+[node name="Hud" type="CanvasLayer" parent="." unique_id=1795638382 node_paths=PackedStringArray("player", "boss")]
+layer = 6
+script = ExtResource("1_8amx1")
+player = NodePath("../Player")
+boss = NodePath("../Boss")
+
+[node name="BossBar" type="ProgressBar" parent="Hud" unique_id=133414553]
+offset_left = 650.0
+offset_top = 20.0
+offset_right = 1250.0
+offset_bottom = 60.0
+theme_override_styles/background = SubResource("StyleBoxFlat_tfkaf")
+theme_override_styles/fill = SubResource("StyleBoxFlat_h1fw1")
+value = 100.0
+rounded = true
+fill_mode = 1
+show_percentage = false
+
+[node name="PlayerBar" type="ProgressBar" parent="Hud" unique_id=782725907]
+custom_minimum_size = Vector2(600, 40)
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 320.0
+offset_bottom = 60.0
+theme_override_styles/background = SubResource("StyleBoxFlat_8amx1")
+theme_override_styles/fill = SubResource("StyleBoxFlat_a5r5p")
+value = 100.0
+rounded = true
+show_percentage = false
+
+[node name="Result" type="Label" parent="Hud" unique_id=667003582]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 72
+text = "YOU WIN"
+
 [node name="Props" type="TileMapLayer" parent="." unique_id=1831791387]
 z_index = 1
 use_parent_material = true
@@ -583,34 +640,6 @@ tile_set = SubResource("TileSet_6aheq")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1214843172]
 zoom = Vector2(3, 3)
-
-[node name="Hud" type="CanvasLayer" parent="." unique_id=1795638382 node_paths=PackedStringArray("player", "boss")]
-layer = 6
-offset = Vector2(0, -58.525)
-transform = Transform2D(1, 0, 0, 1, 0, -58.525)
-script = ExtResource("1_8amx1")
-player = NodePath("../Player")
-boss = NodePath("../Boss")
-
-[node name="PlayerBar" type="ProgressBar" parent="Hud" unique_id=782725907]
-custom_minimum_size = Vector2(300, 40)
-offset_left = -162.465
-offset_top = -106.165
-offset_right = -78.549995
-offset_bottom = -96.165
-value = 100.0
-rounded = true
-show_percentage = false
-
-[node name="BossBar" type="ProgressBar" parent="Hud" unique_id=133414553]
-offset_left = 85.45
-offset_top = -105.595
-offset_right = 169.36499
-offset_bottom = -95.595
-value = 100.0
-rounded = true
-fill_mode = 1
-show_percentage = false
 
 [node name="Boss" parent="." unique_id=1279432752 instance=ExtResource("2_8amx1")]
 position = Vector2(68.885, 0)

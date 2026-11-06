@@ -441,6 +441,7 @@ jump_state = NodePath("../Jump")
 
 [node name="Idle" type="Node2D" parent="State Machine" unique_id=954886316 node_paths=PackedStringArray("walk_state", "jump_squat_state", "dash_state", "jab_state", "heavy_state", "crouch_state")]
 script = ExtResource("7_60n01")
+auto_face = true
 walk_state = NodePath("../Walk")
 jump_squat_state = NodePath("../JumpSquat")
 dash_state = NodePath("../Dash")
@@ -450,6 +451,7 @@ crouch_state = NodePath("../Crouch")
 
 [node name="Walk" type="Node2D" parent="State Machine" unique_id=627338446 node_paths=PackedStringArray("idle_state", "jump_squat_state", "dash_state", "jab_state", "heavy_state", "crouch_state")]
 script = ExtResource("7_s1w26")
+auto_face = true
 idle_state = NodePath("../Idle")
 jump_squat_state = NodePath("../JumpSquat")
 dash_state = NodePath("../Dash")
@@ -469,6 +471,7 @@ air_attack_state = NodePath("../AirJab")
 
 [node name="Land" type="Node2D" parent="State Machine" unique_id=1358895619 node_paths=PackedStringArray("idle_state", "walk_state", "jump_squat_state", "crouch_state")]
 script = ExtResource("17_236mk")
+auto_face = true
 idle_state = NodePath("../Idle")
 walk_state = NodePath("../Walk")
 jump_squat_state = NodePath("../JumpSquat")
@@ -476,6 +479,7 @@ crouch_state = NodePath("../Crouch")
 
 [node name="Dash" type="Node2D" parent="State Machine" unique_id=495037606 node_paths=PackedStringArray("jump_squat_state", "land_state")]
 script = ExtResource("18_vkbhh")
+auto_face = true
 jump_squat_state = NodePath("../JumpSquat")
 land_state = NodePath("../Land")
 
@@ -491,6 +495,7 @@ idle_state = NodePath("../Idle")
 
 [node name="Crouch" type="Node2D" parent="State Machine" unique_id=1119373470 node_paths=PackedStringArray("idle_state", "walk_state")]
 script = ExtResource("24_0tay8")
+auto_face = true
 idle_state = NodePath("../Idle")
 walk_state = NodePath("../Walk")
 

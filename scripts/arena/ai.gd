@@ -14,6 +14,8 @@ func _physics_process(delta: float) -> void:
 	if me.is_ko:
 		_release()
 		return
+	if me.hitfreeze_ticks > 0:
+		return
 
 	if target == null or not is_instance_valid(target):
 		target = _find_target()
@@ -21,9 +23,9 @@ func _physics_process(delta: float) -> void:
 		_release()
 		return
 
-	var dx: float = target.global_position.x - me.global_position.x
-	var dist: float = absf(dx)
-	var dir: float = signf(dx)
+	var x: float = target.global_position.x - me.global_position.x
+	var dist: float = absf(x)
+	var dir: float = signf(x)
 
 	# walk to player until close enough to attack
 	me.ai_held["Left"] = dir < 0.0 and dist > stop_range
@@ -32,7 +34,6 @@ func _physics_process(delta: float) -> void:
 	# attack and wait a bit
 	cooldown -= delta
 	if dist <= attack_range and cooldown <= 0.0:
-		me.face(dir)
 		me.buffer.press("Jab")
 		cooldown = randf_range(cooldown_min, cooldown_max)
 

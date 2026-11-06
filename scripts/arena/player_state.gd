@@ -12,6 +12,9 @@ var Air_acceleration: float = 400.0
 var traction: float = .75
 var crouch_traction: float = 0.7
 
+
+@export var auto_face: bool = false
+
 #Hit Attributes
 var hitstun_friction: float = 600.0
 

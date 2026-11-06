@@ -13,7 +13,7 @@ func enter() -> void:
 	if dash_dir == 0.0:
 		dash_dir = -1.0 if sprite_flipped else 1.0
 	sprite_flipped = dash_dir < 0.0
-	player.sprite.flip_h = sprite_flipped
+	#player.sprite.flip_h = sprite_flipped
 	player.animation.play(walk_anim)
 
 func process_physics(delta: float) -> State:
