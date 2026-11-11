@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://b1iwqalisus7f"]
+
+[ext_resource type="Script" uid="uid://dhq073jonmyno" path="res://scripts/arena/moves/hitbox_data.gd" id="1_hygpw"]
+[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://scripts/arena/moves/move_data.gd" id="2_eural"]
+
+[sub_resource type="Resource" id="Resource_tfkaf"]
+script = ExtResource("1_hygpw")
+size = Vector2(114.535, 20.96)
+offset = Vector2(69.455, -20.825)
+hit_attribute = "Low"
+knockback = Vector2(218.12, -148.44)
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[resource]
+script = ExtResource("2_eural")
+hitboxes = Array[ExtResource("1_hygpw")]([SubResource("Resource_tfkaf")])
+traction = 0.6
+crouch = true
+metadata/_custom_type_script = "uid://dumcnysw81a4l"

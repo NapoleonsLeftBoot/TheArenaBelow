@@ -7,8 +7,8 @@ signal health_changed(current: int, maximum: int)
 @onready var state_machine: StateMachine = $"State Machine"
 @onready var animation: AnimationPlayer = $Animation
 @onready var sprite: AnimatedSprite2D = $Sprite
-@onready var hitbox: Area2D = $Hitbox
-@onready var hitbox_shape: CollisionShape2D = $Hitbox/CollisionShape2D
+@onready var hitbox_debug: Node2D = $HitboxDebug
+@onready var jump_sound = $AudioStreamPlayer
 
 @export var max_health: int = 100
 var opponent: Player
@@ -18,11 +18,29 @@ var ai_held: Dictionary = {}
 
 # shared runtime state
 var health: int = 100
+var CROUCH_MULT_STN: float = 0.85
+var CROUCH_MULT_x: float = 0.85
+var CROUCH_MULT_y: float = 0.75
+var BLOCK_MULT_X: float = 0.9
+var BLOCK_MULT_STN: float = 0.6
 var hitstun_ticks: int = 0
+var blockstun_ticks: int = 0
 var hitfreeze_ticks: int = 0
 var is_ko: bool = false
 var fast_falling: bool = false
 var buffer: InputBuffer = InputBuffer.new()
+var crouch: bool = false
+var block: bool = false
+var crouch_block: bool = false
+var jump_start_x: float
+var parry_window: int = 10;
+var parry_tick_count: int = 0;
+var parry: bool = false;
+var di_input: Vector2 = Vector2.ZERO
+
+
+func show_hitboxes(rects: Array[Rect2]) -> void:
+	hitbox_debug.show_rects(rects)
 
 func _ready():
 	health = max_health
@@ -32,9 +50,11 @@ func _process(delta):
 	if hitfreeze_ticks > 0:
 		return
 	state_machine.process_frame(delta)
+	
 
 func _physics_process(delta):
 	if hitfreeze_ticks > 0:
+		_get_di()
 		hitfreeze_ticks -= 1
 		if hitfreeze_ticks == 0:
 			animation.speed_scale = 1.0
@@ -50,22 +70,37 @@ func _input(event):
 	buffer.record(event)
 	state_machine.process_input(event)
 
-func take_hit(move: MoveData, facing: int) -> void:
+func take_hit(move: HitboxData, facing: int) -> void:
 	if is_ko:
 		return
+		
+	if can_block(move):
+		if parry_tick_count <= parry_window:
+			apply_hitfreeze(ceil(move.hitfreeze_frames / 2))
+			parry = true;
+			return
+		else:
+			apply_hitfreeze(move.hitfreeze_frames)
+			velocity.x = (ceil(move.knockback.x * facing * BLOCK_MULT_X))
+			blockstun_ticks = ceil(move.hitstun_frames * BLOCK_MULT_STN)
+			return
 	health -= move.damage
 	health_changed.emit(maxi(health, 0), max_health)
-	apply_hitfreeze(move.hitfreeze_frames)
-	velocity = Vector2(move.knockback.x * facing, move.knockback.y)
-	hitstun_ticks = move.hitstun_frames
-	print(name, " hit! health = ", health)
+	if crouch:
+		apply_hitfreeze(move.hitfreeze_frames)
+		velocity = Vector2(ceil(move.knockback.x * facing * CROUCH_MULT_x), ceil(move.knockback.y * CROUCH_MULT_y))
+		hitstun_ticks = ceil(move.hitstun_frames * CROUCH_MULT_STN) 
+	else:
+		apply_hitfreeze(move.hitfreeze_frames)
+		velocity = Vector2(move.knockback.x * facing, move.knockback.y)
+		hitstun_ticks = move.hitstun_frames
 
 	if health <= 0:
-		print("player ko'd")
 		is_ko = true
 		state_machine.change_state(state_machine.ko_state)
 		ko.emit()
 		return
+	di_input = Vector2.ZERO
 	state_machine.change_state(state_machine.hitstun_state)
 
 func is_held(action: String) -> bool:
@@ -112,3 +147,53 @@ func apply_hitfreeze(frames: int) -> void:
 		animation.speed_scale = 0.0
 		sprite.speed_scale = 0.0
 	hitfreeze_ticks = maxi(hitfreeze_ticks, frames)
+
+func wall_side() -> int:
+	if is_on_floor():
+		return 0
+	if test_move(global_transform, Vector2(-1, 0)):
+		return -1
+	if test_move(global_transform, Vector2(1, 0)):
+		return 1
+	return 0
+
+func _get_di() -> void:
+	if is_ai == true:
+		return
+
+	var d := Vector2.ZERO
+
+	if is_held("Right") == true:
+		d.x = 1.0
+
+	if is_held("Left") == true:
+		d.x -= 1.0
+
+	if is_held("Down") == true:
+		d.y = 1.0
+
+	if is_held("Jump") == true:
+		d.y -= 1.0
+
+	if d != Vector2.ZERO:
+		di_input = d
+
+func can_block(move: HitboxData) -> bool:
+	if move.hit_attribute == "Low":
+		if crouch_block == true:
+			return true
+		else:
+			return false
+
+	elif move.hit_attribute == "High":
+		if block == true:
+			return true
+		else:
+			return false
+
+
+	else:
+		if block == true:
+			return true
+		else:
+			return false

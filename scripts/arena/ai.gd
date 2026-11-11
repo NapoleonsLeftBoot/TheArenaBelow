@@ -1,7 +1,7 @@
 extends Node
 
-@export var attack_range: float = 45.0   # attacks when closer than this numbah
-@export var stop_range: float = 35.0     # stop getting closer at this point
+@export var attack_range: float = 202   # attacks when closer than this numbah
+@export var stop_range: float = 157.5     # stop getting closer at this point
 @export var cooldown_min: float = 0.6
 @export var cooldown_max: float = 1.4
 
@@ -34,7 +34,7 @@ func _physics_process(delta: float) -> void:
 	# attack and wait a bit
 	cooldown -= delta
 	if dist <= attack_range and cooldown <= 0.0:
-		me.buffer.press("Jab")
+		me.buffer.press("Medium")
 		cooldown = randf_range(cooldown_min, cooldown_max)
 
 func _find_target() -> Player:

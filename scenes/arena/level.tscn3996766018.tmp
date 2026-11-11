@@ -1,0 +1,113 @@
+[gd_scene format=3 uid="uid://df0qipnift53o"]
+
+[ext_resource type="Script" uid="uid://dkk345hbul30n" path="res://scripts/enemies/dummy.gd" id="1_2rf7r"]
+[ext_resource type="Script" uid="uid://cuc1kwm5gk7wx" path="res://scripts/arena/hud.gd" id="1_8amx1"]
+[ext_resource type="PackedScene" uid="uid://disqqu6qqxio5" path="res://scenes/arena/character.tscn" id="2_0ik2u"]
+[ext_resource type="PackedScene" uid="uid://cmnl76s1q35yh" path="res://scenes/arena/boss.tscn" id="2_8amx1"]
+[ext_resource type="Texture2D" uid="uid://minjwfumcyd3" path="res://art/arena/no health bar.png" id="3_h1fw1"]
+[ext_resource type="Texture2D" uid="uid://ctrssblisybig" path="res://art/arena/health.png" id="3_tfkaf"]
+[ext_resource type="Texture2D" uid="uid://dvv57dse1g8cf" path="res://art/arena/prison_layer_floor.png" id="6_a5r5p"]
+[ext_resource type="PackedScene" uid="uid://dlcl1g46uygte" path="res://scripts/enemies/dummy.tscn" id="6_ldnau"]
+[ext_resource type="Texture2D" uid="uid://ddgwhgt8131mf" path="res://art/arena/prison_layer._background.png" id="7_tfkaf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_opx04"]
+size = Vector2(128, 1162.15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6aheq"]
+size = Vector2(1999, 207.5)
+
+[node name="level" type="Node2D" unique_id=550869359]
+script = ExtResource("1_2rf7r")
+
+[node name="Dummy" parent="." unique_id=4804184 instance=ExtResource("6_ldnau")]
+position = Vector2(777, 734)
+scale = Vector2(6.86, 6.86)
+
+[node name="Hud" type="CanvasLayer" parent="." unique_id=1795638382 node_paths=PackedStringArray("player", "boss")]
+layer = 6
+script = ExtResource("1_8amx1")
+player = NodePath("../Player")
+boss = NodePath("../Boss")
+
+[node name="BetterPlayerBar" type="TextureProgressBar" parent="Hud" unique_id=1699492553]
+offset_top = 25.0
+offset_right = 962.36847
+offset_bottom = 140.0
+value = 100.0
+nine_patch_stretch = true
+texture_under = ExtResource("3_h1fw1")
+texture_progress = ExtResource("3_tfkaf")
+
+[node name="BetterBossBar" type="TextureProgressBar" parent="Hud" unique_id=628234908]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -887.053
+offset_top = 25.0
+offset_right = -0.00024414063
+offset_bottom = 131.0
+grow_horizontal = 0
+value = 100.0
+fill_mode = 1
+nine_patch_stretch = true
+texture_under = ExtResource("3_h1fw1")
+texture_progress = ExtResource("3_tfkaf")
+
+[node name="Result" type="Label" parent="Hud" unique_id=667003582]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 72
+text = "YOU WIN"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1214843172]
+offset = Vector2(960, 540)
+script = ExtResource("1_2rf7r")
+
+[node name="Boss" parent="." unique_id=1279432752 instance=ExtResource("2_8amx1")]
+z_index = 1
+position = Vector2(2208.4, 700)
+
+[node name="Player" parent="." unique_id=475324690 instance=ExtResource("2_0ik2u")]
+z_index = 1
+position = Vector2(200, 700)
+
+[node name="Right Wall" type="StaticBody2D" parent="." unique_id=1121501326]
+position = Vector2(370.59, 15.3)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Right Wall" unique_id=1571082320]
+position = Vector2(1614.41, 548.7)
+shape = SubResource("RectangleShape2D_opx04")
+
+[node name="Left Wall" type="StaticBody2D" parent="." unique_id=1941638834]
+position = Vector2(-76.51, 7.65)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Left Wall" unique_id=717860145]
+position = Vector2(12.510002, 551.35)
+shape = SubResource("RectangleShape2D_opx04")
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=578806645]
+
+[node name="Sprite2D" type="Sprite2D" parent="Floor" unique_id=1159420333]
+position = Vector2(960, 540)
+texture = ExtResource("6_a5r5p")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=226826880]
+visible = false
+position = Vector2(994.5, 1131)
+shape = SubResource("RectangleShape2D_6aheq")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=417621930]
+z_index = -4
+position = Vector2(960, 540)
+texture = ExtResource("7_tfkaf")

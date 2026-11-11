@@ -3,6 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://2u4ukq0nc3ll" path="res://art/characters/Test/stand_1.png" id="1_aj7ud"]
 [ext_resource type="Script" uid="uid://cab7lwmht86j" path="res://scripts/arena/character.gd" id="1_hivrc"]
 [ext_resource type="Texture2D" uid="uid://csfqgsiu8laho" path="res://art/characters/Test/jump_3.png" id="2_43r7q"]
+[ext_resource type="Script" uid="uid://dk63g5b1a2onc" path="res://scripts/arena/hitbox_preview.gd" id="2_ehoml"]
+[ext_resource type="Script" uid="uid://cc5lp7pxsa8f1" path="res://scripts/arena/hitbox_debug.gd" id="2_fe3xq"]
 [ext_resource type="Texture2D" uid="uid://bhiv1ok7mb7c0" path="res://art/characters/Test/fall_1.png" id="2_ol3dl"]
 [ext_resource type="Texture2D" uid="uid://dfymj2r0gbofl" path="res://art/characters/Test/attack_1.png" id="2_x72q6"]
 [ext_resource type="Texture2D" uid="uid://dso165pl7s2dy" path="res://art/characters/Test/attack_2.png" id="3_1ns2v"]
@@ -10,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://bitfpwqsx0u88" path="res://art/characters/Test/stand_4.png" id="4_u52cf"]
 [ext_resource type="Texture2D" uid="uid://c6rv8n8q6avu0" path="res://art/characters/Test/walk_2.png" id="5_68qih"]
 [ext_resource type="Texture2D" uid="uid://bkmrgeerm2lo5" path="res://art/characters/Test/walk_3.png" id="6_0bl18"]
+[ext_resource type="Texture2D" uid="uid://t1ui0cvkgsu1" path="res://art/arena/man.png" id="6_2kavf"]
 [ext_resource type="Texture2D" uid="uid://ef8mvpo0d183" path="res://art/characters/Test/jump_1.png" id="6_b34lc"]
 [ext_resource type="Script" uid="uid://cpad24nv51cxb" path="res://scripts/arena/state_machine.gd" id="6_c1cp6"]
 [ext_resource type="Script" uid="uid://ciliyb8vs8xoq" path="res://scripts/arena/idle.gd" id="7_60n01"]
@@ -27,6 +30,12 @@
 [ext_resource type="Script" uid="uid://c521gpus7q35" path="res://scripts/arena/hitstun.gd" id="25_0qwb4"]
 [ext_resource type="Script" uid="uid://c6nfqhvvrl881" path="res://scripts/arena/ko.gd" id="26_def7b"]
 [ext_resource type="Resource" uid="uid://bdbmjirsg01sw" path="res://scripts/arena/moves/fists_air_jab.tres" id="27_83ti1"]
+[ext_resource type="Script" uid="uid://cdq26fittmmly" path="res://scripts/arena/wall_jump.gd" id="30_ehoml"]
+[ext_resource type="Script" uid="uid://dhfbfeffh8k0i" path="res://scripts/arena/block.gd" id="31_tqqf0"]
+[ext_resource type="Script" uid="uid://drupue1dhfsq4" path="res://scripts/arena/parry.gd" id="33_nysqf"]
+[ext_resource type="AudioStream" uid="uid://cit5rdux6tlk7" path="res://art/arena/parry.mp3" id="34_v5eec"]
+[ext_resource type="Script" uid="uid://cwagku0ws0uuu" path="res://scripts/arena/crouch_block.gd" id="35_4nw1x"]
+[ext_resource type="Resource" uid="uid://b1iwqalisus7f" path="res://scripts/arena/moves/fists_crouch_light.tres" id="36_fsc1w"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_yy16p"]
 animations = [{
@@ -120,7 +129,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6aheq"]
-size = Vector2(18, 24)
+size = Vector2(85, 131.5)
 
 [sub_resource type="Animation" id="Animation_60n01"]
 length = 0.001
@@ -238,6 +247,7 @@ tracks/1/keys = {
 [sub_resource type="Animation" id="Animation_0tay8"]
 resource_name = "jab"
 length = 0.36666667
+step = 0.016666668
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -257,7 +267,7 @@ tracks/1/path = NodePath("Sprite:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.23333333),
+"times": PackedFloat32Array(0, 0.033333335, 0.13333334),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [0, 1, 0]
@@ -389,43 +399,56 @@ _data = {
 &"walk": SubResource("Animation_vavqj")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_opx04"]
-resource_local_to_scene = true
-size = Vector2(18, 24)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0qwb4"]
-size = Vector2(18, 26)
+size = Vector2(86, 130)
 
 [node name="Player" type="CharacterBody2D" unique_id=1279432752 groups=["Player"]]
 collision_layer = 2
 script = ExtResource("1_hivrc")
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=2100688323]
+stream = ExtResource("34_v5eec")
+volume_db = -19.877
+
+[node name="HitboxPreview" type="Node2D" parent="." unique_id=1643560566 node_paths=PackedStringArray("animation_player")]
+visible = false
+z_index = 3
+script = ExtResource("2_ehoml")
+move_data = ExtResource("36_fsc1w")
+animation_player = NodePath("../Animation")
+animation_name = &"heavy"
+preview_tick = 5
+
+[node name="HitboxDebug" type="Node2D" parent="." unique_id=1171938192]
+script = ExtResource("2_fe3xq")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1703022851]
+visible = false
+position = Vector2(33.5556, -65.99999)
+scale = Vector2(0.15925926, 0.15925929)
+texture = ExtResource("6_2kavf")
+
 [node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1843441239]
+position = Vector2(11.295999, -80.86115)
+scale = Vector2(4.7314997, 5.0538216)
 sprite_frames = SubResource("SpriteFrames_yy16p")
 animation = &"Idle"
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=439710480]
-position = Vector2(0, 4)
+visible = false
+position = Vector2(11.5, -66.25)
 shape = SubResource("RectangleShape2D_6aheq")
 
 [node name="Animation" type="AnimationPlayer" parent="." unique_id=80370030]
 libraries/ = SubResource("AnimationLibrary_68qih")
 
-[node name="Hitbox" type="Area2D" parent="." unique_id=776822281]
-collision_layer = 0
-collision_mask = 4
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=517192110]
-position = Vector2(0, 4)
-shape = SubResource("RectangleShape2D_opx04")
-
 [node name="Hurtbox" type="Area2D" parent="." unique_id=363817472]
+visible = false
 collision_layer = 4
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1235133391]
-position = Vector2(0, 3)
+position = Vector2(11, -66)
 shape = SubResource("RectangleShape2D_0qwb4")
 
 [node name="State Machine" type="Node2D" parent="." unique_id=1639182318 node_paths=PackedStringArray("starting_state", "hitstun_state", "ko_state")]
@@ -439,35 +462,39 @@ metadata/_custom_type_script = "uid://cpad24nv51cxb"
 script = ExtResource("11_b34lc")
 jump_state = NodePath("../Jump")
 
-[node name="Idle" type="Node2D" parent="State Machine" unique_id=954886316 node_paths=PackedStringArray("walk_state", "jump_squat_state", "dash_state", "jab_state", "heavy_state", "crouch_state")]
+[node name="Idle" type="Node2D" parent="State Machine" unique_id=954886316 node_paths=PackedStringArray("walk_state", "jump_squat_state", "dash_state", "light_state", "medium_state", "crouch_state", "block_state")]
 script = ExtResource("7_60n01")
 auto_face = true
 walk_state = NodePath("../Walk")
 jump_squat_state = NodePath("../JumpSquat")
 dash_state = NodePath("../Dash")
-jab_state = NodePath("../Jab")
-heavy_state = NodePath("../Heavy")
+light_state = NodePath("../Light")
+medium_state = NodePath("../Medium")
 crouch_state = NodePath("../Crouch")
+block_state = NodePath("../Block")
 
-[node name="Walk" type="Node2D" parent="State Machine" unique_id=627338446 node_paths=PackedStringArray("idle_state", "jump_squat_state", "dash_state", "jab_state", "heavy_state", "crouch_state")]
+[node name="Walk" type="Node2D" parent="State Machine" unique_id=627338446 node_paths=PackedStringArray("idle_state", "jump_squat_state", "dash_state", "light_state", "medium_state", "crouch_state", "block_state")]
 script = ExtResource("7_s1w26")
 auto_face = true
 idle_state = NodePath("../Idle")
 jump_squat_state = NodePath("../JumpSquat")
 dash_state = NodePath("../Dash")
-jab_state = NodePath("../Jab")
-heavy_state = NodePath("../Heavy")
+light_state = NodePath("../Light")
+medium_state = NodePath("../Medium")
 crouch_state = NodePath("../Crouch")
+block_state = NodePath("../Block")
 
-[node name="Jump" type="Node2D" parent="State Machine" unique_id=904750572 node_paths=PackedStringArray("fall_state", "air_attack_state")]
+[node name="Jump" type="Node2D" parent="State Machine" unique_id=904750572 node_paths=PackedStringArray("fall_state", "air_light_state", "walljump_state")]
 script = ExtResource("14_l0ddl")
 fall_state = NodePath("../Fall")
-air_attack_state = NodePath("../AirJab")
+air_light_state = NodePath("../AirLight")
+walljump_state = NodePath("../WallJump")
 
-[node name="Fall" type="Node2D" parent="State Machine" unique_id=778010749 node_paths=PackedStringArray("land_state", "air_attack_state")]
+[node name="Fall" type="Node2D" parent="State Machine" unique_id=778010749 node_paths=PackedStringArray("land_state", "air_light_state", "walljump_state")]
 script = ExtResource("16_236mk")
 land_state = NodePath("../Land")
-air_attack_state = NodePath("../AirJab")
+air_light_state = NodePath("../AirLight")
+walljump_state = NodePath("../WallJump")
 
 [node name="Land" type="Node2D" parent="State Machine" unique_id=1358895619 node_paths=PackedStringArray("idle_state", "walk_state", "jump_squat_state", "crouch_state")]
 script = ExtResource("17_236mk")
@@ -483,35 +510,72 @@ auto_face = true
 jump_squat_state = NodePath("../JumpSquat")
 land_state = NodePath("../Land")
 
-[node name="Jab" type="Node2D" parent="State Machine" unique_id=2050174945 node_paths=PackedStringArray("idle_state")]
+[node name="Light" type="Node2D" parent="State Machine" unique_id=2050174945 node_paths=PackedStringArray("idle_state")]
 script = ExtResource("19_p1wou")
 move_data = ExtResource("20_flb6u")
 idle_state = NodePath("../Idle")
 
-[node name="Heavy" type="Node2D" parent="State Machine" unique_id=1864155616 node_paths=PackedStringArray("idle_state")]
+[node name="Medium" type="Node2D" parent="State Machine" unique_id=1864155616 node_paths=PackedStringArray("idle_state")]
 script = ExtResource("19_p1wou")
 move_data = ExtResource("23_1ns2v")
 idle_state = NodePath("../Idle")
 
-[node name="Crouch" type="Node2D" parent="State Machine" unique_id=1119373470 node_paths=PackedStringArray("idle_state", "walk_state")]
+[node name="Crouch" type="Node2D" parent="State Machine" unique_id=1119373470 node_paths=PackedStringArray("idle_state", "walk_state", "crouch_block_state", "crouch_attack_state")]
 script = ExtResource("24_0tay8")
 auto_face = true
 idle_state = NodePath("../Idle")
 walk_state = NodePath("../Walk")
+crouch_block_state = NodePath("../CrouchBlock")
+crouch_attack_state = NodePath("../CrouchAttack")
 
-[node name="Hitstun" type="Node2D" parent="State Machine" unique_id=513943074 node_paths=PackedStringArray("idle_state", "walk_state", "fall_state")]
+[node name="Hitstun" type="Node2D" parent="State Machine" unique_id=513943074 node_paths=PackedStringArray("idle_state", "walk_state", "fall_state", "crouch_state")]
 script = ExtResource("25_0qwb4")
 idle_state = NodePath("../Idle")
 walk_state = NodePath("../Walk")
 fall_state = NodePath("../Fall")
+crouch_state = NodePath("../Crouch")
 
 [node name="Ko" type="Node2D" parent="State Machine" unique_id=506363148]
 script = ExtResource("26_def7b")
 
-[node name="AirJab" type="Node2D" parent="State Machine" unique_id=53034571 node_paths=PackedStringArray("idle_state", "walk_state", "fall_state", "land_state")]
+[node name="AirLight" type="Node2D" parent="State Machine" unique_id=53034571 node_paths=PackedStringArray("idle_state", "walk_state", "fall_state", "land_state")]
 script = ExtResource("19_p1wou")
 move_data = ExtResource("27_83ti1")
 idle_state = NodePath("../Idle")
 walk_state = NodePath("../Walk")
 fall_state = NodePath("../Fall")
 land_state = NodePath("../Land")
+
+[node name="WallJump" type="Node2D" parent="State Machine" unique_id=1348559871 node_paths=PackedStringArray("jump_state")]
+script = ExtResource("30_ehoml")
+jump_state = NodePath("../Jump")
+
+[node name="Block" type="Node2D" parent="State Machine" unique_id=35268207 node_paths=PackedStringArray("idle_state", "walk_state", "crouch_block_state", "parry_state")]
+script = ExtResource("31_tqqf0")
+auto_face = true
+idle_state = NodePath("../Idle")
+walk_state = NodePath("../Walk")
+crouch_block_state = NodePath("../CrouchBlock")
+parry_state = NodePath("../Parry")
+
+[node name="Parry" type="Node2D" parent="State Machine" unique_id=1330246726 node_paths=PackedStringArray("idle_state")]
+script = ExtResource("33_nysqf")
+idle_state = NodePath("../Idle")
+
+[node name="CrouchBlock" type="Node2D" parent="State Machine" unique_id=895661223 node_paths=PackedStringArray("idle_state", "walk_state", "crouch_state", "block_state", "parry_state")]
+script = ExtResource("35_4nw1x")
+auto_face = true
+idle_state = NodePath("../Idle")
+walk_state = NodePath("../Walk")
+crouch_state = NodePath("../Crouch")
+block_state = NodePath("../Block")
+parry_state = NodePath("../Parry")
+
+[node name="CrouchAttack" type="Node2D" parent="State Machine" unique_id=1176700713 node_paths=PackedStringArray("idle_state", "walk_state", "fall_state", "land_state", "crouch_state")]
+script = ExtResource("19_p1wou")
+move_data = ExtResource("36_fsc1w")
+idle_state = NodePath("../Idle")
+walk_state = NodePath("../Walk")
+fall_state = NodePath("../Fall")
+land_state = NodePath("../Land")
+crouch_state = NodePath("../Crouch")

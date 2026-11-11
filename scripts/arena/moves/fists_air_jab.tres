@@ -1,17 +1,36 @@
 [gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://bdbmjirsg01sw"]
 
 [ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://scripts/arena/moves/move_data.gd" id="1_3rkjm"]
+[ext_resource type="Script" uid="uid://dhq073jonmyno" path="res://scripts/arena/moves/hitbox_data.gd" id="1_pa88p"]
+
+[sub_resource type="Resource" id="Resource_pn30r"]
+script = ExtResource("1_pa88p")
+end_tick = 15
+size = Vector2(120, 80)
+offset = Vector2(60.325, -20.67)
+hit_attribute = "High"
+damage = 4
+knockback = Vector2(100, -60)
+hitstun_frames = 14
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_yq72a"]
+script = ExtResource("1_pa88p")
+start_tick = 14
+end_tick = 20
+size = Vector2(169.55, 64.925)
+offset = Vector2(-81.535, -9.415)
+hit_attribute = "High"
+damage = 2
+knockback = Vector2(50, -30)
+hitfreeze_frames = 29
+metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [resource]
 script = ExtResource("1_3rkjm")
 animation = "jab"
-active_frames = 11
-recovery_frames = 12
-hitbox_size = Vector2(28, 24)
-hitbox_offset = Vector2(18, 4)
-damage = 4
-knockback = Vector2(100, -60)
-hitstun_frames = 14
+total_frames = 27
+hitboxes = Array[ExtResource("1_pa88p")]([SubResource("Resource_pn30r"), SubResource("Resource_yq72a")])
 traction = 0.7
 aerial = true
 metadata/_custom_type_script = "uid://dumcnysw81a4l"
