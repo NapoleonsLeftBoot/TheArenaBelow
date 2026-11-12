@@ -27,13 +27,18 @@ func enter() -> void:
 
 func exit(new_state: State = null) -> void:
 	super(new_state)
+	
+	player.fast_falling = false
+	player.hitfall_buffered = false
 	if move_data.crouch:
 		player.crouch = false
 	player.show_hitboxes([])
+	
 
 func process_physics(delta: float) -> State:
 	if move_data.aerial:
 		do_air_move(delta)
+		
 	else:
 		player.velocity.x *= move_data.traction
 		
@@ -42,6 +47,12 @@ func process_physics(delta: float) -> State:
 
 	if move_data.aerial and player.is_on_floor():
 		return land_state
+	
+	if player.velocity.y > 0 and player.buffer.consume(down_key):
+		player.fast_falling = true
+		
+	if player.fast_falling:
+		player.velocity.y = move_toward(player.velocity.y, fast_fall_velocity, fast_fall_accel * delta)
 
 	_update_hitboxes()
 	if tick >= move_data.total_frames:
@@ -77,4 +88,5 @@ func _hit_check(box: HitboxData, center: Vector2, facing: int) -> void:
 		if target.has_method("take_hit"):
 			hit_targets.append(target)
 			target.take_hit(box, facing)
+			#if target is blocking then
 			player.apply_hitfreeze(box.hitfreeze_frames)

@@ -49,6 +49,11 @@ extends Resource
 		hitstun_frames = value
 		emit_changed()
 
+@export var blockstun_frames: int = 12:
+	set(value):
+		blockstun_frames = value
+		emit_changed()
+
 @export var hitfreeze_frames: int = 6:
 	set(value):
 		hitfreeze_frames = value

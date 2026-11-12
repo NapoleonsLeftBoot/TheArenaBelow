@@ -28,6 +28,8 @@ func process_physics(delta: float) -> State:
 		return light_state
 	if player.buffer.consume(medium_key):
 		return medium_state
+	if player.buffer.consume(heavy_key):
+		return heavy_state
 	if get_move_dir() != 0.0 and player.buffer.consume(dash_key):
 		return dash_state
 	if get_move_dir() != 0.0:

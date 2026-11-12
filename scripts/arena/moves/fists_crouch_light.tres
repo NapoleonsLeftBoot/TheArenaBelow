@@ -9,10 +9,13 @@ size = Vector2(114.535, 20.96)
 offset = Vector2(69.455, -20.825)
 hit_attribute = "Low"
 knockback = Vector2(218.12, -148.44)
+hitstun_frames = 11
+blockstun_frames = 7
 metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [resource]
 script = ExtResource("2_eural")
+total_frames = 13
 hitboxes = Array[ExtResource("1_hygpw")]([SubResource("Resource_tfkaf")])
 traction = 0.6
 crouch = true

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://dmk6ecdc8tdbv"]
+
+[ext_resource type="Script" uid="uid://dhq073jonmyno" path="res://scripts/arena/moves/hitbox_data.gd" id="1_lfs3m"]
+[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://scripts/arena/moves/move_data.gd" id="2_f8kh8"]
+
+[sub_resource type="Resource" id="Resource_yoms7"]
+script = ExtResource("1_lfs3m")
+start_tick = 9
+end_tick = 14
+size = Vector2(65.85, 178.81)
+offset = Vector2(35.255, -85.945)
+knockback = Vector2(100, -1800)
+hitstun_frames = 22
+blockstun_frames = 16
+hitfreeze_frames = 12
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[resource]
+script = ExtResource("2_f8kh8")
+total_frames = 34
+hitboxes = Array[ExtResource("1_lfs3m")]([SubResource("Resource_yoms7")])
+crouch = true
+metadata/_custom_type_script = "uid://dumcnysw81a4l"

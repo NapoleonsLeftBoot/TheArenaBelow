@@ -37,6 +37,7 @@ var parry_window: int = 10;
 var parry_tick_count: int = 0;
 var parry: bool = false;
 var di_input: Vector2 = Vector2.ZERO
+var hitfall_buffered: bool = false
 
 
 func show_hitboxes(rects: Array[Rect2]) -> void:
@@ -55,6 +56,10 @@ func _process(delta):
 func _physics_process(delta):
 	if hitfreeze_ticks > 0:
 		_get_di()
+		
+		if is_held("Down"):
+			hitfall_buffered = true
+			
 		hitfreeze_ticks -= 1
 		if hitfreeze_ticks == 0:
 			animation.speed_scale = 1.0
@@ -82,11 +87,11 @@ func take_hit(move: HitboxData, facing: int) -> void:
 		else:
 			apply_hitfreeze(move.hitfreeze_frames)
 			velocity.x = (ceil(move.knockback.x * facing * BLOCK_MULT_X))
-			blockstun_ticks = ceil(move.hitstun_frames * BLOCK_MULT_STN)
+			blockstun_ticks = ceil(move.blockstun_frames)
 			return
 	health -= move.damage
 	health_changed.emit(maxi(health, 0), max_health)
-	if crouch:
+	if crouch and move.hit_attribute != "High":
 		apply_hitfreeze(move.hitfreeze_frames)
 		velocity = Vector2(ceil(move.knockback.x * facing * CROUCH_MULT_x), ceil(move.knockback.y * CROUCH_MULT_y))
 		hitstun_ticks = ceil(move.hitstun_frames * CROUCH_MULT_STN) 

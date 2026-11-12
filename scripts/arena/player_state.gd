@@ -59,12 +59,15 @@ var ko_anim: String = "ko"
 @export var dash_state: PlayerState
 @export var light_state: PlayerState
 @export var medium_state: PlayerState
+@export var heavy_state: PlayerState
 @export var air_light_state: PlayerState
 @export var crouch_state: PlayerState
 @export var walljump_state: PlayerState
 @export var block_state: PlayerState
 @export var crouch_block_state: PlayerState
-@export var crouch_attack_state: PlayerState
+@export var crouch_light_state: PlayerState
+@export var crouch_medium_state: PlayerState
+@export var crouch_heavy_state: PlayerState
 @export var parry_state: PlayerState
 
 #State Variables

@@ -21,8 +21,12 @@ func process_physics(delta: float) -> State:
 	player.velocity.x *= crouch_traction
 	if player.is_held(block_key):
 			return crouch_block_state
-	if player.buffer.consume(light_key) or player.buffer.consume(medium_key):
-		return crouch_attack_state
+	if player.buffer.consume(light_key):
+		return crouch_light_state
+	if player.buffer.consume(medium_key):
+		return crouch_medium_state
+	if player.buffer.consume(heavy_key):
+		return crouch_heavy_state
 	if not player.is_held(down_key):
 		return idle_state
 	return null
