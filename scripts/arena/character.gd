@@ -16,6 +16,11 @@ var opponent: Player
 @export var is_ai: bool = false
 var ai_held: Dictionary = {}
 
+@export_group("Weapon Movesets")
+@export var fists_moveset: WeaponMoveset
+@export var hammer_moveset: WeaponMoveset
+
+var current_moveset: WeaponMoveset
 # shared runtime state
 var health: int = 100
 var CROUCH_MULT_STN: float = 0.85
@@ -45,6 +50,10 @@ func show_hitboxes(rects: Array[Rect2]) -> void:
 
 func _ready():
 	health = max_health
+	#if no weapon type was passed from other scene
+	#then just default to fists
+	if current_moveset == null:
+		set_weapon(WeaponTypes.Type.FISTS)
 	state_machine.init()
 
 func _process(delta):
@@ -202,3 +211,13 @@ func can_block(move: HitboxData) -> bool:
 			return true
 		else:
 			return false
+
+func set_weapon(weapon: WeaponTypes.Type) -> void:
+	match weapon:
+		WeaponTypes.Type.FISTS:
+			current_moveset = fists_moveset
+
+		WeaponTypes.Type.HAMMER:
+			current_moveset = hammer_moveset
+	print("Current weapon: ", weapon)
+	print("Current moveset: ", current_moveset)

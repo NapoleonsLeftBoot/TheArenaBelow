@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="WeaponMoveset" format=3 uid="uid://ds417v6wvplvg"]
+
+[ext_resource type="Resource" uid="uid://bdbmjirsg01sw" path="res://scripts/arena/moves/fists_air_light.tres" id="1_1yb5m"]
+[ext_resource type="Script" uid="uid://dawgyf47aiixc" path="res://scripts/global/weapon_moveset.gd" id="1_02md8"]
+[ext_resource type="Resource" uid="uid://djebab413jafs" path="res://scripts/arena/moves/fists_air_medium.tres" id="1_lgj2g"]
+[ext_resource type="Resource" uid="uid://dmk6ecdc8tdbv" path="res://scripts/arena/moves/fists_crouch_heavy.tres" id="2_lgj2g"]
+[ext_resource type="Resource" uid="uid://b1iwqalisus7f" path="res://scripts/arena/moves/fists_crouch_light.tres" id="3_btvy5"]
+[ext_resource type="Resource" uid="uid://cror4hw1jrpld" path="res://scripts/arena/moves/fists_crouch_medium.tres" id="4_opexc"]
+[ext_resource type="Resource" uid="uid://c7putdjqbu1c0" path="res://scripts/arena/moves/fists_heavy.tres" id="6_aprqc"]
+[ext_resource type="Resource" uid="uid://blf2lohdvq68x" path="res://scripts/arena/moves/fists_light.tres" id="7_082ra"]
+[ext_resource type="Resource" uid="uid://cq73ia8nphx48" path="res://scripts/arena/moves/fists_medium.tres" id="8_x7ra2"]
+
+[resource]
+script = ExtResource("1_02md8")
+standing_light = ExtResource("7_082ra")
+standing_medium = ExtResource("8_x7ra2")
+standing_heavy = ExtResource("6_aprqc")
+crouch_light = ExtResource("3_btvy5")
+crouch_medium = ExtResource("4_opexc")
+crouch_heavy = ExtResource("2_lgj2g")
+air_light = ExtResource("1_1yb5m")
+air_medium = ExtResource("1_lgj2g")
+air_heavy = ExtResource("1_lgj2g")
+metadata/_custom_type_script = "uid://dawgyf47aiixc"

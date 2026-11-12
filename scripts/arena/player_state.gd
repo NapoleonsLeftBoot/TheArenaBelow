@@ -61,6 +61,8 @@ var ko_anim: String = "ko"
 @export var medium_state: PlayerState
 @export var heavy_state: PlayerState
 @export var air_light_state: PlayerState
+@export var air_medium_state: PlayerState
+@export var air_heavy_state: PlayerState
 @export var crouch_state: PlayerState
 @export var walljump_state: PlayerState
 @export var block_state: PlayerState
@@ -157,3 +159,10 @@ func process_physics(delta: float) -> State:
 func exit(new_state: State = null) -> void:
 	super()
 	new_state.sprite_flipped = sprite_flipped
+
+func start_attack(attack_state: PlayerAttackState, move: MoveData) -> State:
+	if move == null:
+		return null
+
+	attack_state.move_data = move
+	return attack_state

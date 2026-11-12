@@ -19,8 +19,12 @@ func process_physics(delta: float) -> State:
 	var next_state: State = super(delta)
 	
 	if player.buffer.consume(light_key):
-		return air_light_state
-	
+		return start_attack(air_light_state, player.current_moveset.air_light)
+	if player.buffer.consume(medium_key):
+		return start_attack(air_medium_state, player.current_moveset.air_medium)
+	if player.buffer.consume(heavy_key):
+		return start_attack(air_heavy_state, player.current_moveset.air_heavy)
+		
 	var side: int = player.wall_side()
 	if side != 0 and get_move_dir() == -side and player.buffer.consume(jump_key):
 		return walljump_state

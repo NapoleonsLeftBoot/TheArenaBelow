@@ -71,6 +71,8 @@ script = SubResource("GDScript_tfkaf")
 [node name="Boss" parent="." unique_id=1279432752 instance=ExtResource("2_8amx1")]
 z_index = 1
 position = Vector2(939, 766)
+fists_moveset = null
+hammer_moveset = null
 
 [node name="Player" parent="." unique_id=475324690 instance=ExtResource("2_0ik2u")]
 z_index = 1

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://djebab413jafs"]
+
+[ext_resource type="Script" uid="uid://dhq073jonmyno" path="res://scripts/arena/moves/hitbox_data.gd" id="1_aglvd"]
+[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://scripts/arena/moves/move_data.gd" id="2_t4vat"]
+
+[sub_resource type="Resource" id="Resource_pn30r"]
+script = ExtResource("1_aglvd")
+start_tick = 12
+end_tick = 20
+size = Vector2(120, 80)
+offset = Vector2(60.325, -20.67)
+hit_attribute = "High"
+damage = 4
+knockback = Vector2(400, -600)
+hitstun_frames = 14
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[resource]
+script = ExtResource("2_t4vat")
+animation = "jab"
+total_frames = 30
+hitboxes = Array[ExtResource("1_aglvd")]([SubResource("Resource_pn30r")])
+traction = 0.7
+aerial = true
+metadata/_custom_type_script = "uid://dumcnysw81a4l"

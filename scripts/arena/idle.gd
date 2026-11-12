@@ -25,11 +25,11 @@ func process_physics(delta: float) -> State:
 	if player.buffer.consume(down_key):
 		return crouch_state
 	if player.buffer.consume(light_key):
-		return light_state
+		return start_attack(light_state, player.current_moveset.standing_light)
 	if player.buffer.consume(medium_key):
-		return medium_state
+		return start_attack(medium_state, player.current_moveset.standing_medium)
 	if player.buffer.consume(heavy_key):
-		return heavy_state
+		return start_attack(heavy_state, player.current_moveset.standing_heavy)
 	if get_move_dir() != 0.0 and player.buffer.consume(dash_key):
 		return dash_state
 	if get_move_dir() != 0.0:
