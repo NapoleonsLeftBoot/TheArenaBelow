@@ -17,7 +17,7 @@ metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [resource]
 script = ExtResource("2_t4vat")
-animation = "jab"
+animation = "fists_medium"
 total_frames = 30
 hitboxes = Array[ExtResource("1_aglvd")]([SubResource("Resource_pn30r")])
 traction = 0.7

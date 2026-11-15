@@ -2,7 +2,7 @@ class_name PlayerWalljumpState
 extends PlayerState
 
 var tick: int = 0
-var freeze_frames: int = 5
+var freeze_frames: int = 8
 
 func enter() -> void:
 	super()
@@ -10,7 +10,7 @@ func enter() -> void:
 
 	player.velocity = Vector2.ZERO
 	player.fast_falling = false
-	player.animation.play(jump_anim)
+	player.animation.play(walljump_squat_anim)
 
 func process_physics(delta: float) -> State:
 	tick += 1
@@ -26,6 +26,7 @@ func process_physics(delta: float) -> State:
 	var next_state: State = super(delta)
 
 	if tick >= wall_jump_lockout:
+		player.did_walljump = true;
 		return jump_state
 
 	return next_state

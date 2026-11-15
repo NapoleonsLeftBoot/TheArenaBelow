@@ -2,7 +2,12 @@ class_name PlayerIdleState
 extends PlayerState
 
 func enter() -> void:
-	player.animation.play(idle_anim)
+	if player.transition_anim != &"":
+		player.animation.play(player.transition_anim)
+		player.animation.queue(idle_anim)
+		player.transition_anim = &""
+	else:
+		player.animation.play(idle_anim)
 	
 func exit(new_state: State = null) -> void:
 		super(new_state)

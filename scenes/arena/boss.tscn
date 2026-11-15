@@ -9,5 +9,5 @@ is_ai = true
 [node name="AI" type="Node" parent="." index="0" unique_id=1192893934]
 script = ExtResource("2_q7enx")
 
-[node name="Sprite" parent="." index="3" unique_id=1843441239]
+[node name="Sprite" parent="." index="5" unique_id=1843441239]
 modulate = Color(0.94509804, 0, 0, 1)

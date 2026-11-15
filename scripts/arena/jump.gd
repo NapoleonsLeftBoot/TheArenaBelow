@@ -7,7 +7,11 @@ var jump_button_held: bool = true;
 func enter() -> void:
 	super()
 	player.jump_start_x = player.position.x
-	player.animation.play(jump_anim)
+	if player.did_walljump:
+		player.animation.play(walljump_anim)
+	else:
+		player.animation.play(jump_anim)
+
 	
 func exit(new_state: State = null) -> void:
 		super(new_state)

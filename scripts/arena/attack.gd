@@ -2,11 +2,12 @@ class_name PlayerAttackState
 extends PlayerState
 
 const HURTBOX_MASK: int = 1 << 2 #needed to put hurtbox in layer 4 ):
-
+var active_hitbox_index: int = -1
 @export var move_data: MoveData
 
 var tick: int = 0
-var hit_targets: Array[Node] = []
+var hit_targets: Dictionary = {}
+var has_hit: bool = false
 
 var _shape := RectangleShape2D.new()
 var _query := PhysicsShapeQueryParameters2D.new()
@@ -21,6 +22,7 @@ func enter() -> void:
 	super()
 	tick = 0
 	hit_targets.clear()
+	has_hit = false
 	player.crouch = move_data.crouch
 	if player.animation.has_animation(move_data.animation):
 		player.animation.play(move_data.animation)
@@ -30,7 +32,7 @@ func exit(new_state: State = null) -> void:
 	
 	player.fast_falling = false
 	player.hitfall_buffered = false
-	if move_data.crouch:
+	if move_data.crouch and (new_state is not PlayerCrouchState):
 		player.crouch = false
 	player.show_hitboxes([])
 	
@@ -48,12 +50,18 @@ func process_physics(delta: float) -> State:
 	if move_data.aerial and player.is_on_floor():
 		return land_state
 	
-	if player.velocity.y > 0 and player.buffer.consume(down_key):
-		player.fast_falling = true
-		
-	if player.fast_falling:
-		player.velocity.y = move_toward(player.velocity.y, fast_fall_velocity, fast_fall_accel * delta)
-
+	if move_data.aerial:
+		if has_hit:
+			if player.buffer.consume(down_key) or player.hitfall_buffered:
+				player.fast_falling = true
+				player.hitfall_buffered = false
+		else:
+			if player.velocity.y > 0.0 and player.buffer.consume(down_key):
+				player.fast_falling = true
+				
+		if player.fast_falling:
+			player.velocity.y = move_toward(player.velocity.y, fast_fall_velocity,fast_fall_accel * delta)
+	
 	_update_hitboxes()
 	if tick >= move_data.total_frames:
 		if not player.is_on_floor():
@@ -66,27 +74,41 @@ func process_physics(delta: float) -> State:
 func _update_hitboxes() -> void:
 	var facing: int = -1 if sprite_flipped else 1
 	var live: Array[Rect2] = []
+
 	for box in move_data.hitboxes:
 		if tick < box.start_tick or tick >= box.end_tick:
 			continue
+
 		var center: Vector2 = player.global_position + Vector2(box.offset.x * facing, box.offset.y)
+
 		live.append(Rect2(center - box.size / 2.0, box.size))
 		_hit_check(box, center, facing)
+
 	player.show_hitboxes(live)
 
 func _hit_check(box: HitboxData, center: Vector2, facing: int) -> void:
 	_shape.size = box.size
 	_query.transform = Transform2D(0.0, center)
+
 	var results: Array[Dictionary] = player.get_world_2d().direct_space_state.intersect_shape(_query)
+
+	var group: int = box.hit_group
+
+	if not hit_targets.has(group):
+		hit_targets[group] = []
+
 	for result in results:
 		var area := result["collider"] as Area2D
 		if area == null:
 			continue
+
 		var target: Node = area.get_parent()
-		if target == player or hit_targets.has(target):
+
+		if target == player or hit_targets[group].has(target):
 			continue
+
 		if target.has_method("take_hit"):
-			hit_targets.append(target)
+			hit_targets[group].append(target)
 			target.take_hit(box, facing)
-			#if target is blocking then
+			has_hit = true
 			player.apply_hitfreeze(box.hitfreeze_frames)

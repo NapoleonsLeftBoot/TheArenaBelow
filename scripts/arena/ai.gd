@@ -10,6 +10,8 @@ extends Node
 var target: Player
 var cooldown: float = 1.0
 
+#func _ready() -> void:
+	#me.set_weapon(WeaponTypes.Type.FISTS)
 func _physics_process(delta: float) -> void:
 	if me.is_ko:
 		_release()
@@ -30,15 +32,15 @@ func _physics_process(delta: float) -> void:
 
 
 	# walk to player until close enough to attack
-	#me.ai_held["Left"] = dir < 0.0 and dist > stop_range
-	#me.ai_held["Right"] = dir > 0.0 and dist > stop_range
+	me.ai_held["Left"] = dir < 0.0 and dist > stop_range
+	me.ai_held["Right"] = dir > 0.0 and dist > stop_range
 	
 	#me.ai_held["Block"] = dist <= attack_range
 	# attack and wait a bit
-	#cooldown -= delta
-	#if dist <= attack_range and cooldown <= 0.0:
-	#	me.buffer.press("Light")
-	#	cooldown = randf_range(cooldown_min, cooldown_max)
+	cooldown -= delta
+	if dist <= attack_range and cooldown <= 0.0:
+		me.buffer.press("Light")
+		cooldown = randf_range(cooldown_min, cooldown_max)
 
 func _find_target() -> Player:
 	for node in get_tree().get_nodes_in_group("Player"):

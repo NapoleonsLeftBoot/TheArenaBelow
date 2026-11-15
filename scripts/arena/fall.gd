@@ -3,7 +3,11 @@ extends PlayerState
 
 func enter() -> void:
 	super()
-	player.animation.play(fall_anim)
+	if player.did_walljump:
+		#player.animation.play(walljump_to_fall_anim)
+		player.did_walljump = false
+	else:
+		player.animation.play(fall_anim)
 
 func process_physics(delta: float) -> State:
 	do_air_move(delta)

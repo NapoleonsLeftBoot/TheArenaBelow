@@ -6,7 +6,7 @@ extends State
 
 #General Mvmt Attributes
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity", -9.8)
-var Speed: float = 630
+var Speed: float = 600
 var Air_speed: float = 585
 var Air_acceleration: float = 1800
 var traction: float = .75
@@ -21,11 +21,11 @@ var hitstun_friction: float = 2700
 var di_max_angle: float = 18.0 
 
 #Jump Attributes
-var squat_duration: float = 0.08
+var squat_ticks: int = 6
 var full_hop_velocity: float = -1575
 var short_hop_velocity: float = -1125
 var jump_squat_traction: float = 0.95
-var land_duration: float = 0.1
+var land_ticks: int = 6
 var land_traction: float = .9
 
 #Walljump Attributes
@@ -39,12 +39,18 @@ var idle_anim: String = "idle"
 var walk_anim: String = "walk"
 var jump_squat_anim: String = "jump_squat"
 var jump_anim: String = "jump"
+var walljump_anim: String = "walljump"
 var fall_anim: String = "fall"
 var land_anim: String = "land"
 var crouch_anim: String = "crouch"
+var uncrouch_anim: String = "uncrouch"
 var hitstun_anim: String = "hitstun"
 var ko_anim: String = "ko"
-
+var dash_anim: String = "dash"
+var back_dash_anim: String = "back_dash"
+var land_to_idle_anim: String = "land_to_idle"
+var walljump_squat_anim: String = "walljump_squat"
+var walljump_to_fall_anim: String = "walljump_to_fall"
 
 
 
@@ -88,8 +94,8 @@ var heavy_key: String = "Heavy"
 var block_key: String = "Block"
 
 #Fall Attributes
-var terminal_velocity: float = 1575
-var fast_fall_velocity: float = 2500
+var terminal_velocity: float = 1900
+var fast_fall_velocity: float = 2700
 var fast_fall_accel: float = 8100
 
 #Dash Attributes
@@ -97,7 +103,7 @@ var dash_speed: float = 1575
 var dash_end_speed: float = 1260
 var dash_decel: float = 4500
 var dash_frames: int  = 16
-var min_dash_frames: int = 2
+var min_dash_frames: int = 6
 
 
 #Input Action

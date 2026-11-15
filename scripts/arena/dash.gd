@@ -10,12 +10,17 @@ func enter() -> void:
 	tick = 0
 	braking = false
 	dash_dir = get_move_dir()
+	var relation: int = dash_relation()
+		
 	if dash_dir == 0.0:
-		dash_dir = -1.0 if sprite_flipped else 1.0
-	sprite_flipped = dash_dir < 0.0
-	#player.sprite.flip_h = sprite_flipped
-	player.animation.play(walk_anim)
-
+		if sprite_flipped:
+			dash_dir = -1.0   # facing left
+		else:
+			dash_dir = 1.0 #riht
+	if relation == 1:
+		player.animation.play(dash_anim)
+	elif relation == -1:
+		player.animation.play(back_dash_anim)
 func process_physics(delta: float) -> State:
 	if braking:
 		player.velocity.x = move_toward(player.velocity.x, 0.0, dash_decel * delta)
@@ -39,3 +44,17 @@ func process_physics(delta: float) -> State:
 		if current_speed <= dash_end_speed:
 			return land_state
 	return next_state
+
+func dash_relation() -> int:
+	var opp: Player = player.opponent
+	if opp == null or not is_instance_valid(opp):
+		return 0
+	var distance: float = opp.global_position.x - player.global_position.x
+	if distance == 0:
+		return 0
+	if (distance > 0) and (dash_dir > 0):
+		return 1
+	if (distance < 0) and (dash_dir < 0):
+		return 1
+	return -1
+	

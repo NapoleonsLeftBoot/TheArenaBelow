@@ -38,15 +38,19 @@ var crouch: bool = false
 var block: bool = false
 var crouch_block: bool = false
 var jump_start_x: float
-var parry_window: int = 10;
+var parry_window: int = 3;
 var parry_tick_count: int = 0;
 var parry: bool = false;
 var di_input: Vector2 = Vector2.ZERO
 var hitfall_buffered: bool = false
+var did_walljump: bool = false
+
+var transition_anim: StringName = &""
 
 
 func show_hitboxes(rects: Array[Rect2]) -> void:
 	hitbox_debug.show_rects(rects)
+
 
 func _ready():
 	health = max_health

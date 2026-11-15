@@ -7,10 +7,10 @@
 script = ExtResource("1_yddjh")
 start_tick = 3
 end_tick = 6
-size = Vector2(81.965, 41.11)
-offset = Vector2(49.29, -50.355)
+size = Vector2(185.47, 66.665)
+offset = Vector2(66.64, -239.92)
 damage = 4
-knockback = Vector2(240, -180)
+knockback = Vector2(336, -633.8)
 hitstun_frames = 10
 blockstun_frames = 10
 hitfreeze_frames = 5
@@ -18,7 +18,7 @@ metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [resource]
 script = ExtResource("2_1dqo4")
-animation = "jab"
+animation = "fists_light"
 total_frames = 11
 hitboxes = Array[ExtResource("1_yddjh")]([SubResource("Resource_8amx1")])
 traction = 0.9

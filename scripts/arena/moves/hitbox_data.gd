@@ -17,6 +17,7 @@ extends Resource
 		end_tick = value
 		emit_changed()
 		
+@export var hit_group: int = 0
 
 @export_group("Shape")
 

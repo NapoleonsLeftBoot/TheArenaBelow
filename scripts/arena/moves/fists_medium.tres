@@ -7,8 +7,8 @@
 script = ExtResource("1_2phbh")
 start_tick = 6
 end_tick = 9
-size = Vector2(105.705, 45.2)
-offset = Vector2(65.33, -53.2)
+size = Vector2(250.39, 69.9)
+offset = Vector2(87.66, -159.32)
 damage = 8
 knockback = Vector2(416.89, -423.955)
 hitstun_frames = 18
@@ -17,6 +17,7 @@ metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [resource]
 script = ExtResource("2_34awq")
+animation = "fists_medium"
 total_frames = 22
 hitboxes = Array[ExtResource("1_2phbh")]([SubResource("Resource_k7o13")])
 metadata/_custom_type_script = "uid://dumcnysw81a4l"

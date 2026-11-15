@@ -16,10 +16,10 @@ metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [sub_resource type="Resource" id="Resource_yq72a"]
 script = ExtResource("1_pa88p")
-start_tick = 14
-end_tick = 20
+start_tick = 7
+end_tick = 18
 size = Vector2(169.55, 64.925)
-offset = Vector2(-81.535, -9.415)
+offset = Vector2(51.575, -9.415)
 hit_attribute = "High"
 damage = 2
 knockback = Vector2(50, -30)
