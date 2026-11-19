@@ -10,14 +10,18 @@ end_tick = 14
 size = Vector2(65.85, 178.81)
 offset = Vector2(35.255, -85.945)
 knockback = Vector2(100, -1800)
-hitstun_frames = 22
+hitstun_frames = 155
 blockstun_frames = 16
 hitfreeze_frames = 12
 metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [resource]
 script = ExtResource("2_f8kh8")
+animation = "fists_crouch_heavy"
 total_frames = 34
 hitboxes = Array[ExtResource("1_lfs3m")]([SubResource("Resource_yoms7")])
 crouch = true
+strength = 3
+cancel_start = 12
+cancel_end = 16
 metadata/_custom_type_script = "uid://dumcnysw81a4l"

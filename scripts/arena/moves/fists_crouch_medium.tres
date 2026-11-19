@@ -20,4 +20,7 @@ script = ExtResource("2_lo1e4")
 total_frames = 27
 hitboxes = Array[ExtResource("1_28gja")]([SubResource("Resource_kg000")])
 crouch = true
+strength = 2
+cancel_start = 8
+cancel_end = 11
 metadata/_custom_type_script = "uid://dumcnysw81a4l"

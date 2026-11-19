@@ -3,6 +3,7 @@ extends PlayerState
 
 const HURTBOX_MASK: int = 1 << 2 #needed to put hurtbox in layer 4 ):
 var active_hitbox_index: int = -1
+var hit_connected: bool = false
 @export var move_data: MoveData
 
 var tick: int = 0
@@ -20,6 +21,7 @@ func _ready() -> void:
 
 func enter() -> void:
 	super()
+	hit_connected = false
 	tick = 0
 	hit_targets.clear()
 	has_hit = false
@@ -63,6 +65,9 @@ func process_physics(delta: float) -> State:
 			player.velocity.y = move_toward(player.velocity.y, fast_fall_velocity,fast_fall_accel * delta)
 	
 	_update_hitboxes()
+	var new_state: State = _try_cancel()
+	if new_state:
+		return new_state
 	if tick >= move_data.total_frames:
 		if not player.is_on_floor():
 			return fall_state
@@ -110,5 +115,82 @@ func _hit_check(box: HitboxData, center: Vector2, facing: int) -> void:
 		if target.has_method("take_hit"):
 			hit_targets[group].append(target)
 			target.take_hit(box, facing)
+			hit_connected = true
 			has_hit = true
 			player.apply_hitfreeze(box.hitfreeze_frames)
+
+func _try_cancel() -> State:
+	if not hit_connected:
+		return null
+
+	if tick < move_data.cancel_start or tick >= move_data.cancel_end:
+		return null
+
+	var ms = player.current_moveset
+	
+
+	# AERIALS
+	if move_data.aerial:
+		if ms.air_heavy.strength > move_data.strength:
+			if player.buffer.consume_big(heavy_key):
+				return start_attack(air_heavy_state, ms.air_heavy)
+
+		if ms.air_medium.strength > move_data.strength:
+			if player.buffer.consume_big(medium_key):
+				return start_attack(air_medium_state, ms.air_medium)
+
+		if ms.air_light.strength > move_data.strength:
+			if player.buffer.consume_big(light_key):
+				return start_attack(air_light_state, ms.air_light)
+
+	# CROUCHING ATTACKS
+	elif move_data.crouch:
+		if ms.crouch_heavy.strength > move_data.strength:
+			if player.buffer.consume_big(heavy_key):
+				return start_attack(crouch_heavy_state, ms.crouch_heavy)
+
+		if ms.crouch_medium.strength > move_data.strength:
+			if player.buffer.consume_big(medium_key):
+				return start_attack(crouch_medium_state, ms.crouch_medium)
+
+		if ms.crouch_light.strength > move_data.strength:
+			if player.buffer.consume_big(light_key):
+				return start_attack(crouch_light_state, ms.crouch_light)
+		
+		if player.is_held(jump_key):
+			return jump_squat_state
+
+	# STANDING ATTACKS
+	else:
+
+		# Check for crouching attacks
+		if player.is_held(down_key):
+
+			if ms.crouch_heavy.strength > move_data.strength:
+				if player.buffer.consume_big(heavy_key):
+					return start_attack(crouch_heavy_state, ms.crouch_heavy)
+
+			if ms.crouch_medium.strength > move_data.strength:
+				if player.buffer.consume_big(medium_key):
+					return start_attack(crouch_medium_state, ms.crouch_medium)
+
+			if ms.crouch_light.strength > move_data.strength:
+				if player.buffer.consume_big(light_key):
+					return start_attack(crouch_light_state, ms.crouch_light)
+
+		# Otherwise check standing attacks
+		else:
+
+			if ms.standing_heavy.strength > move_data.strength:
+				if player.buffer.consume_big(heavy_key):
+					return start_attack(heavy_state, ms.standing_heavy)
+
+			if ms.standing_medium.strength > move_data.strength:
+				if player.buffer.consume_big(medium_key):
+					return start_attack(medium_state, ms.standing_medium)
+
+			if ms.standing_light.strength > move_data.strength:
+				if player.buffer.consume_big(light_key):
+					return start_attack(light_state, ms.standing_light)
+
+	return null

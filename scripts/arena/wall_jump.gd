@@ -26,7 +26,7 @@ func process_physics(delta: float) -> State:
 	var next_state: State = super(delta)
 
 	if tick >= wall_jump_lockout:
-		player.did_walljump = true;
+		player.transition_anim = walljump_to_fall_anim
 		return jump_state
 
 	return next_state

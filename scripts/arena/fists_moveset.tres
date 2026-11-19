@@ -2,6 +2,7 @@
 
 [ext_resource type="Resource" uid="uid://bdbmjirsg01sw" path="res://scripts/arena/moves/fists_air_light.tres" id="1_1yb5m"]
 [ext_resource type="Script" uid="uid://dawgyf47aiixc" path="res://scripts/global/weapon_moveset.gd" id="1_02md8"]
+[ext_resource type="Resource" uid="uid://dniq030kjnflh" path="res://scripts/arena/moves/fists_air_heavy.tres" id="1_btvy5"]
 [ext_resource type="Resource" uid="uid://djebab413jafs" path="res://scripts/arena/moves/fists_air_medium.tres" id="1_lgj2g"]
 [ext_resource type="Resource" uid="uid://dmk6ecdc8tdbv" path="res://scripts/arena/moves/fists_crouch_heavy.tres" id="2_lgj2g"]
 [ext_resource type="Resource" uid="uid://b1iwqalisus7f" path="res://scripts/arena/moves/fists_crouch_light.tres" id="3_btvy5"]
@@ -20,5 +21,5 @@ crouch_medium = ExtResource("4_opexc")
 crouch_heavy = ExtResource("2_lgj2g")
 air_light = ExtResource("1_1yb5m")
 air_medium = ExtResource("1_lgj2g")
-air_heavy = ExtResource("1_lgj2g")
+air_heavy = ExtResource("1_btvy5")
 metadata/_custom_type_script = "uid://dawgyf47aiixc"

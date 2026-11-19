@@ -4,7 +4,7 @@ extends PlayerState
 func enter() -> void:
 	player.crouch_block = true
 	player.crouch = true 
-	player.animation.play(crouch_anim)  
+	player.animation.play(fall_anim)  
 
 func exit(new_state: State = null) -> void:
 	super(new_state)

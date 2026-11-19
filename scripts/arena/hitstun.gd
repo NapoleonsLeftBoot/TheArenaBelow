@@ -1,33 +1,39 @@
 class_name PlayerHitstunState
 extends PlayerState
 
-var tick: int = 0
+var impact_vel: float = 0.0
 
 func enter() -> void:
 	super()
-	tick = 0
+	player.remaining_hitstun = player.hitstun_ticks
+	impact_vel = 0.0
 	player.fast_falling = false
 	player.buffer.clear()
-	if player.animation.has_animation(hitstun_anim):
-		player.animation.play(hitstun_anim)
+
+	if player.animation.has_animation(crouch_anim):
+		player.animation.play(crouch_anim)
+
 
 func process_physics(delta: float) -> State:
-	if tick == 0:
+	if player.remaining_hitstun == player.hitstun_ticks:
 		_apply_di()
-	if player.is_on_floor():
-		player.velocity.x = move_toward(player.velocity.x, 0.0, hitstun_friction * delta)
-	var next_state: State = super(delta)
-	tick += 1
 
-	if tick >= player.hitstun_ticks:
-		if not player.is_on_floor():
-			return fall_state
-		if player.is_held(down_key):
-			return crouch_state
-		if get_move_dir() != 0.0:
-			return walk_state
-		else:
-			return idle_state
+	impact_vel = maxf(impact_vel, player.velocity.y)
+
+	var next_state: State = super(delta)
+
+	if player.is_on_floor():
+
+		if impact_vel >= min_impact_vel and not player.has_bounced:
+			return bounce_state
+		return ground_slide_state
+
+	if player.remaining_hitstun > 0:
+		player.remaining_hitstun -= 1
+
+	if player.remaining_hitstun <= 0:
+		return fall_state
+
 	return next_state
 
 func _apply_di() -> void:

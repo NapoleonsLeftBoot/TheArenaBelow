@@ -10,5 +10,5 @@ func enter() -> void:
 
 func process_physics(delta: float) -> State:
 	if player.is_on_floor():
-		player.velocity.x = move_toward(player.velocity.x, 0.0, hitstun_friction * delta)
+		player.velocity.x *= hitstun_traction
 	return super(delta) 

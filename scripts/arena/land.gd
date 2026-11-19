@@ -25,5 +25,6 @@ func process_physics(delta: float) -> State:
 		return crouch_state
 	
 	if land_timer >= land_ticks:
-		return walk_state if get_move_dir() != 0.0 else idle_state
+		return idle_state
+		
 	return next_state

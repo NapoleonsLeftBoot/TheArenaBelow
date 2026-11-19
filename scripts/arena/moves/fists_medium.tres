@@ -20,4 +20,7 @@ script = ExtResource("2_34awq")
 animation = "fists_medium"
 total_frames = 22
 hitboxes = Array[ExtResource("1_2phbh")]([SubResource("Resource_k7o13")])
+strength = 2
+cancel_start = 6
+cancel_end = 16
 metadata/_custom_type_script = "uid://dumcnysw81a4l"

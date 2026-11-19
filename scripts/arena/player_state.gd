@@ -17,7 +17,8 @@ var block_traction: float = 0.7
 @export var auto_face: bool = false
 
 #Hit Attributes
-var hitstun_friction: float = 2700
+#var hitstun_friction: float = 2700
+var hitstun_traction: float = 0.97
 var di_max_angle: float = 18.0 
 
 #Jump Attributes
@@ -29,7 +30,7 @@ var land_ticks: int = 6
 var land_traction: float = .9
 
 #Walljump Attributes
-var wall_jump_speed: Vector2 = Vector2(990, -1450.0)
+var wall_jump_speed: Vector2 = Vector2(890, -1050.0)
 var min_income_speed: float = 50.0
 var wall_jump_lockout: int = 8                 
 
@@ -52,7 +53,10 @@ var land_to_idle_anim: String = "land_to_idle"
 var walljump_squat_anim: String = "walljump_squat"
 var walljump_to_fall_anim: String = "walljump_to_fall"
 
-
+#Handplant Atrributes
+var handplant_ticks: int = 2
+var handslide_traction: float = 0.95
+var handslide_ticks = 8
 
 #States
 @export_group("states")
@@ -77,6 +81,10 @@ var walljump_to_fall_anim: String = "walljump_to_fall"
 @export var crouch_medium_state: PlayerState
 @export var crouch_heavy_state: PlayerState
 @export var parry_state: PlayerState
+@export var hand_plant_state: PlayerState
+@export var hand_slide_state: PlayerState
+@export var bounce_state: PlayerState
+@export var ground_slide_state: PlayerState
 
 #State Variables
 var sprite_flipped: bool = false
@@ -101,9 +109,13 @@ var fast_fall_accel: float = 8100
 #Dash Attributes
 var dash_speed: float = 1575
 var dash_end_speed: float = 1260
-var dash_decel: float = 4500
-var dash_frames: int  = 16
-var min_dash_frames: int = 6
+var dash_traction: float = 0.95
+var dash_ticks: int  = 16
+var min_dash_ticks: int = 6
+
+#Bounce Attributes
+var min_impact_vel: float = 1000.0
+var bounce_up: float = 200.0
 
 
 #Input Action

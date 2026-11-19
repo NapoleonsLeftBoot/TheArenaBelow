@@ -9,6 +9,7 @@ signal health_changed(current: int, maximum: int)
 @onready var sprite: AnimatedSprite2D = $Sprite
 @onready var hitbox_debug: Node2D = $HitboxDebug
 @onready var jump_sound = $AudioStreamPlayer
+@onready var hurtbox_shape: CollisionShape2D = $Hurtbox/CollisionShape2D
 
 @export var max_health: int = 100
 var opponent: Player
@@ -43,7 +44,13 @@ var parry_tick_count: int = 0;
 var parry: bool = false;
 var di_input: Vector2 = Vector2.ZERO
 var hitfall_buffered: bool = false
-var did_walljump: bool = false
+var slide_dir: float = 0.0
+var remaining_hitstun: int = 0
+var combo_reset_time: float = 2.0
+var combo_timer: float = 0.0
+var combo_counter: int = 0
+var has_bounced: bool = false
+var in_combo: bool = false
 
 var transition_anim: StringName = &""
 
@@ -67,6 +74,14 @@ func _process(delta):
 	
 
 func _physics_process(delta):
+	if combo_timer > 0.0:
+		combo_timer -= delta
+
+	if combo_timer <= 0.0:
+		combo_timer = 0.0
+		in_combo = false
+		has_bounced = false
+		
 	if hitfreeze_ticks > 0:
 		_get_di()
 		
@@ -102,6 +117,16 @@ func take_hit(move: HitboxData, facing: int) -> void:
 			velocity.x = (ceil(move.knockback.x * facing * BLOCK_MULT_X))
 			blockstun_ticks = ceil(move.blockstun_frames)
 			return
+	
+	if not in_combo:
+		in_combo = true
+		has_bounced = false
+		combo_counter = 0
+
+	combo_timer = combo_reset_time
+	combo_counter += 1
+	print("combo counter: ", combo_counter)
+	
 	health -= move.damage
 	health_changed.emit(maxi(health, 0), max_health)
 	if crouch and move.hit_attribute != "High":

@@ -14,7 +14,7 @@ func enter() -> void:
 		
 	if dash_dir == 0.0:
 		if sprite_flipped:
-			dash_dir = -1.0   # facing left
+			dash_dir = -1.0   #left
 		else:
 			dash_dir = 1.0 #riht
 	if relation == 1:
@@ -23,7 +23,7 @@ func enter() -> void:
 		player.animation.play(back_dash_anim)
 func process_physics(delta: float) -> State:
 	if braking:
-		player.velocity.x = move_toward(player.velocity.x, 0.0, dash_decel * delta)
+		player.velocity.x *= dash_traction
 	else:
 		player.velocity.x = dash_dir * dash_speed
 	var next_state: State = super(delta)
@@ -33,8 +33,8 @@ func process_physics(delta: float) -> State:
 		return jump_squat_state
 
 	if not braking:
-		var key_released: bool = tick >= min_dash_frames and not player.is_held(dash_key)
-		var timer_finished: bool = tick >= dash_frames
+		var key_released: bool = tick >= min_dash_ticks and not player.is_held(dash_key)
+		var timer_finished: bool = tick >= dash_ticks
 
 		if key_released or timer_finished:
 			braking = true

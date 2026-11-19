@@ -19,3 +19,8 @@ extends Resource
 @export var traction: float = 0.8
 @export var aerial: bool = false
 @export var crouch: bool = false
+
+@export_group("Cancel Info")
+@export var strength: int = 1
+@export var cancel_start: int = 0
+@export var cancel_end: int = 0
