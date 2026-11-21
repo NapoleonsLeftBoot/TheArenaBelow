@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://bdt1xhbt5ysw6"]
+
+[ext_resource type="Script" uid="uid://c2q8llx2r3xmm" path="res://scripts/shared/weapon_data.gd" id="1_r7qtg"]
+
+[resource]
+script = ExtResource("1_r7qtg")
+weapon_id = "spear"
+weapon_name = "Spear"
+weapon_type = 2
+attack_range = 65.0
+attack_cooldown = 0.6
+attack_arc = 50.0
+weapon_color = Color(0.4392157, 0.79607844, 0.57254905, 1)
+metadata/_custom_type_script = "uid://c2q8llx2r3xmm"

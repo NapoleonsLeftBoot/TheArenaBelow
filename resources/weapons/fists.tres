@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://bd2ebfytcchn7"]
+
+[ext_resource type="Script" uid="uid://c2q8llx2r3xmm" path="res://scripts/shared/weapon_data.gd" id="1_p6kry"]
+
+[resource]
+script = ExtResource("1_p6kry")
+weapon_id = "fists"
+weapon_name = "Fists"
+weapon_type = 3
+attack_range = 25.0
+attack_cooldown = 0.2
+attack_arc = 100.0
+weapon_color = Color(0.76862746, 0.60784316, 0.9098039, 1)
+metadata/_custom_type_script = "uid://c2q8llx2r3xmm"

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://fkeuyqroofmq"]
+
+[ext_resource type="Script" uid="uid://c2q8llx2r3xmm" path="res://scripts/shared/weapon_data.gd" id="1_0w5r0"]
+
+[resource]
+script = ExtResource("1_0w5r0")
+weapon_color = Color(0.81960785, 0.8352941, 0.85882354, 1)
+metadata/_custom_type_script = "uid://c2q8llx2r3xmm"
