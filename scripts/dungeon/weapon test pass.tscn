@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://42mfg6s3v5sm"]
+
+[ext_resource type="Script" uid="uid://b3cl5230jyqcm" path="res://scripts/dungeon/weapon_test_pass.gd" id="1_by4bl"]
+[ext_resource type="PackedScene" uid="uid://df0qipnift53o" path="res://scenes/arena/level.tscn" id="2_rjkav"]
+
+[node name="WeaponTestPass" type="Node2D" unique_id=2115254832]
+script = ExtResource("1_by4bl")
+fight_scene = ExtResource("2_rjkav")

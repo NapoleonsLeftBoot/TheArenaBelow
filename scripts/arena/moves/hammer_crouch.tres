@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://cf008n4ua3nlh"]
+
+[ext_resource type="Script" uid="uid://dhq073jonmyno" path="res://scripts/arena/moves/hitbox_data.gd" id="1_b34f5"]
+[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://scripts/arena/moves/move_data.gd" id="2_rdixs"]
+
+[sub_resource type="Resource" id="Resource_mhp46"]
+script = ExtResource("1_b34f5")
+start_tick = 8
+end_tick = 14
+size = Vector2(59.07, 55.82)
+offset = Vector2(165.08, -57.56)
+damage = 10
+knockback = Vector2(300, -500)
+hitstun_frames = 15
+hitfreeze_frames = 10
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_uny4i"]
+script = ExtResource("1_b34f5")
+start_tick = 8
+end_tick = 14
+size = Vector2(163.095, 16)
+offset = Vector2(89.32, -57.69)
+damage = 3
+hitstun_frames = 15
+hitfreeze_frames = 8
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[resource]
+script = ExtResource("2_rdixs")
+total_frames = 30
+hitboxes = Array[ExtResource("1_b34f5")]([SubResource("Resource_mhp46"), SubResource("Resource_uny4i")])
+crouch = true
+metadata/_custom_type_script = "uid://dumcnysw81a4l"

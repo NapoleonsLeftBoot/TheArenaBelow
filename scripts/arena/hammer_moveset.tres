@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="WeaponMoveset" format=3 uid="uid://cw6i8k5saoglr"]
+
+[ext_resource type="Script" uid="uid://dawgyf47aiixc" path="res://scripts/global/weapon_moveset.gd" id="1_gyxb8"]
+[ext_resource type="Resource" uid="uid://jkcjbucqh0g5" path="res://scripts/arena/moves/hammer_air.tres" id="1_iqa7y"]
+[ext_resource type="Resource" uid="uid://cf008n4ua3nlh" path="res://scripts/arena/moves/hammer_crouch.tres" id="2_h4872"]
+[ext_resource type="Resource" uid="uid://co867ny8a6llm" path="res://scripts/arena/moves/hammer_medium.tres" id="2_yvmbs"]
+
+[resource]
+script = ExtResource("1_gyxb8")
+standing_light = ExtResource("2_yvmbs")
+standing_medium = ExtResource("2_yvmbs")
+standing_heavy = ExtResource("2_yvmbs")
+crouch_light = ExtResource("2_h4872")
+crouch_medium = ExtResource("2_h4872")
+crouch_heavy = ExtResource("2_h4872")
+air_light = ExtResource("1_iqa7y")
+air_medium = ExtResource("1_iqa7y")
+air_heavy = ExtResource("1_iqa7y")
+metadata/_custom_type_script = "uid://dawgyf47aiixc"
