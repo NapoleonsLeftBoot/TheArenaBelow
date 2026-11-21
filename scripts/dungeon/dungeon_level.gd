@@ -1031,7 +1031,22 @@ func complete_dungeon() -> void:
 		RunData.rewards_collected
 	)
 
-	print("Ready to transition into the arena.")
+
+	# Start the arena after completing the final reward room.
+	# Deferred so we do not replace the current scene while
+	# processing the dungeon exit.
+	call_deferred("transition_to_arena")
+
+
+func transition_to_arena() -> void:
+	if encounter_state != EncounterState.COMPLETE:
+		return
+
+	if not RunData.has_weapon():
+		push_error("Cannot enter arena without a weapon.")
+		return
+
+	DungeonToArena.enter_arena(get_tree())
 
 # --------------------------------------------------
 # FIREBOLT PROJECTILES
