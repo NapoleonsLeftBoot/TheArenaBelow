@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://crnt7xqov4mre"]
+
+[ext_resource type="Script" uid="uid://tv4nk4w1v210" path="res://scripts/dungeon/weapon_pedestal.gd" id="1_1tu6r"]
+
+[node name="WeaponPedestal" type="Node2D" unique_id=1170736980]
+script = ExtResource("1_1tu6r")

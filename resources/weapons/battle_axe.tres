@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://d22o8b2mud04b"]
+
+[ext_resource type="Script" uid="uid://c2q8llx2r3xmm" path="res://scripts/shared/weapon_data.gd" id="1_3aq22"]
+
+[resource]
+script = ExtResource("1_3aq22")
+weapon_id = "battle_axe"
+weapon_name = "Battle Axe"
+weapon_type = 1
+damage = 2
+attack_range = 38.0
+attack_cooldown = 0.9
+attack_arc = 180.0
+weapon_color = Color(0.8980392, 0.6392157, 0.29411766, 1)
+metadata/_custom_type_script = "uid://c2q8llx2r3xmm"

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cslej3jdcqb4"]
+
+[ext_resource type="Script" uid="uid://qqxbx40ogfvp" path="res://scripts/dungeon/reward_pedestal.gd" id="1_wxmgv"]
+
+[node name="RewardPedestal" type="Node2D" unique_id=1472957251]
+script = ExtResource("1_wxmgv")

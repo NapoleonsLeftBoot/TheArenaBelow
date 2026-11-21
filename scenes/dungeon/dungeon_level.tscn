@@ -1,6 +1,87 @@
 [gd_scene format=3 uid="uid://tiitowyxj5x8"]
 
 [ext_resource type="Script" uid="uid://cd74ymqmhhagi" path="res://scripts/dungeon/dungeon_level.gd" id="1_urihy"]
+[ext_resource type="Script" uid="uid://df44jdnrqpv51" path="res://scripts/dungeon/dungeon_generator.gd" id="2_cjnbm"]
+[ext_resource type="PackedScene" uid="uid://btwnpybhqi71q" path="res://scenes/dungeon/DungeonPlayer.tscn" id="2_ur5pq"]
+[ext_resource type="Script" uid="uid://upg4jcu0cmvf" path="res://scripts/dungeon/dungeon_hud.gd" id="4_hoaul"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wblkt"]
 
 [node name="DungeonLevel" type="Node2D" unique_id=317267156]
 script = ExtResource("1_urihy")
+
+[node name="DungeonPlayer" parent="." unique_id=428537041 instance=ExtResource("2_ur5pq")]
+modulate = Color(0, 0, 1, 1)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="DungeonPlayer" unique_id=77546852]
+modulate = Color(0.007843138, 0.011764706, 1, 1)
+shape = SubResource("RectangleShape2D_wblkt")
+
+[node name="Camera2D" type="Camera2D" parent="DungeonPlayer" unique_id=610803447]
+zoom = Vector2(1.5, 1.5)
+
+[node name="DungeonGenerator" type="Node2D" parent="." unique_id=115314229]
+script = ExtResource("2_cjnbm")
+room_count = 10
+
+[node name="WallCollisions" type="Node2D" parent="DungeonGenerator" unique_id=427525737]
+
+[node name="Enemies" type="Node2D" parent="." unique_id=1690501280]
+
+[node name="WeaponPedestals" type="Node2D" parent="." unique_id=172572991]
+
+[node name="RewardPedestals" type="Node2D" parent="." unique_id=959426764]
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1075122694]
+script = ExtResource("4_hoaul")
+
+[node name="HealthBar" type="ProgressBar" parent="HUD" unique_id=1039127939]
+offset_left = 20.0
+offset_top = 45.0
+offset_right = 260.0
+offset_bottom = 72.0
+mouse_filter = 2
+value = 100.0
+
+[node name="HealthLabel" type="Label" parent="HUD" unique_id=1191306558]
+offset_left = 20.0
+offset_top = 15.0
+offset_right = 60.0
+offset_bottom = 38.0
+text = "Health: 100/100"
+
+[node name="StatusLabel" type="Label" parent="HUD" unique_id=759977595]
+offset_left = 20.0
+offset_top = 80.0
+offset_right = 60.0
+offset_bottom = 103.0
+
+[node name="WeaponLabel" type="Label" parent="HUD" unique_id=1301241298]
+offset_left = 20.0
+offset_top = 110.0
+offset_right = 60.0
+offset_bottom = 133.0
+theme_override_font_sizes/font_size = 18
+text = "Weapon: None"
+
+[node name="InteractionLabel" type="Label" parent="HUD" unique_id=1419586289]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -68.0
+offset_top = -23.0
+offset_right = 68.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Choose a weapon"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UpgradeLabel" type="Label" parent="HUD" unique_id=2045378342]
+offset_left = 20.0
+offset_top = 140.0
+offset_right = 164.0
+offset_bottom = 163.0
+text = "Damage Bonus: +0"

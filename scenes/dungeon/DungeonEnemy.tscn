@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://cj8dk8lcuvil6"]
+
+[ext_resource type="Script" uid="uid://chikbhk5a5nro" path="res://scripts/dungeon/dungeon_enemy.gd" id="1_nksxs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wblkt"]
+
+[node name="DungeonEnemy" type="CharacterBody2D" unique_id=1335508347]
+collision_layer = 2
+script = ExtResource("1_nksxs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1843954222]
+scale = Vector2(14, 14)
+shape = SubResource("RectangleShape2D_wblkt")
