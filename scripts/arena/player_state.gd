@@ -18,7 +18,7 @@ var block_traction: float = 0.7
 
 #Hit Attributes
 #var hitstun_friction: float = 2700
-var hitstun_traction: float = 0.97
+var hitstun_traction: float = 0.95
 var di_max_angle: float = 18.0 
 
 #Jump Attributes

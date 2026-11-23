@@ -24,4 +24,5 @@ crouch = true
 strength = 3
 cancel_start = 12
 cancel_end = 16
+jump_cancel = true
 metadata/_custom_type_script = "uid://dumcnysw81a4l"

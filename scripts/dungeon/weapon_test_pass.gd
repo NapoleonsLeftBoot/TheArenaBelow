@@ -1,7 +1,7 @@
 extends Node
 
 @export var fight_scene: PackedScene
-@export var selected_weapon: WeaponTypes.Type = WeaponTypes.Type.FISTS
+@export var selected_weapon: WeaponData.WeaponType
 
 func start_fight() -> void:
 	#inantiates fight scene

@@ -5,16 +5,20 @@
 
 [sub_resource type="Resource" id="Resource_5t6xs"]
 script = ExtResource("1_rk2nu")
-start_tick = 10
+start_tick = 13
 end_tick = 19
 size = Vector2(103.005, 186.555)
 offset = Vector2(40.48, 0)
-knockback = Vector2(400, 1000)
+hit_attribute = "High"
+knockback = Vector2(550.94, 1000)
 hitstun_frames = 42
+hitfreeze_frames = 8
 metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [resource]
 script = ExtResource("2_pihd3")
+animation = "fists_air_heavy"
+total_frames = 31
 hitboxes = Array[ExtResource("1_rk2nu")]([SubResource("Resource_5t6xs")])
 aerial = true
 strength = 3

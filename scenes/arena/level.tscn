@@ -5,7 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://cmnl76s1q35yh" path="res://scenes/arena/boss.tscn" id="2_8amx1"]
 [ext_resource type="Texture2D" uid="uid://minjwfumcyd3" path="res://art/arena/no health bar.png" id="3_h1fw1"]
 [ext_resource type="Texture2D" uid="uid://ctrssblisybig" path="res://art/arena/health.png" id="3_tfkaf"]
+[ext_resource type="Script" uid="uid://dfmbt3sam5dh8" path="res://scenes/arena/track.gd" id="4_h1fw1"]
 [ext_resource type="Texture2D" uid="uid://dvv57dse1g8cf" path="res://art/arena/prison_layer_floor.png" id="6_a5r5p"]
+[ext_resource type="Resource" uid="uid://cw6feqmbl7x4g" path="res://scripts/arena/sword_moveset.tres" id="7_2rf7r"]
 [ext_resource type="Texture2D" uid="uid://ddgwhgt8131mf" path="res://art/arena/prison_layer._background.png" id="7_tfkaf"]
 
 [sub_resource type="GDScript" id="GDScript_tfkaf"]
@@ -64,17 +66,39 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 72
 text = "YOU WIN"
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1214843172]
-offset = Vector2(960, 540)
-script = SubResource("GDScript_tfkaf")
+[node name="Combo Counter" type="RichTextLabel" parent="Hud" unique_id=77254701]
+offset_top = 151.88
+offset_right = 40.0
+offset_bottom = 191.88004
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1214843172 node_paths=PackedStringArray("player_1", "player_2")]
+limit_left = 0
+limit_top = 0
+limit_right = 1920
+limit_bottom = 1080
+position_smoothing_enabled = true
+script = ExtResource("4_h1fw1")
+player_1 = NodePath("../Player")
+player_2 = NodePath("../Boss")
+min_zoom = 1.0
+vertical_padding = 550.0
+zoom_speed = 20.0
 
 [node name="Boss" parent="." unique_id=1279432752 instance=ExtResource("2_8amx1")]
 z_index = 1
 position = Vector2(939, 766)
+sword_moveset = ExtResource("7_2rf7r")
 
 [node name="Player" parent="." unique_id=475324690 instance=ExtResource("2_0ik2u")]
 z_index = 1
 position = Vector2(200, 700)
+sword_moveset = ExtResource("7_2rf7r")
 
 [node name="Right Wall" type="StaticBody2D" parent="." unique_id=1121501326]
 position = Vector2(370.59, 15.3)

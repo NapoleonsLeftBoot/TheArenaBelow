@@ -24,3 +24,4 @@ extends Resource
 @export var strength: int = 1
 @export var cancel_start: int = 0
 @export var cancel_end: int = 0
+@export var jump_cancel: bool = false

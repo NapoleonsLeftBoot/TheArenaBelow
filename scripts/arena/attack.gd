@@ -119,6 +119,7 @@ func _hit_check(box: HitboxData, center: Vector2, facing: int) -> void:
 			has_hit = true
 			player.apply_hitfreeze(box.hitfreeze_frames)
 
+
 func _try_cancel() -> State:
 	if not hit_connected:
 		return null
@@ -127,7 +128,6 @@ func _try_cancel() -> State:
 		return null
 
 	var ms = player.current_moveset
-	
 
 	# AERIALS
 	if move_data.aerial:
@@ -145,27 +145,7 @@ func _try_cancel() -> State:
 
 	# CROUCHING ATTACKS
 	elif move_data.crouch:
-		if ms.crouch_heavy.strength > move_data.strength:
-			if player.buffer.consume_big(heavy_key):
-				return start_attack(crouch_heavy_state, ms.crouch_heavy)
-
-		if ms.crouch_medium.strength > move_data.strength:
-			if player.buffer.consume_big(medium_key):
-				return start_attack(crouch_medium_state, ms.crouch_medium)
-
-		if ms.crouch_light.strength > move_data.strength:
-			if player.buffer.consume_big(light_key):
-				return start_attack(crouch_light_state, ms.crouch_light)
-		
-		if player.is_held(jump_key):
-			return jump_squat_state
-
-	# STANDING ATTACKS
-	else:
-
-		# Check for crouching attacks
 		if player.is_held(down_key):
-
 			if ms.crouch_heavy.strength > move_data.strength:
 				if player.buffer.consume_big(heavy_key):
 					return start_attack(crouch_heavy_state, ms.crouch_heavy)
@@ -178,9 +158,8 @@ func _try_cancel() -> State:
 				if player.buffer.consume_big(light_key):
 					return start_attack(crouch_light_state, ms.crouch_light)
 
-		# Otherwise check standing attacks
 		else:
-
+			# Standing attacks when down is released
 			if ms.standing_heavy.strength > move_data.strength:
 				if player.buffer.consume_big(heavy_key):
 					return start_attack(heavy_state, ms.standing_heavy)
@@ -193,4 +172,35 @@ func _try_cancel() -> State:
 				if player.buffer.consume_big(light_key):
 					return start_attack(light_state, ms.standing_light)
 
+		if player.is_held(jump_key) and (move_data.jump_cancel == true):
+			return jump_squat_state
+
+	# STANDING ATTACKS
+	else:
+		if player.is_held(down_key):
+			if ms.crouch_heavy.strength > move_data.strength:
+				if player.buffer.consume_big(heavy_key):
+					return start_attack(crouch_heavy_state, ms.crouch_heavy)
+
+			if ms.crouch_medium.strength > move_data.strength:
+				if player.buffer.consume_big(medium_key):
+					return start_attack(crouch_medium_state, ms.crouch_medium)
+
+			if ms.crouch_light.strength > move_data.strength:
+				if player.buffer.consume_big(light_key):
+					return start_attack(crouch_light_state, ms.crouch_light)
+		else:
+			if ms.standing_heavy.strength > move_data.strength:
+				if player.buffer.consume_big(heavy_key):
+					return start_attack(heavy_state, ms.standing_heavy)
+
+			if ms.standing_medium.strength > move_data.strength:
+				if player.buffer.consume_big(medium_key):
+					return start_attack(medium_state, ms.standing_medium)
+
+			if ms.standing_light.strength > move_data.strength:
+				if player.buffer.consume_big(light_key):
+					return start_attack(light_state, ms.standing_light)
+	if player.is_held(jump_key) and (move_data.jump_cancel == true):
+			return jump_squat_state
 	return null

@@ -6,13 +6,27 @@ extends CanvasLayer
 @onready var player_bar: TextureProgressBar = $BetterPlayerBar
 @onready var boss_bar: TextureProgressBar = $BetterBossBar
 @onready var result_label: Label = $Result
+@onready var combo_counter: RichTextLabel = $"Combo Counter"
 
 @export var drain_time: float = 0.25
 
 var match_over: bool = false
 
-func _ready() -> void:
+func _on_combo_changed(new_value: int) -> void:
+	if new_value > 0:
+		combo_counter.text = "[center]" + str(new_value) + " HIT COMBO![/center]"
+		combo_counter.visible = true
 
+		combo_counter.scale = Vector2(1.3, 1.3)
+
+		var tween = create_tween()
+		tween.tween_property(combo_counter, "scale", Vector2.ONE, 0.15)\
+			.set_trans(Tween.TRANS_BACK)\
+			.set_ease(Tween.EASE_OUT)
+	else:
+		combo_counter.visible = false
+
+func _ready() -> void:
 	_setup_bar(player, player_bar)
 	_setup_bar(boss, boss_bar)
 
@@ -24,6 +38,11 @@ func _ready() -> void:
 
 	player.ko.connect(_on_ko.bind(player))
 	boss.ko.connect(_on_ko.bind(boss))
+
+	boss.combo_changed.connect(_on_combo_changed)
+
+	combo_counter.visible = false
+	combo_counter.pivot_offset = combo_counter.size / 2
 
 func _on_ko(fighter: Player) -> void:
 	if match_over:

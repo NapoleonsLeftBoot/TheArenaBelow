@@ -20,6 +20,7 @@ var ai_held: Dictionary = {}
 @export_group("Weapon Movesets")
 @export var fists_moveset: WeaponMoveset
 @export var hammer_moveset: WeaponMoveset
+@export var sword_moveset: WeaponMoveset
 
 var current_moveset: WeaponMoveset
 # shared runtime state
@@ -48,11 +49,19 @@ var slide_dir: float = 0.0
 var remaining_hitstun: int = 0
 var combo_reset_time: float = 2.0
 var combo_timer: float = 0.0
-var combo_counter: int = 0
 var has_bounced: bool = false
-var in_combo: bool = false
+var in_fake_combo: bool = false
+var hit_in_crouch: bool = false
+var true_combo_counter: int = 0
 
 var transition_anim: StringName = &""
+
+signal combo_changed(new_value: int)
+var combo_counter: int = 0:
+	set(value):
+		combo_counter = value
+		combo_changed.emit(combo_counter)
+
 
 
 func show_hitboxes(rects: Array[Rect2]) -> void:
@@ -64,7 +73,7 @@ func _ready():
 	#if no weapon type was passed from other scene
 	#then just default to fists
 	if current_moveset == null:
-		set_weapon(WeaponTypes.Type.FISTS)
+		set_weapon(WeaponData.WeaponType.SWORD)
 	state_machine.init()
 
 func _process(delta):
@@ -79,8 +88,9 @@ func _physics_process(delta):
 
 	if combo_timer <= 0.0:
 		combo_timer = 0.0
-		in_combo = false
+		in_fake_combo = false
 		has_bounced = false
+		combo_counter = 0
 		
 	if hitfreeze_ticks > 0:
 		_get_di()
@@ -118,25 +128,36 @@ func take_hit(move: HitboxData, facing: int) -> void:
 			blockstun_ticks = ceil(move.blockstun_frames)
 			return
 	
-	if not in_combo:
-		in_combo = true
+	if not in_fake_combo:
+		in_fake_combo = true
 		has_bounced = false
 		combo_counter = 0
-
+	
+	if remaining_hitstun > 0:
+		true_combo_counter += 1
+		#print("true combo counter: ", true_combo_counter)
+	else:
+		true_combo_counter = 0
+		
 	combo_timer = combo_reset_time
 	combo_counter += 1
-	print("combo counter: ", combo_counter)
 	
+	#print("combo counter: ", combo_counter)
+	
+	hit_in_crouch = false
 	health -= move.damage
 	health_changed.emit(maxi(health, 0), max_health)
 	if crouch and move.hit_attribute != "High":
+		hit_in_crouch = true
 		apply_hitfreeze(move.hitfreeze_frames)
 		velocity = Vector2(ceil(move.knockback.x * facing * CROUCH_MULT_x), ceil(move.knockback.y * CROUCH_MULT_y))
 		hitstun_ticks = ceil(move.hitstun_frames * CROUCH_MULT_STN) 
 	else:
 		apply_hitfreeze(move.hitfreeze_frames)
 		velocity = Vector2(move.knockback.x * facing, move.knockback.y)
-		hitstun_ticks = move.hitstun_frames
+		hitstun_ticks = ceil(move.hitstun_frames * pow(.9, true_combo_counter))
+		print("true combo counter: ", true_combo_counter + 1)
+		print("reduction: ", pow(.9, true_combo_counter))
 
 	if health <= 0:
 		is_ko = true
@@ -241,12 +262,15 @@ func can_block(move: HitboxData) -> bool:
 		else:
 			return false
 
-func set_weapon(weapon: WeaponTypes.Type) -> void:
+func set_weapon(weapon: WeaponData.WeaponType) -> void:
 	match weapon:
-		WeaponTypes.Type.FISTS:
+		WeaponData.WeaponType.FISTS:
 			current_moveset = fists_moveset
 
-		WeaponTypes.Type.HAMMER:
+		WeaponData.WeaponType.BATTLE_AXE:
 			current_moveset = hammer_moveset
+			
+		WeaponData.WeaponType.SWORD:
+			current_moveset = sword_moveset
 	print("Current weapon: ", weapon)
 	print("Current moveset: ", current_moveset)

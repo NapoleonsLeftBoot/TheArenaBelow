@@ -6,23 +6,25 @@
 [sub_resource type="Resource" id="Resource_mhp46"]
 script = ExtResource("1_uny4i")
 start_tick = 8
-end_tick = 14
-size = Vector2(59.07, 55.82)
-offset = Vector2(165.08, -57.56)
+end_tick = 11
+size = Vector2(59.07, 64.135)
+offset = Vector2(216.665, -223.13)
 damage = 10
-knockback = Vector2(300, -500)
-hitstun_frames = 15
-hitfreeze_frames = 10
+knockback = Vector2(799.65, -400.595)
+hitstun_frames = 20
+blockstun_frames = 14
+hitfreeze_frames = 12
 metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [sub_resource type="Resource" id="Resource_uny4i"]
 script = ExtResource("1_uny4i")
-start_tick = 8
-end_tick = 14
-size = Vector2(163.095, 16)
-offset = Vector2(89.32, -57.69)
+start_tick = 7
+end_tick = 10
+size = Vector2(242.815, 16)
+offset = Vector2(107.875, -224.745)
 damage = 3
-hitstun_frames = 15
+knockback = Vector2(150, -1000.23)
+hitstun_frames = 16
 hitfreeze_frames = 8
 metadata/_custom_type_script = "uid://dhq073jonmyno"
 
@@ -30,4 +32,8 @@ metadata/_custom_type_script = "uid://dhq073jonmyno"
 script = ExtResource("2_1foti")
 total_frames = 30
 hitboxes = Array[ExtResource("1_uny4i")]([SubResource("Resource_mhp46"), SubResource("Resource_uny4i")])
+strength = 2
+cancel_start = 8
+cancel_end = 10
+jump_cancel = true
 metadata/_custom_type_script = "uid://dumcnysw81a4l"

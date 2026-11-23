@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://ckki6nu6awsdq"]
+
+[ext_resource type="Script" uid="uid://dhq073jonmyno" path="res://scripts/arena/moves/hitbox_data.gd" id="1_acumg"]
+[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://scripts/arena/moves/move_data.gd" id="2_bcxgs"]
+
+[sub_resource type="Resource" id="Resource_xea6m"]
+script = ExtResource("1_acumg")
+start_tick = 6
+end_tick = 9
+size = Vector2(108.93, 158.28)
+offset = Vector2(61.29, -254.62)
+damage = 6
+knockback = Vector2(637.645, -464.425)
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[resource]
+script = ExtResource("2_bcxgs")
+total_frames = 14
+hitboxes = Array[ExtResource("1_acumg")]([SubResource("Resource_xea6m")])
+cancel_start = 6
+cancel_end = 9
+metadata/_custom_type_script = "uid://dumcnysw81a4l"

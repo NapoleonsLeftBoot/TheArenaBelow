@@ -7,12 +7,14 @@
 script = ExtResource("1_28gja")
 start_tick = 7
 end_tick = 10
-size = Vector2(98.765, 45.585)
-offset = Vector2(64.265, -19.79)
+size = Vector2(194.24, 56.87)
+offset = Vector2(92.13, 2.46)
 hit_attribute = "Low"
-knockback = Vector2(600, -300)
-hitstun_frames = 18
-hitfreeze_frames = 10
+damage = 7
+knockback = Vector2(884.754, -59.47)
+hitstun_frames = 16
+blockstun_frames = 10
+hitfreeze_frames = 9
 metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [resource]

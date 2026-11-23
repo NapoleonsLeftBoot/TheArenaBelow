@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://batp4dxjenpwp"]
+
+[ext_resource type="Script" uid="uid://dhq073jonmyno" path="res://scripts/arena/moves/hitbox_data.gd" id="1_morpi"]
+[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://scripts/arena/moves/move_data.gd" id="2_xo70d"]
+
+[sub_resource type="Resource" id="Resource_8amx1"]
+script = ExtResource("1_morpi")
+start_tick = 5
+end_tick = 8
+size = Vector2(206.535, 80.085)
+offset = Vector2(73.16, -216.015)
+knockback = Vector2(722.33, -281.41)
+hitstun_frames = 11
+blockstun_frames = 11
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[resource]
+script = ExtResource("2_xo70d")
+animation = "fists_light"
+total_frames = 15
+hitboxes = Array[ExtResource("1_morpi")]([SubResource("Resource_8amx1")])
+traction = 0.9
+cancel_start = 5
+cancel_end = 8
+metadata/_custom_type_script = "uid://dumcnysw81a4l"

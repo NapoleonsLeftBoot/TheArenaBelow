@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://dphwmw00ok8rm"]
+
+[ext_resource type="Script" uid="uid://dhq073jonmyno" path="res://scripts/arena/moves/hitbox_data.gd" id="1_y8lim"]
+[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://scripts/arena/moves/move_data.gd" id="2_3eji2"]
+
+[sub_resource type="Resource" id="Resource_vgiv5"]
+script = ExtResource("1_y8lim")
+start_tick = 14
+end_tick = 15
+size = Vector2(232.425, 204.045)
+offset = Vector2(94.345, -70.96)
+hit_attribute = "Low"
+damage = 0
+knockback = Vector2(0, 0)
+hitfreeze_frames = 10
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_y8lim"]
+script = ExtResource("1_y8lim")
+start_tick = 15
+end_tick = 18
+hit_group = 1
+size = Vector2(232.425, 204.045)
+offset = Vector2(94.345, -70.96)
+hit_attribute = "Low"
+damage = 13
+knockback = Vector2(-638.495, -1754.565)
+hitstun_frames = 23
+blockstun_frames = 16
+hitfreeze_frames = 18
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[resource]
+script = ExtResource("2_3eji2")
+total_frames = 42
+hitboxes = Array[ExtResource("1_y8lim")]([SubResource("Resource_vgiv5"), SubResource("Resource_y8lim")])
+crouch = true
+strength = 3
+cancel_start = 16
+cancel_end = 18
+jump_cancel = true
+metadata/_custom_type_script = "uid://dumcnysw81a4l"

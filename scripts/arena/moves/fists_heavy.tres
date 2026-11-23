@@ -7,8 +7,8 @@
 script = ExtResource("1_gu347")
 start_tick = 11
 end_tick = 16
-size = Vector2(315.25, 108.61)
-offset = Vector2(124.52, -231.595)
+size = Vector2(215.185, 103.865)
+offset = Vector2(56.565, -231.595)
 hit_attribute = "High"
 damage = 13
 knockback = Vector2(1002.615, -1000)
@@ -19,6 +19,7 @@ metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [resource]
 script = ExtResource("2_pn30r")
+animation = "fists_heavy"
 total_frames = 36
 hitboxes = Array[ExtResource("1_gu347")]([SubResource("Resource_xewga")])
 strength = 3

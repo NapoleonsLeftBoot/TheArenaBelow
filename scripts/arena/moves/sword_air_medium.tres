@@ -1,0 +1,86 @@
+[gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://bdvusouu4p5sm"]
+
+[ext_resource type="Script" uid="uid://dhq073jonmyno" path="res://scripts/arena/moves/hitbox_data.gd" id="1_tc2v1"]
+[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://scripts/arena/moves/move_data.gd" id="2_1skeo"]
+
+[sub_resource type="Resource" id="Resource_tc2v1"]
+script = ExtResource("1_tc2v1")
+start_tick = 16
+end_tick = 17
+size = Vector2(232, 60.79)
+offset = Vector2(92.835, -245.325)
+hit_attribute = "High"
+damage = 7
+knockback = Vector2(-500, -1400)
+hitstun_frames = 21
+blockstun_frames = 17
+hitfreeze_frames = 12
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_1skeo"]
+script = ExtResource("1_tc2v1")
+start_tick = 17
+end_tick = 18
+size = Vector2(194.815, 68.625)
+offset = Vector2(74.225, -301.77)
+hit_attribute = "High"
+damage = 7
+knockback = Vector2(-500, -1400)
+hitstun_frames = 21
+blockstun_frames = 17
+hitfreeze_frames = 12
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_6xkqu"]
+script = ExtResource("1_tc2v1")
+start_tick = 18
+end_tick = 19
+size = Vector2(134.29, 68.625)
+offset = Vector2(42.575, -363.77)
+hit_attribute = "High"
+damage = 7
+knockback = Vector2(-500, -1400)
+hitstun_frames = 21
+blockstun_frames = 17
+hitfreeze_frames = 12
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_jwwsy"]
+script = ExtResource("1_tc2v1")
+start_tick = 19
+end_tick = 20
+size = Vector2(134.29, 64.605)
+offset = Vector2(-47.285, -303.245)
+hit_attribute = "High"
+damage = 7
+knockback = Vector2(-500, -1400)
+hitstun_frames = 21
+blockstun_frames = 17
+hitfreeze_frames = 12
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_3wwsv"]
+script = ExtResource("1_tc2v1")
+start_tick = 20
+end_tick = 21
+size = Vector2(178.32, 63.56)
+offset = Vector2(-88.205, -246.965)
+hit_attribute = "High"
+damage = 7
+knockback = Vector2(-500, -1400)
+hitstun_frames = 21
+blockstun_frames = 17
+hitfreeze_frames = 12
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[resource]
+script = ExtResource("2_1skeo")
+animation = "fists_air_light"
+total_frames = 38
+hitboxes = Array[ExtResource("1_tc2v1")]([SubResource("Resource_tc2v1"), SubResource("Resource_1skeo"), SubResource("Resource_6xkqu"), SubResource("Resource_jwwsy"), SubResource("Resource_3wwsv")])
+traction = 0.7
+aerial = true
+strength = 2
+cancel_start = 17
+cancel_end = 20
+metadata/_custom_type_script = "uid://dumcnysw81a4l"

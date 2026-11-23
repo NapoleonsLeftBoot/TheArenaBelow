@@ -5,21 +5,54 @@
 
 [sub_resource type="Resource" id="Resource_pn30r"]
 script = ExtResource("1_aglvd")
-start_tick = 12
-end_tick = 20
-size = Vector2(120, 80)
-offset = Vector2(60.325, -20.67)
+start_tick = 13
+end_tick = 14
+size = Vector2(73.385, 220.35)
+offset = Vector2(26.565, -63.365)
 hit_attribute = "High"
 damage = 4
-knockback = Vector2(400, -600)
-hitstun_frames = 14
+knockback = Vector2(1067.555, -430.645)
+hitstun_frames = 16
+blockstun_frames = 14
+hitfreeze_frames = 8
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_aglvd"]
+script = ExtResource("1_aglvd")
+start_tick = 14
+end_tick = 15
+size = Vector2(102.715, 141.655)
+offset = Vector2(90.335, -106.21)
+hit_attribute = "High"
+damage = 4
+knockback = Vector2(1067.555, -430.645)
+hitstun_frames = 16
+blockstun_frames = 14
+hitfreeze_frames = 8
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_t4vat"]
+script = ExtResource("1_aglvd")
+start_tick = 15
+end_tick = 20
+size = Vector2(221.08, 64.465)
+offset = Vector2(91.72, -156.63)
+hit_attribute = "High"
+damage = 4
+knockback = Vector2(1067.555, -430.645)
+hitstun_frames = 16
+blockstun_frames = 14
+hitfreeze_frames = 8
 metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [resource]
 script = ExtResource("2_t4vat")
-animation = "fists_medium"
-total_frames = 30
-hitboxes = Array[ExtResource("1_aglvd")]([SubResource("Resource_pn30r")])
+animation = "fists_air_medium"
+total_frames = 40
+hitboxes = Array[ExtResource("1_aglvd")]([SubResource("Resource_pn30r"), SubResource("Resource_aglvd"), SubResource("Resource_t4vat")])
 traction = 0.7
 aerial = true
+strength = 2
+cancel_start = 18
+cancel_end = 20
 metadata/_custom_type_script = "uid://dumcnysw81a4l"

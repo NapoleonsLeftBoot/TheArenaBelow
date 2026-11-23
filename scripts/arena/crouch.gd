@@ -4,7 +4,7 @@ extends PlayerState
 
 
 func enter() -> void:
-	if not player.crouch:
+	if not (player.crouch or player.hit_in_crouch):
 		player.animation.play(crouch_anim)
 	player.crouch = true;
 	

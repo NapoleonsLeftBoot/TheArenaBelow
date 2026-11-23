@@ -1,0 +1,97 @@
+[gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://d0mds0dvikqqa"]
+
+[ext_resource type="Script" uid="uid://dhq073jonmyno" path="res://scripts/arena/moves/hitbox_data.gd" id="1_2hr6k"]
+[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://scripts/arena/moves/move_data.gd" id="2_wy7x0"]
+
+[sub_resource type="Resource" id="Resource_mjbq0"]
+script = ExtResource("1_2hr6k")
+start_tick = 13
+end_tick = 16
+size = Vector2(65.475, 250.79)
+offset = Vector2(22.54, -296.255)
+hit_attribute = "High"
+damage = 13
+knockback = Vector2(1200, -900)
+hitstun_frames = 34
+blockstun_frames = 22
+hitfreeze_frames = 17
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_evnfq"]
+script = ExtResource("1_2hr6k")
+start_tick = 14
+end_tick = 17
+size = Vector2(51.16, 230.485)
+offset = Vector2(79.895, -285.545)
+hit_attribute = "High"
+damage = 14
+knockback = Vector2(1200, -900)
+hitstun_frames = 34
+blockstun_frames = 22
+hitfreeze_frames = 17
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_02ogm"]
+script = ExtResource("1_2hr6k")
+start_tick = 15
+end_tick = 18
+size = Vector2(51.34, 195.025)
+offset = Vector2(130.01, -268.405)
+hit_attribute = "High"
+damage = 14
+knockback = Vector2(1200, -900)
+hitstun_frames = 34
+blockstun_frames = 22
+hitfreeze_frames = 17
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_2hr6k"]
+script = ExtResource("1_2hr6k")
+start_tick = 16
+end_tick = 19
+size = Vector2(56.135, 144.675)
+offset = Vector2(179.71, -243.475)
+hit_attribute = "High"
+damage = 15
+knockback = Vector2(1200, -900)
+hitstun_frames = 34
+blockstun_frames = 22
+hitfreeze_frames = 17
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_wy7x0"]
+script = ExtResource("1_2hr6k")
+start_tick = 17
+end_tick = 20
+size = Vector2(91.885, 69.18)
+offset = Vector2(201.445, -205.12)
+hit_attribute = "High"
+damage = 16
+knockback = Vector2(1200, -900)
+hitstun_frames = 34
+blockstun_frames = 22
+hitfreeze_frames = 17
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_uj3dq"]
+script = ExtResource("1_2hr6k")
+start_tick = 18
+end_tick = 23
+size = Vector2(245.795, 113.525)
+offset = Vector2(139.63, -148.775)
+hit_attribute = "High"
+damage = 17
+knockback = Vector2(711.195, 1181.38)
+hitstun_frames = 34
+blockstun_frames = 24
+hitfreeze_frames = 17
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[resource]
+script = ExtResource("2_wy7x0")
+total_frames = 45
+hitboxes = Array[ExtResource("1_2hr6k")]([SubResource("Resource_mjbq0"), SubResource("Resource_evnfq"), SubResource("Resource_02ogm"), SubResource("Resource_2hr6k"), SubResource("Resource_wy7x0"), SubResource("Resource_uj3dq")])
+strength = 3
+cancel_start = 16
+cancel_end = 18
+metadata/_custom_type_script = "uid://dumcnysw81a4l"

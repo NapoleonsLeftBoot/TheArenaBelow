@@ -9,9 +9,10 @@ func enter() -> void:
 	impact_vel = 0.0
 	player.fast_falling = false
 	player.buffer.clear()
-
-	if player.animation.has_animation(crouch_anim):
-		player.animation.play(crouch_anim)
+	
+	if player.hit_in_crouch == false:
+		if player.animation.has_animation(crouch_anim):
+			player.animation.play(crouch_anim)
 
 
 func process_physics(delta: float) -> State:

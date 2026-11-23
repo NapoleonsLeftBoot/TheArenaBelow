@@ -1,0 +1,55 @@
+[gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://di6d6bxy4dgdt"]
+
+[ext_resource type="Script" uid="uid://dhq073jonmyno" path="res://scripts/arena/moves/hitbox_data.gd" id="1_dgcai"]
+[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://scripts/arena/moves/move_data.gd" id="2_j7fu8"]
+
+[sub_resource type="Resource" id="Resource_8amx1"]
+script = ExtResource("1_dgcai")
+start_tick = 7
+end_tick = 8
+size = Vector2(49.47, 137.52)
+offset = Vector2(37.895, -156.59)
+damage = 8
+knockback = Vector2(500, -1500)
+hitstun_frames = 17
+blockstun_frames = 14
+hitfreeze_frames = 8
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_dgcai"]
+script = ExtResource("1_dgcai")
+start_tick = 8
+end_tick = 9
+size = Vector2(100.14, 121.35)
+offset = Vector2(101.49, -174.62)
+damage = 8
+knockback = Vector2(500, -1500)
+hitstun_frames = 17
+blockstun_frames = 14
+hitfreeze_frames = 8
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_j7fu8"]
+script = ExtResource("1_dgcai")
+start_tick = 9
+end_tick = 10
+size = Vector2(67.22, 100.955)
+offset = Vector2(152.06, -208.52)
+damage = 8
+knockback = Vector2(500, -1500)
+hitstun_frames = 16
+blockstun_frames = 13
+hitfreeze_frames = 8
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[resource]
+script = ExtResource("2_j7fu8")
+animation = "fists_light"
+total_frames = 28
+hitboxes = Array[ExtResource("1_dgcai")]([SubResource("Resource_8amx1"), SubResource("Resource_dgcai"), SubResource("Resource_j7fu8")])
+traction = 0.9
+strength = 2
+cancel_start = 9
+cancel_end = 10
+jump_cancel = true
+metadata/_custom_type_script = "uid://dumcnysw81a4l"

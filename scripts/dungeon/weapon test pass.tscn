@@ -6,3 +6,4 @@
 [node name="WeaponTestPass" type="Node2D" unique_id=2115254832]
 script = ExtResource("1_by4bl")
 fight_scene = ExtResource("2_rjkav")
+selected_weapon = 1

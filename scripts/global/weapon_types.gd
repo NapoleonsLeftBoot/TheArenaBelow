@@ -2,8 +2,8 @@ extends Node
 
 enum Type {
 	FISTS,
-	HAMMER
+	HAMMER,
 	#TBD
-	#SWORD,
+	SWORD
 	#SPEAR
 }

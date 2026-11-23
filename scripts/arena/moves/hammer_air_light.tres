@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://dwrwwlnd8w34f"]
+
+[ext_resource type="Script" uid="uid://dhq073jonmyno" path="res://scripts/arena/moves/hitbox_data.gd" id="1_r4ayn"]
+[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://scripts/arena/moves/move_data.gd" id="2_8gb33"]
+
+[sub_resource type="Resource" id="Resource_pn30r"]
+script = ExtResource("1_r4ayn")
+start_tick = 9
+end_tick = 12
+size = Vector2(127.05, 119.5)
+offset = Vector2(-27.755, -273.39)
+hit_attribute = "High"
+damage = 4
+knockback = Vector2(537.89, -817.83)
+hitstun_frames = 10
+blockstun_frames = 10
+hitfreeze_frames = 4
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_r4ayn"]
+script = ExtResource("1_r4ayn")
+start_tick = 9
+end_tick = 14
+size = Vector2(145.035, 126.065)
+offset = Vector2(94.555, -166.13)
+hit_attribute = "High"
+damage = 8
+knockback = Vector2(1023.745, -391.425)
+hitstun_frames = 14
+hitfreeze_frames = 10
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[resource]
+script = ExtResource("2_8gb33")
+animation = "fists_air_light"
+total_frames = 30
+hitboxes = Array[ExtResource("1_r4ayn")]([SubResource("Resource_pn30r"), SubResource("Resource_r4ayn")])
+traction = 0.7
+aerial = true
+cancel_start = 10
+cancel_end = 13
+metadata/_custom_type_script = "uid://dumcnysw81a4l"

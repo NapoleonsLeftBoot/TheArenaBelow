@@ -1,19 +1,25 @@
 [gd_resource type="Resource" script_class="WeaponMoveset" format=3 uid="uid://cw6i8k5saoglr"]
 
 [ext_resource type="Script" uid="uid://dawgyf47aiixc" path="res://scripts/global/weapon_moveset.gd" id="1_gyxb8"]
-[ext_resource type="Resource" uid="uid://jkcjbucqh0g5" path="res://scripts/arena/moves/hammer_air.tres" id="1_iqa7y"]
-[ext_resource type="Resource" uid="uid://cf008n4ua3nlh" path="res://scripts/arena/moves/hammer_crouch.tres" id="2_h4872"]
+[ext_resource type="Resource" uid="uid://ck6p2ei8cvj2g" path="res://scripts/arena/moves/hammer_air_heavy.tres" id="1_seq25"]
+[ext_resource type="Resource" uid="uid://dphwmw00ok8rm" path="res://scripts/arena/moves/hammer_crouch_heavy.tres" id="2_0gefi"]
+[ext_resource type="Resource" uid="uid://dwrwwlnd8w34f" path="res://scripts/arena/moves/hammer_air_light.tres" id="2_sgk5q"]
 [ext_resource type="Resource" uid="uid://co867ny8a6llm" path="res://scripts/arena/moves/hammer_medium.tres" id="2_yvmbs"]
+[ext_resource type="Resource" uid="uid://dyjihwbxt3xlh" path="res://scripts/arena/moves/hammer_crouch_light.tres" id="3_oya4j"]
+[ext_resource type="Resource" uid="uid://kd20diucipts" path="res://scripts/arena/moves/hammer_air_medium.tres" id="3_seq25"]
+[ext_resource type="Resource" uid="uid://dukk4gq18570c" path="res://scripts/arena/moves/hammer_crouch_medium.tres" id="4_0gefi"]
+[ext_resource type="Resource" uid="uid://d0mds0dvikqqa" path="res://scripts/arena/moves/hammer_heavy.tres" id="4_u4ukt"]
+[ext_resource type="Resource" uid="uid://ckki6nu6awsdq" path="res://scripts/arena/moves/hammer_light.tres" id="5_iutf0"]
 
 [resource]
 script = ExtResource("1_gyxb8")
-standing_light = ExtResource("2_yvmbs")
+standing_light = ExtResource("5_iutf0")
 standing_medium = ExtResource("2_yvmbs")
-standing_heavy = ExtResource("2_yvmbs")
-crouch_light = ExtResource("2_h4872")
-crouch_medium = ExtResource("2_h4872")
-crouch_heavy = ExtResource("2_h4872")
-air_light = ExtResource("1_iqa7y")
-air_medium = ExtResource("1_iqa7y")
-air_heavy = ExtResource("1_iqa7y")
+standing_heavy = ExtResource("4_u4ukt")
+crouch_light = ExtResource("3_oya4j")
+crouch_medium = ExtResource("4_0gefi")
+crouch_heavy = ExtResource("2_0gefi")
+air_light = ExtResource("2_sgk5q")
+air_medium = ExtResource("3_seq25")
+air_heavy = ExtResource("1_seq25")
 metadata/_custom_type_script = "uid://dawgyf47aiixc"
