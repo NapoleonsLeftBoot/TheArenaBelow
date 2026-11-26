@@ -6,12 +6,12 @@ var land_timer: int = 0
 func enter() -> void:
 	super()
 	land_timer = 0
-	player.animation.play(land_anim)
+	player.animation.play(player.current_moveset.land.animation)
 
 func exit(new_state: State = null) -> void:
 	super(new_state)
 	if new_state is PlayerIdleState:
-		player.transition_anim = land_to_idle_anim
+		player.transition_anim = player.current_moveset.land_to_idle.animation
 
 func process_physics(delta: float) -> State:
 	player.velocity.x *= land_traction

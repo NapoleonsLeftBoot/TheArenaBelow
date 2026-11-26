@@ -3,8 +3,7 @@ extends PlayerState
 
 func enter()-> void:
 	super()
-	player.animation.play(walk_anim)
-	#face_move_dir()
+	player.animation.play(player.current_moveset.walk.animation)
 	
 func exit(new_state: State = null)-> void:
 	super(new_state)

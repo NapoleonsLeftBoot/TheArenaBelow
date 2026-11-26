@@ -3,11 +3,11 @@ extends PlayerState
 
 func enter() -> void:
 	if player.transition_anim != &"":
-		player.animation.play(player.transition_anim)
-		player.animation.queue(idle_anim)
+		player.animation.play(player.current_moveset[player.transition_anim].animation)
+		player.animation.queue(player.current_moveset.idle.animation)
 		player.transition_anim = &""
 	else:
-		player.animation.play(idle_anim)
+		player.animation.play(player.current_moveset.idle.animation)
 	
 func exit(new_state: State = null) -> void:
 		super(new_state)

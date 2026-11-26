@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="HitboxData" format=3 uid="uid://4yvp7lxxixki"]
+
+[ext_resource type="Script" uid="uid://dhq073jonmyno" path="res://scripts/arena/moves/hitbox_data.gd" id="1_0ipse"]
+
+[resource]
+script = ExtResource("1_0ipse")
+size = Vector2(100, 80)
+hitstun_frames = 10
+blockstun_frames = 6
+hitfreeze_frames = 4
+metadata/_custom_type_script = "uid://dhq073jonmyno"

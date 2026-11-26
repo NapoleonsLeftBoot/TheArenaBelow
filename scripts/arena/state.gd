@@ -1,6 +1,6 @@
 class_name State
 extends Node2D
-
+var move_data: MoveData
 
 # Called when the node enters the scene tree for the first time.
 func enter() -> void:

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://d3p8f2uogdjti"]
+
+[ext_resource type="Script" uid="uid://dhq073jonmyno" path="res://scripts/arena/moves/hitbox_data.gd" id="1_7fc0k"]
+[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://scripts/arena/moves/move_data.gd" id="2_lrwf2"]
+
+[sub_resource type="Resource" id="Resource_8amx1"]
+script = ExtResource("1_7fc0k")
+start_tick = 5
+end_tick = 8
+size = Vector2(246.45, 54.835)
+offset = Vector2(95.74, -216.015)
+knockback = Vector2(763.245, -409.12)
+hitstun_frames = 14
+blockstun_frames = 14
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[resource]
+script = ExtResource("2_lrwf2")
+animation = "fists_light"
+total_frames = 20
+hitboxes = Array[ExtResource("1_7fc0k")]([SubResource("Resource_8amx1")])
+traction = 0.9
+cancel_start = 6
+cancel_end = 8
+metadata/_custom_type_script = "uid://dumcnysw81a4l"

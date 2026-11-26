@@ -35,6 +35,7 @@ metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [resource]
 script = ExtResource("2_eural")
+animation = "fists_crouch_light"
 total_frames = 13
 hitboxes = Array[ExtResource("1_hygpw")]([SubResource("Resource_tfkaf"), SubResource("Resource_hygpw"), SubResource("Resource_eural")])
 traction = 0.6

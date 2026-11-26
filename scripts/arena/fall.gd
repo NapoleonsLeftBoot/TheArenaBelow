@@ -3,7 +3,7 @@ extends PlayerState
 
 func enter() -> void:
 	super()
-	player.animation.play(fall_anim)
+	player.animation.play(player.current_moveset.fall.animation)
 
 func process_physics(delta: float) -> State:
 	do_air_move(delta)

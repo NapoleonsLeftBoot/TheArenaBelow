@@ -5,10 +5,10 @@
 
 [sub_resource type="Resource" id="Resource_yoms7"]
 script = ExtResource("1_lfs3m")
-start_tick = 9
-end_tick = 14
-size = Vector2(65.85, 178.81)
-offset = Vector2(35.255, -85.945)
+start_tick = 11
+end_tick = 16
+size = Vector2(111.335, 350.42)
+offset = Vector2(71.72, -145.165)
 knockback = Vector2(100, -1800)
 hitstun_frames = 155
 blockstun_frames = 16

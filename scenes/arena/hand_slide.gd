@@ -23,10 +23,13 @@ func enter() -> void:
 				dash_dir = 1.0
 		
 	var relation: int = dash_relation()
-	if relation == -1:
-		player.animation.play(back_dash_anim)
-	else:
-		player.animation.play(dash_anim)
+	
+	if relation == 1:
+		player.animation.play(player.current_moveset.land_dash.animation)
+		player.current_moveset
+	elif relation == -1:
+		player.animation.play(player.current_moveset.back_dash.animation)
+		
 	player.velocity.x = dash_dir * dash_speed
 
 func process_physics(delta: float) -> State:

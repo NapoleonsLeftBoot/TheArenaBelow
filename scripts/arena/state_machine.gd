@@ -7,7 +7,9 @@ var current_state: State
 @export var hitstun_state: State
 @export var ko_state: State
 
-func init() -> void: change_state(starting_state)
+func init(current_moveset: WeaponMoveset) -> void:
+	starting_state.move_data = current_moveset.idle
+	change_state(starting_state)
 
 func process_frame(delta: float) -> void:
 	var new_state: State = current_state.process_frame(delta)

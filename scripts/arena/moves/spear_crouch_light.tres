@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://dj3l7lirlhxf"]
+
+[ext_resource type="Script" uid="uid://dhq073jonmyno" path="res://scripts/arena/moves/hitbox_data.gd" id="1_bujw6"]
+[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://scripts/arena/moves/move_data.gd" id="2_7132m"]
+
+[sub_resource type="Resource" id="Resource_vgiv5"]
+script = ExtResource("1_bujw6")
+start_tick = 5
+end_tick = 8
+size = Vector2(220.54, 49.905)
+offset = Vector2(101.87, -94.12)
+hit_attribute = "Low"
+damage = 6
+knockback = Vector2(860.835, -170.49)
+hitstun_frames = 15
+blockstun_frames = 13
+hitfreeze_frames = 5
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[resource]
+script = ExtResource("2_7132m")
+total_frames = 18
+hitboxes = Array[ExtResource("1_bujw6")]([SubResource("Resource_vgiv5")])
+crouch = true
+cancel_start = 5
+cancel_end = 12
+metadata/_custom_type_script = "uid://dumcnysw81a4l"

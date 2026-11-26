@@ -7,8 +7,8 @@
 script = ExtResource("1_gu347")
 start_tick = 11
 end_tick = 16
-size = Vector2(215.185, 103.865)
-offset = Vector2(56.565, -231.595)
+size = Vector2(191.005, 103.865)
+offset = Vector2(76.78, -170.535)
 hit_attribute = "High"
 damage = 13
 knockback = Vector2(1002.615, -1000)

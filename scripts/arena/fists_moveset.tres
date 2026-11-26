@@ -6,10 +6,32 @@
 [ext_resource type="Resource" uid="uid://djebab413jafs" path="res://scripts/arena/moves/fists_air_medium.tres" id="1_lgj2g"]
 [ext_resource type="Resource" uid="uid://dmk6ecdc8tdbv" path="res://scripts/arena/moves/fists_crouch_heavy.tres" id="2_lgj2g"]
 [ext_resource type="Resource" uid="uid://b1iwqalisus7f" path="res://scripts/arena/moves/fists_crouch_light.tres" id="3_btvy5"]
+[ext_resource type="Resource" uid="uid://fn1rouwmss1f" path="res://scripts/arena/movement/fists/fists_away_walljump_squat.tres" id="4_bf428"]
 [ext_resource type="Resource" uid="uid://cror4hw1jrpld" path="res://scripts/arena/moves/fists_crouch_medium.tres" id="4_opexc"]
+[ext_resource type="Resource" uid="uid://bynqj5ug74yko" path="res://scripts/arena/movement/fists/fists_away_walljump_to_fall.tres" id="5_iyght"]
 [ext_resource type="Resource" uid="uid://c7putdjqbu1c0" path="res://scripts/arena/moves/fists_heavy.tres" id="6_aprqc"]
+[ext_resource type="Resource" uid="uid://b0rom6fwyfgfp" path="res://scripts/arena/movement/fists/fists_back_dash.tres" id="6_lg0qu"]
 [ext_resource type="Resource" uid="uid://blf2lohdvq68x" path="res://scripts/arena/moves/fists_light.tres" id="7_082ra"]
+[ext_resource type="Resource" uid="uid://dcx4p53ykw5wh" path="res://scripts/arena/movement/fists/fists_block.tres" id="7_h3xwe"]
+[ext_resource type="Resource" uid="uid://4gefcoxova7" path="res://scripts/arena/movement/fists/fists_idle.tres" id="7_opexc"]
+[ext_resource type="Resource" uid="uid://cnjd58b4t21cg" path="res://scripts/arena/movement/fists/fists_crouch.tres" id="8_7mukp"]
 [ext_resource type="Resource" uid="uid://cq73ia8nphx48" path="res://scripts/arena/moves/fists_medium.tres" id="8_x7ra2"]
+[ext_resource type="Resource" uid="uid://ieakxvhmb57h" path="res://scripts/arena/movement/fists/fists_crouch_block.tres" id="9_n333y"]
+[ext_resource type="Resource" uid="uid://c2o2ge1ncqm8" path="res://scripts/arena/movement/fists/fists_crouch_unblock.tres" id="13_380pc"]
+[ext_resource type="Resource" uid="uid://c83i0rl428u21" path="res://scripts/arena/movement/fists/fists_dash.tres" id="14_1pc3f"]
+[ext_resource type="Resource" uid="uid://daghm1e5vk6mt" path="res://scripts/arena/movement/fists/fists_fall.tres" id="15_o5os3"]
+[ext_resource type="Resource" uid="uid://gk60rvbxu5at" path="res://scripts/arena/movement/fists/fists_hitstun.tres" id="16_a68gt"]
+[ext_resource type="Resource" uid="uid://b6xgia5yu6dt1" path="res://scripts/arena/movement/fists/fists_jump.tres" id="18_kn6uv"]
+[ext_resource type="Resource" uid="uid://bl3a10y073ps7" path="res://scripts/arena/movement/fists/fists_jump_squat.tres" id="19_cd6bs"]
+[ext_resource type="Resource" uid="uid://lsf1wb7sp542" path="res://scripts/arena/movement/fists/fists_ko.tres" id="20_qt12b"]
+[ext_resource type="Resource" uid="uid://b8cnwnpng26sw" path="res://scripts/arena/movement/fists/fists_land.tres" id="21_p5361"]
+[ext_resource type="Resource" uid="uid://b2lu3xf2hbq7r" path="res://scripts/arena/movement/fists/fists_land_dash.tres" id="22_tto3v"]
+[ext_resource type="Resource" uid="uid://ddpgjxlolal4b" path="res://scripts/arena/movement/fists/fists_land_to_idle.tres" id="23_fysvx"]
+[ext_resource type="Resource" uid="uid://t0jgkik083sr" path="res://scripts/arena/movement/fists/fists_uncrouch.tres" id="28_5dmmu"]
+[ext_resource type="Resource" uid="uid://brxqraunkk04l" path="res://scripts/arena/movement/fists/fists_walk.tres" id="29_0ip1y"]
+[ext_resource type="Resource" uid="uid://lqgq47fjg1qx" path="res://scripts/arena/movement/fists/fists_walljump.tres" id="30_7askp"]
+[ext_resource type="Resource" uid="uid://x20ji2ppfneq" path="res://scripts/arena/movement/fists/fists_walljump_squat.tres" id="31_kp33v"]
+[ext_resource type="Resource" uid="uid://dalitwx87uw6v" path="res://scripts/arena/movement/fists/fists_walljump_to_fall.tres" id="32_w5fb5"]
 
 [resource]
 script = ExtResource("1_02md8")
@@ -22,4 +44,26 @@ crouch_heavy = ExtResource("2_lgj2g")
 air_light = ExtResource("1_1yb5m")
 air_medium = ExtResource("1_lgj2g")
 air_heavy = ExtResource("1_btvy5")
+idle = ExtResource("7_opexc")
+walk = ExtResource("29_0ip1y")
+jump_squat = ExtResource("19_cd6bs")
+jump = ExtResource("18_kn6uv")
+walljump = ExtResource("30_7askp")
+fall = ExtResource("15_o5os3")
+block = ExtResource("7_h3xwe")
+land = ExtResource("21_p5361")
+crouch = ExtResource("8_7mukp")
+crouch_block = ExtResource("9_n333y")
+crouch_unblock = ExtResource("13_380pc")
+uncrouch = ExtResource("28_5dmmu")
+hitstun = ExtResource("16_a68gt")
+ko = ExtResource("20_qt12b")
+dash = ExtResource("14_1pc3f")
+back_dash = ExtResource("6_lg0qu")
+land_to_idle = ExtResource("23_fysvx")
+walljump_squat = ExtResource("31_kp33v")
+walljump_to_fall = ExtResource("32_w5fb5")
+land_dash = ExtResource("22_tto3v")
+away_walljump_squat = ExtResource("4_bf428")
+away_walljump_to_fall = ExtResource("5_iyght")
 metadata/_custom_type_script = "uid://dawgyf47aiixc"

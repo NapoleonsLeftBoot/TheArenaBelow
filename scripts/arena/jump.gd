@@ -8,10 +8,10 @@ func enter() -> void:
 	super()
 	player.jump_start_x = player.position.x
 	if player.transition_anim != &"":
-		player.animation.play(player.transition_anim)
+		player.animation.play(player.current_moveset[player.transition_anim].animation)
 		player.transition_anim = &""
 	else:
-		player.animation.play(jump_anim)
+		player.animation.play(player.current_moveset.jump.animation)
 
 	
 func exit(new_state: State = null) -> void:

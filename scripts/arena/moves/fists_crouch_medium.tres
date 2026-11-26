@@ -7,8 +7,8 @@
 script = ExtResource("1_28gja")
 start_tick = 7
 end_tick = 10
-size = Vector2(194.24, 56.87)
-offset = Vector2(92.13, 2.46)
+size = Vector2(205.905, 79.22)
+offset = Vector2(117.525, -22.105)
 hit_attribute = "Low"
 damage = 7
 knockback = Vector2(884.754, -59.47)
@@ -19,6 +19,7 @@ metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [resource]
 script = ExtResource("2_lo1e4")
+animation = "fists_crouch_medium"
 total_frames = 27
 hitboxes = Array[ExtResource("1_28gja")]([SubResource("Resource_kg000")])
 crouch = true

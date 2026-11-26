@@ -4,7 +4,7 @@ extends PlayerState
 func enter() -> void:
 	player.crouch_block = true
 	player.crouch = true 
-	player.animation.play(fall_anim)  
+	player.animation.play(player.current_moveset.crouch_block.animation)
 
 func exit(new_state: State = null) -> void:
 	super(new_state)
@@ -29,6 +29,7 @@ func process_physics(delta: float) -> State:
 
 	if not player.is_held(block_key):
 		if player.is_held(down_key):
+			player.animation.play(player.current_moveset.crouch_block.animation)
 			return crouch_state
 		return idle_state
 	if not player.is_held(down_key):

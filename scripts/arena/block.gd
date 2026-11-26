@@ -5,7 +5,7 @@ extends PlayerState
 
 func enter() -> void:
 	player.block = true;
-	player.animation.play(fall_anim)
+	player.animation.play(player.current_moveset.block.animation)
 	
 func exit(new_state: State = null) -> void:
 		super(new_state)

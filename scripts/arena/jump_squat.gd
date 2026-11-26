@@ -6,7 +6,7 @@ var jump_button_held: bool = true;
 
 func enter() -> void:
 	super()
-	player.animation.play(jump_squat_anim)
+	player.animation.play(player.current_moveset.jump_squat.animation)
 	squat_timer = 0
 	jump_button_held = true
 	

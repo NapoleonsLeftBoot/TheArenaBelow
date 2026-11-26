@@ -1,0 +1,73 @@
+[gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://cf804ms7q5af7"]
+
+[ext_resource type="Script" uid="uid://dhq073jonmyno" path="res://scripts/arena/moves/hitbox_data.gd" id="1_ysgsx"]
+[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://scripts/arena/moves/move_data.gd" id="2_6e6h5"]
+
+[sub_resource type="Resource" id="Resource_8amx1"]
+script = ExtResource("1_ysgsx")
+start_tick = 14
+end_tick = 19
+size = Vector2(101.825, 40.13)
+offset = Vector2(20.035, -216.015)
+hit_attribute = "High"
+damage = 2
+knockback = Vector2(150, -217.38)
+hitstun_frames = 29
+blockstun_frames = 18
+hitfreeze_frames = 10
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_ysgsx"]
+script = ExtResource("1_ysgsx")
+start_tick = 15
+end_tick = 19
+size = Vector2(86.825, 40.13)
+offset = Vector2(92.16, -256.105)
+hit_attribute = "High"
+damage = 2
+knockback = Vector2(150, -217.38)
+hitstun_frames = 29
+blockstun_frames = 18
+hitfreeze_frames = 10
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_6e6h5"]
+script = ExtResource("1_ysgsx")
+start_tick = 16
+end_tick = 19
+size = Vector2(86.825, 40.13)
+offset = Vector2(157.845, -294.805)
+hit_attribute = "High"
+damage = 2
+knockback = Vector2(150, -217.38)
+hitstun_frames = 29
+blockstun_frames = 18
+hitfreeze_frames = 10
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_wduy3"]
+script = ExtResource("1_ysgsx")
+start_tick = 20
+end_tick = 22
+hit_group = 1
+size = Vector2(240.105, 220.13)
+offset = Vector2(90.13, -173.545)
+hit_attribute = "High"
+damage = 13
+knockback = Vector2(1567.715, 1005.39)
+hitstun_frames = 29
+blockstun_frames = 18
+hitfreeze_frames = 18
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[resource]
+script = ExtResource("2_6e6h5")
+animation = "fists_light"
+total_frames = 40
+hitboxes = Array[ExtResource("1_ysgsx")]([SubResource("Resource_8amx1"), SubResource("Resource_ysgsx"), SubResource("Resource_6e6h5"), SubResource("Resource_wduy3")])
+traction = 0.9
+strength = 3
+cancel_start = 21
+cancel_end = 22
+jump_cancel = true
+metadata/_custom_type_script = "uid://dumcnysw81a4l"

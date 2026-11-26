@@ -11,8 +11,7 @@ func enter() -> void:
 	player.buffer.clear()
 	
 	if player.hit_in_crouch == false:
-		if player.animation.has_animation(crouch_anim):
-			player.animation.play(crouch_anim)
+		player.animation.play(player.current_moveset.crouch.animation)
 
 
 func process_physics(delta: float) -> State:

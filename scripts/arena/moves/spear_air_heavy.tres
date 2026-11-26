@@ -1,0 +1,58 @@
+[gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://cg5ow4rhniwqc"]
+
+[ext_resource type="Script" uid="uid://dhq073jonmyno" path="res://scripts/arena/moves/hitbox_data.gd" id="1_pdpv1"]
+[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://scripts/arena/moves/move_data.gd" id="2_o4sc8"]
+
+[sub_resource type="Resource" id="Resource_pn30r"]
+script = ExtResource("1_pdpv1")
+start_tick = 19
+end_tick = 21
+size = Vector2(188.02, 93.165)
+offset = Vector2(69.33, -299.315)
+hit_attribute = "High"
+damage = 10
+knockback = Vector2(1127.502, -294.22)
+hitstun_frames = 21
+blockstun_frames = 17
+hitfreeze_frames = 14
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_pdpv1"]
+script = ExtResource("1_pdpv1")
+start_tick = 21
+end_tick = 23
+size = Vector2(232.545, 94.97)
+offset = Vector2(88.86, -228.61)
+hit_attribute = "High"
+damage = 10
+knockback = Vector2(1127.502, -294.22)
+hitstun_frames = 21
+blockstun_frames = 17
+hitfreeze_frames = 14
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[sub_resource type="Resource" id="Resource_o4sc8"]
+script = ExtResource("1_pdpv1")
+start_tick = 23
+end_tick = 24
+size = Vector2(176.42, 93.165)
+offset = Vector2(70.905, -184.77)
+hit_attribute = "High"
+damage = 10
+knockback = Vector2(1127.502, -294.22)
+hitstun_frames = 21
+blockstun_frames = 17
+hitfreeze_frames = 14
+metadata/_custom_type_script = "uid://dhq073jonmyno"
+
+[resource]
+script = ExtResource("2_o4sc8")
+animation = "fists_air_light"
+total_frames = 43
+hitboxes = Array[ExtResource("1_pdpv1")]([SubResource("Resource_pn30r"), SubResource("Resource_pdpv1"), SubResource("Resource_o4sc8")])
+traction = 0.7
+aerial = true
+strength = 2
+cancel_start = 12
+cancel_end = 14
+metadata/_custom_type_script = "uid://dumcnysw81a4l"

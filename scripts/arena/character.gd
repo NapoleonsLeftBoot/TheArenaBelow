@@ -21,6 +21,7 @@ var ai_held: Dictionary = {}
 @export var fists_moveset: WeaponMoveset
 @export var hammer_moveset: WeaponMoveset
 @export var sword_moveset: WeaponMoveset
+@export var spear_moveset: WeaponMoveset
 
 var current_moveset: WeaponMoveset
 # shared runtime state
@@ -73,8 +74,8 @@ func _ready():
 	#if no weapon type was passed from other scene
 	#then just default to fists
 	if current_moveset == null:
-		set_weapon(WeaponData.WeaponType.SWORD)
-	state_machine.init()
+		set_weapon(WeaponData.WeaponType.FISTS)
+	state_machine.init(current_moveset)
 
 func _process(delta):
 	if hitfreeze_ticks > 0:
@@ -272,5 +273,9 @@ func set_weapon(weapon: WeaponData.WeaponType) -> void:
 			
 		WeaponData.WeaponType.SWORD:
 			current_moveset = sword_moveset
+			
+		WeaponData.WeaponType.SPEAR:
+			current_moveset = spear_moveset
+			
 	print("Current weapon: ", weapon)
 	print("Current moveset: ", current_moveset)

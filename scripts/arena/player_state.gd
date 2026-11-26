@@ -34,25 +34,6 @@ var wall_jump_speed: Vector2 = Vector2(890, -1050.0)
 var min_income_speed: float = 50.0
 var wall_jump_lockout: int = 8                 
 
-
-#Animation Names
-var idle_anim: String = "idle"
-var walk_anim: String = "walk"
-var jump_squat_anim: String = "jump_squat"
-var jump_anim: String = "jump"
-var walljump_anim: String = "walljump"
-var fall_anim: String = "fall"
-var land_anim: String = "land"
-var crouch_anim: String = "crouch"
-var uncrouch_anim: String = "uncrouch"
-var hitstun_anim: String = "hitstun"
-var ko_anim: String = "ko"
-var dash_anim: String = "dash"
-var back_dash_anim: String = "back_dash"
-var land_to_idle_anim: String = "land_to_idle"
-var walljump_squat_anim: String = "walljump_squat"
-var walljump_to_fall_anim: String = "walljump_to_fall"
-
 #Handplant Atrributes
 var handplant_ticks: int = 2
 var handslide_traction: float = 0.95
@@ -177,10 +158,17 @@ func process_physics(delta: float) -> State:
 func exit(new_state: State = null) -> void:
 	super()
 	new_state.sprite_flipped = sprite_flipped
+	
+func start_state(state: PlayerState, move: MoveData) -> State:
+	if move == null:
+		return null
+
+	state.move_data = move
+	return state
 
 func start_attack(attack_state: PlayerAttackState, move: MoveData) -> State:
 	if move == null:
 		return null
 
-	attack_state.move_data = move
+	attack_state.attack_data = move
 	return attack_state

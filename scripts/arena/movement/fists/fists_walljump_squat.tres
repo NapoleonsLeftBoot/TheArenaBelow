@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://x20ji2ppfneq"]
+
+[ext_resource type="Script" uid="uid://dhq073jonmyno" path="res://scripts/arena/moves/hitbox_data.gd" id="1_7kf0k"]
+[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://scripts/arena/moves/move_data.gd" id="2_qke3c"]
+
+[resource]
+script = ExtResource("2_qke3c")
+animation = "walljump_squat"
+metadata/_custom_type_script = "uid://dumcnysw81a4l"

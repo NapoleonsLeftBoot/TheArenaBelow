@@ -18,9 +18,10 @@ func enter() -> void:
 		else:
 			dash_dir = 1.0 #riht
 	if relation == 1:
-		player.animation.play(dash_anim)
+		player.animation.play(player.current_moveset.dash.animation)
 	elif relation == -1:
-		player.animation.play(back_dash_anim)
+		if player.animation.has_animation(player.current_moveset.back_dash.animation):
+			player.animation.play(player.current_moveset.back_dash.animation)
 func process_physics(delta: float) -> State:
 	if braking:
 		player.velocity.x *= dash_traction
