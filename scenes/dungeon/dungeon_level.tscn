@@ -3,30 +3,59 @@
 [ext_resource type="Script" uid="uid://cd74ymqmhhagi" path="res://scripts/dungeon/dungeon_level.gd" id="1_urihy"]
 [ext_resource type="Script" uid="uid://df44jdnrqpv51" path="res://scripts/dungeon/dungeon_generator.gd" id="2_cjnbm"]
 [ext_resource type="PackedScene" uid="uid://btwnpybhqi71q" path="res://scenes/dungeon/DungeonPlayer.tscn" id="2_ur5pq"]
+[ext_resource type="TileSet" uid="uid://vdwknwskwhcw" path="res://art/dungeon/tilesets/prison_tileset.tres" id="4_gws18"]
 [ext_resource type="Script" uid="uid://upg4jcu0cmvf" path="res://scripts/dungeon/dungeon_hud.gd" id="4_hoaul"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wblkt"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gws18"]
+size = Vector2(10, 6)
 
 [node name="DungeonLevel" type="Node2D" unique_id=317267156]
+y_sort_enabled = true
 script = ExtResource("1_urihy")
 
 [node name="DungeonPlayer" parent="." unique_id=428537041 instance=ExtResource("2_ur5pq")]
-modulate = Color(0, 0, 1, 1)
+
+[node name="CollisionShape2D" parent="DungeonPlayer" index="0" unique_id=394702026]
+disabled = true
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="DungeonPlayer" unique_id=77546852]
 modulate = Color(0.007843138, 0.011764706, 1, 1)
-shape = SubResource("RectangleShape2D_wblkt")
+position = Vector2(0, 15)
+shape = SubResource("RectangleShape2D_gws18")
 
 [node name="Camera2D" type="Camera2D" parent="DungeonPlayer" unique_id=610803447]
-zoom = Vector2(1.5, 1.5)
+zoom = Vector2(3, 3)
 
 [node name="DungeonGenerator" type="Node2D" parent="." unique_id=115314229]
+y_sort_enabled = true
 script = ExtResource("2_cjnbm")
-room_count = 10
+room_count = 9
+obstacle_min_count = 6
+obstacle_max_count = 14
+pillar_collision_offset = Vector2(0, -28)
 
 [node name="WallCollisions" type="Node2D" parent="DungeonGenerator" unique_id=427525737]
 
+[node name="FloorTiles" type="TileMapLayer" parent="DungeonGenerator" unique_id=469099725]
+z_index = -2
+texture_filter = 1
+scale = Vector2(1.25, 1.25)
+tile_set = ExtResource("4_gws18")
+collision_enabled = false
+
+[node name="WallTiles" type="TileMapLayer" parent="DungeonGenerator" unique_id=648780359]
+z_index = 1
+texture_filter = 1
+scale = Vector2(1.25, 1.25)
+tile_set = ExtResource("4_gws18")
+collision_enabled = false
+
+[node name="ObstacleGraphics" type="Node2D" parent="DungeonGenerator" unique_id=506915853]
+y_sort_enabled = true
+texture_filter = 1
+
 [node name="Enemies" type="Node2D" parent="." unique_id=1690501280]
+y_sort_enabled = true
 
 [node name="WeaponPedestals" type="Node2D" parent="." unique_id=172572991]
 
@@ -85,3 +114,5 @@ offset_top = 140.0
 offset_right = 164.0
 offset_bottom = 163.0
 text = "Damage Bonus: +0"
+
+[editable path="DungeonPlayer"]

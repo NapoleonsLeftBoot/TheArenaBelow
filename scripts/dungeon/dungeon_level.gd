@@ -1,4 +1,3 @@
-
 extends Node2D
 
 # The Arena Below - Dungeon Level
@@ -60,13 +59,13 @@ const FISTS = preload(
 # Relative weights, not percentages that must add to 100.
 @export_group("Enemy Type Weights")
 @export_range(0, 100) var standard_weight: int = 50
-@export_range(0, 100) var fast_weight: int = 30
-@export_range(0, 100) var heavy_weight: int = 20
+@export_range(0, 100) var fast_weight: int = 20
+@export_range(0, 100) var heavy_weight: int = 15
+@export_range(0, 100) var ranged_weight: int = 15
 
 @export_group("Weapon Pedestals")
-@export var pedestal_spacing: float = 100.0
-@export var pedestal_vertical_offset: float = 90.0
-
+@export var pedestal_spacing: float = 75.0
+@export var pedestal_vertical_offset: float = 55.0
 
 @onready var dungeon_generator = $DungeonGenerator
 @onready var dungeon_player = $DungeonPlayer
@@ -74,7 +73,6 @@ const FISTS = preload(
 @onready var weapon_pedestals: Node2D = $WeaponPedestals
 @onready var reward_pedestals: Node2D = $RewardPedestals
 @onready var hud = $HUD
-
 
 var encounter_state: EncounterState = EncounterState.UNLOCKED
 var transitioning: bool = false
@@ -87,10 +85,15 @@ var nearest_reward_pedestal: RewardPedestal = null
 
 var reward_selected: bool = false
 
-
 func _ready() -> void:
 	# A new dungeon starts a fresh run.
-	RunData.reset_run()
+
+	if not GameManager.run_started:
+		GameManager.start_new_run()
+
+	apply_difficulty_settings()
+	
+	RunData.restore_dungeon_player(dungeon_player)
 
 	dungeon_player.health_changed.connect(
 		hud.update_health
@@ -126,6 +129,16 @@ func _ready() -> void:
 	hud.update_upgrades()
 
 	dungeon_generator.generate_dungeon()
+	
+	dungeon_player.health_changed.connect(
+		func(value: int, _maximum: int) -> void:
+			RunData.save_health(value)
+	)
+
+	dungeon_player.mana_changed.connect(
+		func(value: float, _maximum: float) -> void:
+			RunData.save_mana(value)
+	)
 
 	if dungeon_generator.rooms.is_empty():
 		push_error("Dungeon generation failed.")
@@ -136,7 +149,6 @@ func _ready() -> void:
 
 	spawn_player()
 	start_room_encounter()
-
 
 func _physics_process(_delta: float) -> void:
 	if transitioning or dungeon_player.defeated:
@@ -172,7 +184,6 @@ func _physics_process(_delta: float) -> void:
 		else:
 			complete_dungeon()
 
-
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event is InputEventKey:
 		return
@@ -203,40 +214,46 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			select_nearest_reward()
 			get_viewport().set_input_as_handled()
 
-
 # --------------------------------------------------
 # ROOM MANAGEMENT
 # --------------------------------------------------
-
-
 func is_current_reward_room() -> bool:
 	return (
 		dungeon_generator.is_reward_room()
 		or dungeon_generator.is_transition_room()
 	)
 
-
 func get_current_room() -> Rect2i:
 	return dungeon_generator.rooms[
 		dungeon_generator.current_room_index
 	]
 
-
 func start_room_encounter() -> void:
 	remaining_enemies = 0
 	reward_selected = false
 
+	
 	if dungeon_generator.is_start_room():
-		encounter_state = EncounterState.LOCKED
-		dungeon_generator.lock_exit()
+		if dungeon_player.has_weapon():
+			encounter_state = EncounterState.UNLOCKED
+			dungeon_generator.unlock_exit()
 
-		spawn_weapon_pedestals()
+			hud.show_interaction(
+                "Weapon retained. Continue to the exit."
+			)
 
-		hud.show_interaction(
-			"Choose a weapon to continue."
-		)
+			print("Existing weapon restored.")
+		else:
+			encounter_state = EncounterState.LOCKED
+			dungeon_generator.lock_exit()
 
-		print("Starting room entered.")
+			spawn_weapon_pedestals()
+
+			hud.show_interaction(
+                "Choose a weapon to continue."
+			)
+
+			print("Starting room entered.")
 
 	elif dungeon_generator.is_combat_room():
 		encounter_state = EncounterState.LOCKED
@@ -261,7 +278,6 @@ func start_room_encounter() -> void:
 		else:
 			print("Reward room entered.")
 
-
 func advance_room() -> void:
 	if transitioning or dungeon_player.defeated:
 		return
@@ -271,7 +287,6 @@ func advance_room() -> void:
 
 	transitioning = true
 	call_deferred("load_next_room")
-
 
 func load_next_room() -> void:
 	if dungeon_player.defeated:
@@ -297,7 +312,6 @@ func load_next_room() -> void:
 
 	transitioning = false
 
-
 func spawn_player() -> void:
 	dungeon_player.global_position = (
 		dungeon_generator.to_global(
@@ -308,12 +322,9 @@ func spawn_player() -> void:
 	dungeon_player.velocity = Vector2.ZERO
 	dungeon_player.reset_physics_interpolation()
 
-
 # --------------------------------------------------
 # WEAPON SELECTION
 # --------------------------------------------------
-
-
 func spawn_weapon_pedestals() -> void:
 	clear_weapon_pedestals()
 
@@ -372,7 +383,6 @@ func spawn_weapon_pedestals() -> void:
 
 	print("Weapon pedestals spawned: 4")
 
-
 func update_weapon_interaction() -> void:
 	nearest_pedestal = null
 
@@ -418,7 +428,6 @@ func update_weapon_interaction() -> void:
 			"Choose a weapon to continue."
 		)
 
-
 func equip_nearest_weapon() -> void:
 	if not is_instance_valid(nearest_pedestal):
 		return
@@ -437,7 +446,6 @@ func equip_nearest_weapon() -> void:
 
 	dungeon_player.equip_weapon(weapon)
 
-
 func on_weapon_equipped(weapon: WeaponData) -> void:
 	hud.update_weapon(weapon)
 
@@ -451,7 +459,6 @@ func on_weapon_equipped(weapon: WeaponData) -> void:
 		dungeon_generator.unlock_exit()
 		update_weapon_interaction()
 
-
 func clear_weapon_pedestals() -> void:
 	nearest_pedestal = null
 
@@ -459,12 +466,9 @@ func clear_weapon_pedestals() -> void:
 		weapon_pedestals.remove_child(pedestal)
 		pedestal.queue_free()
 
-
 # --------------------------------------------------
 # ENEMY NAVIGATION
 # --------------------------------------------------
-
-
 func build_navigation_grid() -> void:
 	var room: Rect2i = get_current_room()
 
@@ -496,7 +500,6 @@ func build_navigation_grid() -> void:
 			true
 		)
 
-
 func tile_to_world(tile: Vector2i) -> Vector2:
 	var local_position: Vector2 = Vector2(
 		(tile.x + 0.5) * dungeon_generator.tile_size,
@@ -504,7 +507,6 @@ func tile_to_world(tile: Vector2i) -> Vector2:
 	)
 
 	return dungeon_generator.to_global(local_position)
-
 
 func world_to_tile(world_position: Vector2) -> Vector2i:
 	var local_position: Vector2 = (
@@ -515,7 +517,6 @@ func world_to_tile(world_position: Vector2) -> Vector2i:
 		floori(local_position.x / dungeon_generator.tile_size),
 		floori(local_position.y / dungeon_generator.tile_size)
 	)
-
 
 func get_spawn_tiles() -> Array[Vector2i]:
 	var room: Rect2i = get_current_room()
@@ -575,29 +576,24 @@ func get_spawn_tiles() -> Array[Vector2i]:
 
 	return available_tiles
 
-
 # --------------------------------------------------
 # RANDOMIZED ENEMY SPAWNING
 # --------------------------------------------------
-
-
-# Choose an enemy type using the Inspector weights.
 func get_random_enemy_type() -> int:
+
 	var standard: int = maxi(standard_weight, 0)
 	var fast: int = maxi(fast_weight, 0)
 	var heavy: int = maxi(heavy_weight, 0)
+	var ranged: int = maxi(ranged_weight, 0)
 
 	var total_weight: int = (
-		standard + fast + heavy
+		standard + fast + heavy + ranged
 	)
 
 	if total_weight <= 0:
 		return 0  # STANDARD
 
-	var roll: int = randi_range(
-		1,
-		total_weight
-	)
+	var roll: int = randi_range(1, total_weight)
 
 	if roll <= standard:
 		return 0  # STANDARD
@@ -605,9 +601,11 @@ func get_random_enemy_type() -> int:
 	if roll <= standard + fast:
 		return 1  # FAST
 
-	return 2  # HEAVY
+	if roll <= standard + fast + heavy:
+		return 2  # HEAVY
 
-
+	return 3  # RANGED
+	
 func spawn_enemies() -> void:
 	if not dungeon_generator.is_combat_room():
 		return
@@ -630,6 +628,7 @@ func spawn_enemies() -> void:
 	var standard_count: int = 0
 	var fast_count: int = 0
 	var heavy_count: int = 0
+	var ranged_count: int = 0
 
 	for tile in available_tiles:
 		if remaining_enemies >= requested_count:
@@ -662,6 +661,8 @@ func spawn_enemies() -> void:
 				fast_count += 1
 			2:
 				heavy_count += 1
+			3:
+				ranged_count += 1
 
 		used_positions.append(spawn_position)
 		remaining_enemies += 1
@@ -680,19 +681,19 @@ func spawn_enemies() -> void:
 		", Fast: ",
 		fast_count,
 		", Heavy: ",
-		heavy_count
+		heavy_count,
+		", Ranged: ",
+		ranged_count
 	)
 
 	if remaining_enemies == 0:
 		push_warning("No valid enemy spawn positions.")
 		complete_encounter()
 
-
 # Instantiate and configure the chosen enemy type.
 func create_enemy(
 	tile: Vector2i,
-	chosen_type: int
-) -> void:
+	chosen_type: int ) -> void:
 	var enemy = ENEMY_SCENE.instantiate()
 
 	# Assign type BEFORE add_child() calls _ready().
@@ -729,7 +730,6 @@ func create_enemy(
 		enemy.attack_damage
 	)
 
-
 func on_enemy_defeated() -> void:
 	if encounter_state != EncounterState.LOCKED:
 		return
@@ -744,7 +744,6 @@ func on_enemy_defeated() -> void:
 	if remaining_enemies == 0:
 		complete_encounter()
 
-
 func complete_encounter() -> void:
 	if encounter_state != EncounterState.LOCKED:
 		return
@@ -754,7 +753,6 @@ func complete_encounter() -> void:
 	dungeon_generator.unlock_exit()
 
 	print("Combat encounter completed!")
-
 
 func clear_enemies() -> void:
 	for enemy in enemies.get_children():
@@ -771,12 +769,9 @@ func clear_enemies() -> void:
 	remaining_enemies = 0
 	path_grid = null
 
-
 # --------------------------------------------------
 # REWARD ROOM SYSTEM
 # --------------------------------------------------
-
-
 func spawn_reward_pedestals() -> void:
 	clear_reward_pedestals()
 
@@ -843,7 +838,6 @@ func spawn_reward_pedestals() -> void:
 		reward_pedestals.get_child_count()
 	)
 
-
 func update_reward_interaction() -> void:
 	nearest_reward_pedestal = null
 
@@ -889,7 +883,6 @@ func update_reward_interaction() -> void:
 		hud.show_interaction(
 			"Choose one reward to continue."
 		)
-
 
 func select_nearest_reward() -> void:
 	if reward_selected:
@@ -965,7 +958,6 @@ func select_nearest_reward() -> void:
 		dungeon_player.get_attack_damage()
 	)
 
-
 func clear_reward_pedestals() -> void:
 	nearest_reward_pedestal = null
 
@@ -973,12 +965,9 @@ func clear_reward_pedestals() -> void:
 		reward_pedestals.remove_child(pedestal)
 		pedestal.queue_free()
 
-
 # --------------------------------------------------
 # PLAYER DEFEAT AND DUNGEON COMPLETION
 # --------------------------------------------------
-
-
 func on_player_defeated() -> void:
 	encounter_state = EncounterState.FAILED
 	transitioning = false
@@ -989,7 +978,9 @@ func on_player_defeated() -> void:
 	hud.show_defeat()
 
 	print("Dungeon run failed.")
-
+	RunData.save_health(0)
+	# The defeat screen remains visible for now.
+	# A restart button can call GameManager.player_lost().
 
 func complete_dungeon() -> void:
 	if encounter_state == EncounterState.COMPLETE:
@@ -1036,7 +1027,17 @@ func complete_dungeon() -> void:
 	# Deferred so we do not replace the current scene while
 	# processing the dungeon exit.
 	call_deferred("transition_to_arena")
+	
+	
+	RunData.save_dungeon_player(dungeon_player)
 
+	call_deferred("go_to_arena")
+
+func go_to_arena() -> void:
+	if encounter_state != EncounterState.COMPLETE:
+		return
+
+	GameManager.enter_arena()
 
 func transition_to_arena() -> void:
 	if encounter_state != EncounterState.COMPLETE:
@@ -1051,13 +1052,11 @@ func transition_to_arena() -> void:
 # --------------------------------------------------
 # FIREBOLT PROJECTILES
 # --------------------------------------------------
-
 func on_firebolt_cast(
 	start_position: Vector2,
 	direction: Vector2,
 	damage: int,
-	max_range: float
-) -> void:
+	max_range: float ) -> void:
 	var firebolt = FIREBOLT_SCENE.instantiate()
 
 	add_child(firebolt)
@@ -1070,3 +1069,40 @@ func on_firebolt_cast(
 	)
 
 	print("Firebolt projectile spawned.")
+	
+func apply_difficulty_settings() -> void:
+	match GameManager.current_dungeon:
+
+		1:
+			min_enemies = 2
+			max_enemies = 3
+
+			standard_weight = 50
+			fast_weight = 25
+			heavy_weight = 15
+			ranged_weight = 10
+
+		2:
+			min_enemies = 3
+			max_enemies = 4
+
+			standard_weight = 35
+			fast_weight = 30
+			heavy_weight = 20
+			ranged_weight = 15
+
+		3:
+			min_enemies = 4
+			max_enemies = 5
+
+			standard_weight = 25
+			fast_weight = 30
+			heavy_weight = 25
+			ranged_weight = 20
+
+	print(
+		"Dungeon ",
+		GameManager.current_dungeon,
+		" | Difficulty: ",
+		GameManager.get_difficulty_name()
+	)

@@ -1,4 +1,3 @@
-
 extends Resource
 class_name WeaponData
 
@@ -17,7 +16,6 @@ enum WeaponType {
 	SPEAR,
 	FISTS
 }
-
 
 # General weapon information.
 @export var weapon_id: String = "sword"
@@ -45,14 +43,10 @@ enum WeaponType {
 
 @export var weapon_color: Color = Color.WHITE
 
-
 # Return half of the attack angle in radians.
 func get_half_attack_angle() -> float:
-
 	return deg_to_rad(attack_arc / 2.0)
-
 
 # Return the minimum dot product needed for a hit.
 func get_attack_dot_threshold() -> float:
-
 	return cos(get_half_attack_angle())

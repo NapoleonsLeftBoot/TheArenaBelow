@@ -56,34 +56,61 @@ var shield_cooldown_remaining: float = 0.0
 var shield_time_remaining: float = 0.0
 var shield_active: bool = false
 
+# Player graphics.
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+
+@onready var weapon_sprite: Sprite2D = $WeaponSprite
+
+# Weapon graphics.
+const SWORD_TEXTURE = preload("res://art/dungeon/weapons/sword.tres")
+const AXE_TEXTURE = preload("res://art/dungeon/weapons/battle_axe.tres")
+const SPEAR_TEXTURE = preload("res://art/dungeon/weapons/spear.tres")
+
 func _ready() -> void:
-	z_index = 10
+	z_index = 0
 	health = max_health
 	mana = maxf(max_mana, 0.0)
 	current_weapon = null
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 	health_changed.emit(health, max_health)
 	mana_changed.emit(mana, max_mana)
+	animated_sprite.play("idle")
+	weapon_sprite.hide()
 
 func _physics_process(delta: float) -> void:
+
 	if defeated:
 		velocity = Vector2.ZERO
 		return
+
 	update_timers(delta)
 	update_dodge_cooldown(delta)
 	update_magic(delta)
+
 	var dodge_key_pressed: bool = Input.is_key_pressed(KEY_SHIFT)
-	var dodge_just_pressed: bool = dodge_key_pressed and not dodge_key_was_pressed
+
+	var dodge_just_pressed: bool = (
+		dodge_key_pressed and not dodge_key_was_pressed
+	)
+
 	dodge_key_was_pressed = dodge_key_pressed
+
 	if is_dodging:
 		update_dodge(delta)
+
 	else:
+
 		if dodge_just_pressed:
 			start_dodge()
+
 		if not is_dodging:
 			handle_movement()
 			handle_attack()
 			handle_magic_input()
+
+	# Update the player graphics.
+	update_animation()
+	update_weapon_sprite()
 	queue_redraw()
 
 func update_timers(delta: float) -> void:
@@ -304,30 +331,130 @@ func die() -> void:
 		return
 	defeated = true
 	velocity = Vector2.ZERO
+	# Stop the animation and darken the player.
+	animated_sprite.stop()
+	animated_sprite.modulate = Color(0.4, 0.4, 0.4)
+	weapon_sprite.hide()
 	if shield_active:
 		deactivate_shield()
 	print("Player defeated!")
 	queue_redraw()
 	player_defeated.emit()
 
-func _draw() -> void:
-	var half_size: float = player_size / 2.0
-	var body_color: Color = Color(0.2, 0.6, 1.0)
+# Player animation
+func update_animation() -> void:
+
+	# Face left or right.
+	if facing_direction.x < 0:
+		animated_sprite.flip_h = true
+
+	elif facing_direction.x > 0:
+		animated_sprite.flip_h = false
+
+	# Select the movement animation.
+	if velocity.length() > 0.1 or is_dodging:
+
+		if animated_sprite.animation != "run":
+			animated_sprite.play("run")
+
+	else:
+
+		if animated_sprite.animation != "idle":
+			animated_sprite.play("idle")
+
+	# Flash red when taking damage.
 	if damage_flash_timer > 0.0:
-		body_color = Color.WHITE
-	if defeated:
-		body_color = Color(0.3, 0.3, 0.3)
-	draw_rect(Rect2(-half_size, -half_size, player_size, player_size), body_color)
+		animated_sprite.modulate = Color(1.0, 0.4, 0.4)
+
+	else:
+		animated_sprite.modulate = Color.WHITE
+
+# Weapon graphics
+func update_weapon_sprite() -> void:
+	if defeated or not has_weapon():
+		weapon_sprite.hide()
+		return
+
+	# Select the equipped weapon.
+	match current_weapon.weapon_type:
+
+		WeaponData.WeaponType.SWORD:
+			weapon_sprite.texture = SWORD_TEXTURE
+
+		WeaponData.WeaponType.BATTLE_AXE:
+			weapon_sprite.texture = AXE_TEXTURE
+
+		WeaponData.WeaponType.SPEAR:
+			weapon_sprite.texture = SPEAR_TEXTURE
+
+		WeaponData.WeaponType.FISTS:
+			weapon_sprite.hide()
+			return
+
+	weapon_sprite.show()
+
+	# Determine which side the character is facing.
+	var hand_side: float = 1.0
+
+	if animated_sprite.flip_h:
+		hand_side = -1.0
+
+	# Position the weapon near the character's hand.
+	var hand_position: Vector2 = Vector2(
+		hand_side * 7.0,
+		5.0
+	)
+
+	if attack_flash_timer > 0.0:
+
+		# Point the weapon toward the attack direction.
+		weapon_sprite.rotation = (
+			attack_direction.angle() + PI / 2.0
+		)
+
+		# Extend the weapon during an attack.
+		weapon_sprite.position = (
+			hand_position + attack_direction * 5.0
+		)
+
+	else:
+
+		# Rest the weapon beside the character.
+		weapon_sprite.position = hand_position
+
+		# Tilt the weapon slightly outward.
+		weapon_sprite.rotation = deg_to_rad(
+			hand_side * 25.0
+		)
+
+func _draw() -> void:
+
+	# Draw the active magic shield.
 	if shield_active:
-		draw_arc(Vector2.ZERO, 22.0, 0.0, TAU, 40, Color(0.2, 0.75, 1.0, 0.9), 3.0)
+
+		draw_arc(
+			Vector2.ZERO,
+			22.0,
+			0.0,
+			TAU,
+			40,
+			Color(0.2, 0.75, 1.0, 0.9),
+			3.0
+		)
+
 	if defeated:
 		return
-	draw_line(Vector2.ZERO, facing_direction * 12.0, Color.WHITE, 2.0)
+
+	# Retain the temporary fist graphics.
 	if has_weapon():
-		draw_equipped_weapon()
+
+		if current_weapon.weapon_type == WeaponData.WeaponType.FISTS:
+			draw_equipped_weapon()
+
+	# Draw the melee attack effect.
 	if attack_flash_timer > 0.0:
 		draw_attack_effect()
-
+		
 func draw_equipped_weapon() -> void:
 	var side_direction: Vector2 = facing_direction.orthogonal()
 	var weapon_start: Vector2 = side_direction * 9.0

@@ -1,4 +1,3 @@
-
 extends Node2D
 
 # The Arena Below - Dungeon Generator
@@ -11,36 +10,56 @@ extends Node2D
 # https://docs.godotengine.org/en/stable/tutorials/math/random_number_generation.html
 # https://docs.godotengine.org/en/stable/tutorials/2d/custom_drawing_in_2d.html
 
-
 # Dungeon settings.
 @export_range(3, 30) var room_count: int = 8
 @export var tile_size: int = 20
 
 # Room dimensions.
-@export var room_min_width: int = 24
-@export var room_max_width: int = 42
+@export var room_min_width: int = 18
+@export var room_max_width: int = 28
 
-@export var room_min_height: int = 16
-@export var room_max_height: int = 28
+@export var room_min_height: int = 12
+@export var room_max_height: int = 18
 
 @export_range(1, 4) var wall_thickness: int = 1
 
-# Obstacle settings.
+# Obstacle settings
 @export var obstacle_min_count: int = 3
-@export var obstacle_max_count: int = 7
+@export var obstacle_max_count: int = 6
 
-@export var obstacle_min_size: int = 2
-@export var obstacle_max_size: int = 4
+@export var obstacle_min_size: int = 1
+@export var obstacle_max_size: int = 1
+
+@export_group("Obstacle Collisions")
+
+@export var pillar_collision_size: Vector2 = Vector2(14, 8)
+@export var pillar_collision_offset: Vector2 = Vector2(0, 0)
+
+@export var crate_collision_size: Vector2 = Vector2(18, 18)
+@export var barrel_collision_size: Vector2 = Vector2(16, 16)
+
+@export_range(1, 5) var obstacle_spacing: int = 3
 
 # Reward room settings.
 @export_range(0.0, 1.0) var reward_room_chance: float = 0.35
 @export_range(3, 10) var combat_rooms_per_reward: int = 3
 
-
 # Grid tile types.
 const FLOOR: int = 0
 const OBSTACLE: int = 1
 
+# Obstacle textures
+const CRATE_TEXTURE = preload(
+    "res://art/dungeon/obstacles/crate.png"
+)
+
+const BARREL_TEXTURE = preload(
+    "res://art/dungeon/obstacles/barrel.png"
+)
+
+const PILLAR_TEXTURE = preload(
+	"res://art/dungeon/obstacles/column.png"
+)
 
 # Available room types.
 enum RoomType {
@@ -49,7 +68,6 @@ enum RoomType {
 	REWARD,
 	TRANSITION
 }
-
 
 # Dungeon information.
 var rooms: Array[Rect2i] = []
@@ -62,42 +80,48 @@ var dungeon_grid: Array = []
 
 var exit_locked: bool = false
 
-
-# Scene reference.
+# Scene references
 @onready var wall_collisions: Node2D = $WallCollisions
+@onready var floor_tiles: TileMapLayer = $FloorTiles
+@onready var wall_tiles: TileMapLayer = $WallTiles
 
+@onready var obstacle_graphics: Node2D = $ObstacleGraphics
+
+# Dungeon graphics
+const TILE_SOURCE_ID: int = 1
+
+const FLOOR_PRIMARY: Vector2i = Vector2i(1, 4)
+const FLOOR_ALTERNATIVE: Vector2i = Vector2i(3, 4)
+const FLOOR_CRACKED: Vector2i = Vector2i(2, 4)
+const FLOOR_DAMAGED: Vector2i = Vector2i(1, 5)
+
+const WALL_TILE: Vector2i = Vector2i(2, 1)
+
+# Separate random generator for visual variation.
+var graphics_rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 # --------------------------------------------------
 # ROOM TYPE HELPERS
 # --------------------------------------------------
-
-
 func get_current_room_type() -> RoomType:
 	return room_types[current_room_index]
-
 
 func is_start_room() -> bool:
 	return get_current_room_type() == RoomType.START
 
-
 func is_combat_room() -> bool:
 	return get_current_room_type() == RoomType.COMBAT
-
 
 func is_reward_room() -> bool:
 	return get_current_room_type() == RoomType.REWARD
 
-
 func is_transition_room() -> bool:
 	return get_current_room_type() == RoomType.TRANSITION
-
 
 # --------------------------------------------------
 # DUNGEON GENERATION
 # --------------------------------------------------
-
-
-# Generate a new dungeon.
+# Generate a new dungeon
 func generate_dungeon() -> void:
 	rooms.clear()
 	room_types.clear()
@@ -168,8 +192,7 @@ func generate_dungeon() -> void:
 
 	print_room_sequence()
 
-
-# Randomly assign room types.
+# Randomly assign room types
 func generate_room_types() -> void:
 	room_types.clear()
 
@@ -203,12 +226,9 @@ func generate_room_types() -> void:
 	# that transitions directly into the arena.
 	room_types.append(RoomType.TRANSITION)
 
-
 # --------------------------------------------------
 # ROOM LOADING
 # --------------------------------------------------
-
-
 # Load one room at a time.
 func load_room(room_index: int) -> void:
 	if room_index < 0 or room_index >= rooms.size():
@@ -249,6 +269,12 @@ func load_room(room_index: int) -> void:
 	if is_combat_room():
 		generate_obstacles(room)
 
+	# Generate room textures.
+	generate_room_graphics(room)
+
+	# Generate obstacle textures.
+	generate_obstacle_graphics()
+
 	queue_redraw()
 
 	print(
@@ -268,12 +294,9 @@ func load_room(room_index: int) -> void:
 
 	print("Obstacles: ", obstacles.size())
 
-
 # --------------------------------------------------
 # WALL COLLISIONS
 # --------------------------------------------------
-
-
 # Create four continuous walls around the room.
 func create_room_walls(room: Rect2i) -> void:
 
@@ -333,12 +356,10 @@ func create_room_walls(room: Rect2i) -> void:
 		)
 	)
 
-
 # Create a rectangular wall collision body.
 func create_wall_collision(
 	wall_position: Vector2,
-	wall_size: Vector2
-) -> void:
+	wall_size: Vector2 ) -> void:
 
 	var body: StaticBody2D = StaticBody2D.new()
 
@@ -364,15 +385,11 @@ func create_wall_collision(
 
 	wall_collisions.add_child(body)
 
-
 # --------------------------------------------------
 # OBSTACLE GENERATION
 # --------------------------------------------------
-
-
 # Generate random obstacles inside combat rooms.
 func generate_obstacles(room: Rect2i) -> void:
-
 	var target_count: int = randi_range(
 		obstacle_min_count,
 		obstacle_max_count
@@ -436,14 +453,14 @@ func generate_obstacles(room: Rect2i) -> void:
 
 		obstacles.append(new_obstacle)
 
-		create_obstacle_collision(new_obstacle)
-
-
 # Create one continuous collision body per obstacle.
-func create_obstacle_collision(obstacle: Rect2i) -> void:
+func create_obstacle_collision(
+	obstacle: Rect2i,
+	texture: Texture2D ) -> void:
 
 	var body: StaticBody2D = StaticBody2D.new()
 
+	# Center of the occupied tile.
 	body.position = Vector2(
 		(
 			obstacle.position.x +
@@ -466,10 +483,26 @@ func create_obstacle_collision(obstacle: Rect2i) -> void:
 		RectangleShape2D.new()
 	)
 
-	rectangle.size = Vector2(
-		obstacle.size.x * tile_size,
-		obstacle.size.y * tile_size
-	)
+	# Choose the collision based on the obstacle.
+	if texture == PILLAR_TEXTURE:
+
+		rectangle.size = pillar_collision_size
+		shape_node.position = pillar_collision_offset
+
+	elif texture == CRATE_TEXTURE:
+
+		rectangle.size = crate_collision_size
+
+	elif texture == BARREL_TEXTURE:
+
+		rectangle.size = barrel_collision_size
+
+	else:
+
+		rectangle.size = Vector2(
+			obstacle.size.x * tile_size,
+			obstacle.size.y * tile_size
+		)
 
 	shape_node.shape = rectangle
 
@@ -477,23 +510,24 @@ func create_obstacle_collision(obstacle: Rect2i) -> void:
 
 	wall_collisions.add_child(body)
 
-
 # Check whether an obstacle overlaps another obstacle.
-func obstacle_overlaps(new_obstacle: Rect2i) -> bool:
+func obstacle_overlaps(
+	new_obstacle: Rect2i ) -> bool:
 
 	for existing_obstacle in obstacles:
 
-		# Leave a minimum gap between obstacles.
-		if existing_obstacle.grow(1).intersects(new_obstacle):
+		var restricted_area: Rect2i = (
+			existing_obstacle.grow(obstacle_spacing)
+		)
+
+		if restricted_area.intersects(new_obstacle):
 			return true
 
 	return false
 
-
 # Prevent obstacles from blocking important positions.
 func obstacle_blocks_spawn_or_exit(
-	new_obstacle: Rect2i
-) -> bool:
+	new_obstacle: Rect2i) -> bool:
 
 	var spawn_tile: Vector2i = rooms[
 		current_room_index
@@ -516,12 +550,10 @@ func obstacle_blocks_spawn_or_exit(
 
 	return false
 
-
 # Mark obstacle tiles in the dungeon grid.
 func mark_obstacle(
 	obstacle: Rect2i,
-	value: int
-) -> void:
+	value: int ) -> void:
 
 	var room: Rect2i = rooms[current_room_index]
 
@@ -540,16 +572,12 @@ func mark_obstacle(
 
 			dungeon_grid[local_y][local_x] = value
 
-
 # --------------------------------------------------
 # PATH VALIDATION
 # --------------------------------------------------
-
-
 # Check whether the player can reach the exit.
 # Uses breadth-first search.
 func has_valid_path(room: Rect2i) -> bool:
-
 	var start: Vector2i = room.get_center()
 
 	var exit_position: Vector2 = get_exit_position()
@@ -610,12 +638,9 @@ func has_valid_path(room: Rect2i) -> bool:
 
 	return false
 
-
 # --------------------------------------------------
 # ROOM POSITIONS AND PROGRESSION
 # --------------------------------------------------
-
-
 # Return the center of the current room.
 func get_current_room_center() -> Vector2:
 
@@ -627,7 +652,6 @@ func get_current_room_center() -> Vector2:
 		(center.x + 0.5) * tile_size,
 		(center.y + 0.5) * tile_size
 	)
-
 
 # Return the position of the room's exit.
 func get_exit_position() -> Vector2:
@@ -642,12 +666,10 @@ func get_exit_position() -> Vector2:
 		) * tile_size
 	)
 
-
 # Check whether another dungeon room exists.
 func has_next_room() -> bool:
 
 	return current_room_index < rooms.size() - 1
-
 
 # Unlock the current room's exit.
 func unlock_exit() -> void:
@@ -661,7 +683,6 @@ func unlock_exit() -> void:
 
 	print("Room exit unlocked.")
 
-
 # Lock the exit.
 # This will also be used for weapon selection later.
 func lock_exit() -> void:
@@ -670,31 +691,209 @@ func lock_exit() -> void:
 
 	queue_redraw()
 
-
 # --------------------------------------------------
-# DRAWING
+# ROOM GRAPHICS
 # --------------------------------------------------
+# Generate the floor and wall graphics.
+func generate_room_graphics(room: Rect2i) -> void:
+	floor_tiles.clear()
+	wall_tiles.clear()
 
+	# Debugging information.
+	print("----- GRAPHICS DEBUG -----")
+	print("Floor TileSet: ", floor_tiles.tile_set)
+	print("Wall TileSet: ", wall_tiles.tile_set)
 
-func _draw() -> void:
-
-	if rooms.is_empty():
+	if floor_tiles.tile_set == null:
+		push_error("Floor TileSet is missing!")
 		return
 
-	var room: Rect2i = rooms[current_room_index]
+	if wall_tiles.tile_set == null:
+		push_error("Wall TileSet is missing!")
+		return
 
-	# Draw the room floor.
-	draw_rect(
-		Rect2(
-			room.position.x * tile_size,
-			room.position.y * tile_size,
-			room.size.x * tile_size,
-			room.size.y * tile_size
-		),
-		Color(0.7, 0.7, 0.7)
+	print("Source count: ", floor_tiles.tile_set.get_source_count())
+
+	for i in range(floor_tiles.tile_set.get_source_count()):
+		print("Source ID: ", floor_tiles.tile_set.get_source_id(i))
+
+	if floor_tiles.tile_set.has_source(TILE_SOURCE_ID):
+
+		var atlas = floor_tiles.tile_set.get_source(TILE_SOURCE_ID)
+
+		print("Primary floor exists: ", atlas.has_tile(FLOOR_PRIMARY))
+		print("Alternative floor exists: ", atlas.has_tile(FLOOR_ALTERNATIVE))
+		print("Cracked floor exists: ", atlas.has_tile(FLOOR_CRACKED))
+		print("Damaged floor exists: ", atlas.has_tile(FLOOR_DAMAGED))
+		print("Wall tile exists: ", atlas.has_tile(WALL_TILE))
+
+	else:
+		push_error("Incorrect TileSet source ID!")
+		return
+
+	generate_floor_tiles(room)
+	generate_wall_tiles(room)
+
+	print("Floor cells: ", floor_tiles.get_used_cells().size())
+	print("Wall cells: ", wall_tiles.get_used_cells().size())
+
+	print("--------------------------")
+
+# --------------------------------------------------
+# OBSTACLE GRAPHICS
+# --------------------------------------------------
+func clear_obstacle_graphics() -> void:
+	for child in obstacle_graphics.get_children():
+
+		obstacle_graphics.remove_child(child)
+		child.queue_free()
+
+func generate_obstacle_graphics() -> void:
+	clear_obstacle_graphics()
+
+	for obstacle in obstacles:
+
+		var texture: Texture2D = (
+			choose_obstacle_texture()
+		)
+
+		# Create the collision for this obstacle type.
+		create_obstacle_collision(
+			obstacle,
+			texture
+		)
+
+		# Create the obstacle sprite.
+		for y in range(
+			obstacle.position.y,
+			obstacle.end.y
+		):
+
+			for x in range(
+				obstacle.position.x,
+				obstacle.end.x
+			):
+
+				create_obstacle_sprite(
+					Vector2i(x, y),
+					texture
+				)
+
+func choose_obstacle_texture() -> Texture2D:
+	var roll: float = graphics_rng.randf()
+
+	# 70% chance of a pillar.
+	if roll < 0.70:
+		return PILLAR_TEXTURE
+
+	# 15% chance of a crate.
+	elif roll < 0.85:
+		return CRATE_TEXTURE
+
+	# 15% chance of a barrel.
+	return BARREL_TEXTURE
+
+func create_obstacle_sprite(
+	tile: Vector2i,
+	texture: Texture2D ) -> void:
+
+	var sprite: Sprite2D = Sprite2D.new()
+
+	sprite.texture = texture
+	sprite.centered = true
+	sprite.z_index = 0
+
+	sprite.texture_filter = (
+		CanvasItem.TEXTURE_FILTER_NEAREST
 	)
 
-	# Draw the exterior walls.
+	var texture_size: Vector2 = texture.get_size()
+
+	# Preserve the original proportions.
+	var sprite_scale: float = (
+		float(tile_size) / texture_size.x
+	)
+
+	sprite.scale = Vector2(
+		sprite_scale,
+		sprite_scale
+	)
+
+	# Place the sorting origin near the obstacle base.
+	sprite.position = Vector2(
+		(tile.x + 0.5) * tile_size,
+		(tile.y + 0.5) * tile_size
+	)
+
+	if texture == PILLAR_TEXTURE:
+		sprite.position += pillar_collision_offset
+
+	# Keep the bottom of the texture aligned
+	# with the bottom of the occupied tile.
+	sprite.offset = Vector2(
+		0.0,
+		(float(tile_size) / sprite_scale
+		- texture_size.y) / 2.0
+	)
+
+	# Preserve the original visual position even
+	# when the pillar collision has an offset.
+	if texture == PILLAR_TEXTURE:
+		sprite.offset -= (
+			pillar_collision_offset / sprite_scale
+		)
+
+	obstacle_graphics.add_child(sprite)
+	
+	# Align the bottom of tall sprites with
+	# the bottom of their collision tile.
+	var sprite_height: float = (
+		texture_size.y * sprite_scale
+	)
+
+	sprite.position.y -= (
+		sprite_height - tile_size
+	) / 2.0
+
+	obstacle_graphics.add_child(sprite)
+
+# Generate the floor of the current room.
+func generate_floor_tiles(room: Rect2i) -> void:
+
+	for y in range(room.position.y, room.end.y):
+
+		for x in range(room.position.x, room.end.x):
+
+			var tile_position: Vector2i = Vector2i(x, y)
+
+			var atlas_position: Vector2i = get_random_floor_tile()
+
+			floor_tiles.set_cell(
+				tile_position,
+				TILE_SOURCE_ID,
+				atlas_position
+			)
+
+# Select a random floor texture.
+func get_random_floor_tile() -> Vector2i:
+
+	var chance: float = graphics_rng.randf()
+
+	if chance < 0.70:
+		return FLOOR_PRIMARY
+
+	elif chance < 0.85:
+		return FLOOR_ALTERNATIVE
+
+	elif chance < 0.95:
+		return FLOOR_CRACKED
+
+	else:
+		return FLOOR_DAMAGED
+
+# Generate the exterior wall graphics.
+func generate_wall_tiles(room: Rect2i) -> void:
+
 	for layer in range(wall_thickness):
 
 		var left: int = room.position.x - 1 - layer
@@ -703,30 +902,33 @@ func _draw() -> void:
 		var top: int = room.position.y - 1 - layer
 		var bottom: int = room.end.y + layer
 
-		# Top and bottom wall tiles.
+		# Generate top and bottom walls.
 		for x in range(left, right + 1):
 
-			draw_wall_tile(x, top)
-			draw_wall_tile(x, bottom)
+			place_wall_tile(x, top)
+			place_wall_tile(x, bottom)
 
-		# Left and right wall tiles.
+		# Generate left and right walls.
 		for y in range(top + 1, bottom):
 
-			draw_wall_tile(left, y)
-			draw_wall_tile(right, y)
+			place_wall_tile(left, y)
+			place_wall_tile(right, y)
 
-	# Draw the room's obstacles.
-	for obstacle in obstacles:
+# Place an individual wall texture.
+func place_wall_tile(x: int, y: int) -> void:
 
-		draw_rect(
-			Rect2(
-				obstacle.position.x * tile_size,
-				obstacle.position.y * tile_size,
-				obstacle.size.x * tile_size,
-				obstacle.size.y * tile_size
-			),
-			Color(0.38, 0.42, 0.47)
-		)
+	wall_tiles.set_cell(
+		Vector2i(x, y),
+		TILE_SOURCE_ID,
+		WALL_TILE
+	)
+
+# --------------------------------------------------
+# DRAWING
+# --------------------------------------------------
+func _draw() -> void:
+	if rooms.is_empty():
+		return
 
 	# --------------------------------------------------
 	# EXIT MARKER
@@ -783,7 +985,62 @@ func _draw() -> void:
 		12.0,
 		marker_color
 	)
+	
+	# --------------------------------------------------
+	# EXIT MARKER
+	# --------------------------------------------------
 
+	#var exit_color: Color = Color(0.1, 0.8, 0.3)
+
+	# Purple indicates the final arena transition.
+	if is_transition_room():
+
+		exit_color = Color(0.7, 0.4, 0.9)
+
+	# Red indicates a locked exit.
+	if exit_locked:
+
+		exit_color = Color(0.9, 0.15, 0.15)
+
+	draw_rect(
+		Rect2(
+			get_exit_position() - Vector2(10, 10),
+			Vector2(20, 20)
+		),
+		exit_color
+	)
+
+	# --------------------------------------------------
+	# TEMPORARY ROOM TYPE MARKER
+	# --------------------------------------------------
+
+	#var marker_color: Color = Color.WHITE
+
+	match get_current_room_type():
+
+		RoomType.START:
+			marker_color = Color(0.2, 0.5, 0.9)
+
+		RoomType.COMBAT:
+			marker_color = Color(0.8, 0.2, 0.2)
+
+		RoomType.REWARD:
+			marker_color = Color(0.2, 0.8, 0.3)
+
+		RoomType.TRANSITION:
+			marker_color = Color(0.6, 0.3, 0.8)
+
+	#var marker_position: Vector2 = (
+		#get_current_room_center()
+	#)
+
+	marker_position.y -= 50.0
+
+	draw_circle(
+		marker_position,
+		12.0,
+		marker_color
+	)
 
 # Draw one wall tile.
 func draw_wall_tile(x: int, y: int) -> void:
@@ -798,12 +1055,9 @@ func draw_wall_tile(x: int, y: int) -> void:
 		Color(0.25, 0.25, 0.25)
 	)
 
-
 # --------------------------------------------------
 # DEBUGGING
 # --------------------------------------------------
-
-
 # Print the current room's boundaries.
 func print_current_room_bounds() -> void:
 
@@ -820,7 +1074,6 @@ func print_current_room_bounds() -> void:
 			Vector2(room.size) * tile_size
 		)
 	)
-
 
 # Print the complete dungeon room sequence.
 func print_room_sequence() -> void:

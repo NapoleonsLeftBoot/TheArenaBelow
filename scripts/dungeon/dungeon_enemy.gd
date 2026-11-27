@@ -1,4 +1,3 @@
-
 extends CharacterBody2D
 
 # The Arena Below - Dungeon Enemy
@@ -11,16 +10,14 @@ extends CharacterBody2D
 # Keep enemy physics collisions disabled to preserve
 # the working tile-based navigation system.
 
-
 signal enemy_defeated
-
 
 enum EnemyType {
 	STANDARD,
 	FAST,
-	HEAVY
+	HEAVY,
+	RANGED
 }
-
 
 enum AttackState {
 	CHASING,
@@ -28,6 +25,9 @@ enum AttackState {
 	COOLDOWN
 }
 
+const ENEMY_PROJECTILE = preload(
+	"res://scripts/dungeon/enemy_projectile.gd"
+)
 
 @export var enemy_type: EnemyType = EnemyType.STANDARD
 
@@ -66,24 +66,32 @@ var attack_state: AttackState = AttackState.CHASING
 var attack_timer: float = 0.0
 var damage_flash_timer: float = 0.0
 
+# Enemy graphics
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+
+var animation_prefix: String = "standard"
+var previous_position: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
-	z_index = 9
+	z_index = 0
 
 	configure_enemy_type()
 	health = max_health
 
 	add_to_group("dungeon_enemies")
 
-	# Do not re-enable enemy collisions.
+	# Keep existing collision settings
 	collision_layer = 0
 	collision_mask = 0
 
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 	$CollisionShape2D.disabled = true
 
-
-# Assign stats based on the enemy's type.
+	# Initialize enemy graphics.
+	configure_enemy_graphics()
+	previous_position = global_position
+	
+# Assign stats based on the enemy's type
 func configure_enemy_type() -> void:
 	match enemy_type:
 		EnemyType.STANDARD:
@@ -115,16 +123,46 @@ func configure_enemy_type() -> void:
 			attack_range = 32.0
 			attack_windup = 0.7
 			attack_cooldown = 2.2
+			
+		EnemyType.RANGED:
+			movement_speed = 50.0
+			enemy_size = 12.0
+			stopping_distance = 22.0
+			max_health = 2
+			attack_damage = 8
+			attack_range = 140.0
+			attack_windup = 0.6
+			attack_cooldown = 2.0
 
+# Assign graphics based on enemy type
+func configure_enemy_graphics() -> void:
+	match enemy_type:
 
-# Initialize navigation information before spawning.
+		EnemyType.STANDARD:
+			animation_prefix = "standard"
+			animated_sprite.scale = Vector2(1.25, 1.25)
+
+		EnemyType.FAST:
+			animation_prefix = "fast"
+			animated_sprite.scale = Vector2(1.0, 1.0)
+
+		EnemyType.HEAVY:
+			animation_prefix = "heavy"
+			animated_sprite.scale = Vector2(1.25, 1.25)
+			
+		EnemyType.RANGED:
+			animation_prefix = "ranged"
+			animated_sprite.scale = Vector2(1.25, 1.25)
+
+	animated_sprite.play(animation_prefix + "_idle")
+
+# Initialize navigation information before spawning
 func setup(
 	player: Node2D,
 	generator: Node2D,
 	navigation_grid: AStarGrid2D,
 	spawn_tile: Vector2i,
-	grid_tile_size: int
-) -> void:
+	grid_tile_size: int ) -> void:
 	target = player
 	dungeon_generator = generator
 	path_grid = navigation_grid
@@ -133,7 +171,6 @@ func setup(
 	current_tile = spawn_tile
 	next_tile = spawn_tile
 	moving_to_tile = false
-
 
 func _physics_process(delta: float) -> void:
 	if defeated:
@@ -177,7 +214,6 @@ func _physics_process(delta: float) -> void:
 
 	queue_redraw()
 
-
 func handle_chasing() -> void:
 	if can_attack_player():
 		start_attack()
@@ -192,7 +228,6 @@ func handle_chasing() -> void:
 		return
 
 	choose_next_tile()
-
 
 func can_attack_player() -> bool:
 	if not is_instance_valid(target):
@@ -210,7 +245,6 @@ func can_attack_player() -> bool:
 
 	return has_clear_attack_path()
 
-
 # Prevent attacks through walls and obstacles.
 func has_clear_attack_path() -> bool:
 	var query = PhysicsRayQueryParameters2D.create(
@@ -227,11 +261,9 @@ func has_clear_attack_path() -> bool:
 
 	return result.is_empty()
 
-
 func start_attack() -> void:
 	attack_state = AttackState.WINDUP
 	attack_timer = attack_windup
-
 
 func handle_windup(delta: float) -> void:
 	attack_timer -= delta
@@ -241,30 +273,64 @@ func handle_windup(delta: float) -> void:
 
 	perform_attack()
 
-
 func perform_attack() -> void:
 	if can_attack_player():
-		target.call("take_damage", attack_damage)
 
-		print(
-			name,
-			" (",
-			EnemyType.keys()[enemy_type],
-			") attacked for ",
-			attack_damage,
-            " damage."
-		)
+		if enemy_type == EnemyType.RANGED:
+
+			shoot_projectile()
+
+			print(name, " fired a projectile.")
+
+		else:
+
+			target.call("take_damage", attack_damage)
+
+			print(
+				name,
+				" (",
+				EnemyType.keys()[enemy_type],
+				") attacked for ",
+				attack_damage,
+                " damage."
+			)
 
 	attack_state = AttackState.COOLDOWN
 	attack_timer = attack_cooldown
+	
+func shoot_projectile() -> void:
+	if not is_instance_valid(target):
+		return
 
+	var direction: Vector2 = (
+		target.global_position - global_position
+	).normalized()
+
+	if direction == Vector2.ZERO:
+		return
+
+	var projectile = ENEMY_PROJECTILE.new()
+
+	projectile.setup(
+		target,
+		direction,
+		attack_damage
+	)
+
+	# Prevent the projectile from following the enemy.
+	projectile.top_level = true
+
+	add_child(projectile)
+
+	projectile.global_position = (
+		global_position + direction * 6.0
+	)
 
 func handle_cooldown(delta: float) -> void:
 	attack_timer -= delta
 
 	if attack_timer <= 0.0:
 		attack_state = AttackState.CHASING
-
 
 func get_player_tile() -> Vector2i:
 	var local_position: Vector2 = (
@@ -275,7 +341,6 @@ func get_player_tile() -> Vector2i:
 		floori(local_position.x / tile_size),
 		floori(local_position.y / tile_size)
 	)
-
 
 # Existing AStarGrid2D navigation.
 func choose_next_tile() -> void:
@@ -312,7 +377,6 @@ func choose_next_tile() -> void:
 	next_tile = destination
 	moving_to_tile = true
 
-
 # Move toward the next tile without move_and_slide().
 func move_to_next_tile(delta: float) -> void:
 	var destination: Vector2 = tile_to_world(next_tile)
@@ -327,7 +391,6 @@ func move_to_next_tile(delta: float) -> void:
 		current_tile = next_tile
 		moving_to_tile = false
 
-
 func tile_to_world(tile: Vector2i) -> Vector2:
 	var local_position: Vector2 = Vector2(
 		(tile.x + 0.5) * tile_size,
@@ -335,7 +398,6 @@ func tile_to_world(tile: Vector2i) -> Vector2:
 	)
 
 	return dungeon_generator.to_global(local_position)
-
 
 func take_damage(amount: int) -> void:
 	if defeated or amount <= 0:
@@ -359,7 +421,6 @@ func take_damage(amount: int) -> void:
 	if health == 0:
 		die()
 
-
 func die() -> void:
 	if defeated:
 		return
@@ -374,7 +435,6 @@ func die() -> void:
 	enemy_defeated.emit()
 	queue_free()
 
-
 func get_enemy_color() -> Color:
 	match enemy_type:
 		EnemyType.STANDARD:
@@ -388,36 +448,69 @@ func get_enemy_color() -> Color:
 
 	return Color.WHITE
 
+func _process(_delta: float) -> void:
+
+	if defeated:
+		return
+
+	update_enemy_animation()
+
+func update_enemy_animation() -> void:
+
+	# Determine whether the enemy has moved
+	var movement: Vector2 = global_position - previous_position
+
+	previous_position = global_position
+
+	# Face the direction of movement
+	if movement.x < -0.01:
+		animated_sprite.flip_h = true
+
+	elif movement.x > 0.01:
+		animated_sprite.flip_h = false
+
+	# Face the player while standing still
+	elif is_instance_valid(target):
+
+		var direction: Vector2 = (
+			target.global_position - global_position
+		)
+
+		if direction.x < -0.01:
+			animated_sprite.flip_h = true
+
+		elif direction.x > 0.01:
+			animated_sprite.flip_h = false
+
+	# Get the next animation
+	var next_animation: String = animation_prefix + "_idle"
+
+	if movement.length() > 0.01:
+		next_animation = animation_prefix + "_run"
+
+	if animated_sprite.animation != next_animation:
+		animated_sprite.play(next_animation)
+
+	# Update combat colors
+	if damage_flash_timer > 0.0:
+		animated_sprite.modulate = Color(1.0, 0.4, 0.4)
+
+	elif  attack_state == AttackState.WINDUP:
+		animated_sprite.modulate = Color(1.0, 0.75, 0.1)
+
+	elif attack_state == AttackState.COOLDOWN:
+		animated_sprite.modulate = Color(0.65, 0.65, 0.65)
+
+	else:
+		animated_sprite.modulate = Color.WHITE
 
 func _draw() -> void:
-	var half_size: float = enemy_size / 2.0
-	var body_color: Color = get_enemy_color()
+	if defeated:
+		return
 
-	match attack_state:
-		AttackState.CHASING:
-			body_color = get_enemy_color()
-
-		AttackState.WINDUP:
-			body_color = Color(1.0, 0.75, 0.1)
-
-		AttackState.COOLDOWN:
-			body_color = get_enemy_color().darkened(0.35)
-
-	if damage_flash_timer > 0.0:
-		body_color = Color.WHITE
-
-	draw_rect(
-		Rect2(
-			-half_size,
-			-half_size,
-			enemy_size,
-			enemy_size
-		),
-		body_color
-	)
-
-	# Attack range warning.
+	# Attack range warning
 	if attack_state == AttackState.WINDUP:
+
 		draw_arc(
 			Vector2.ZERO,
 			attack_range,
@@ -428,18 +521,52 @@ func _draw() -> void:
 			2.0
 		)
 
-	# Health bar.
+	# Calculate remaining health
 	var health_ratio: float = 0.0
 
 	if max_health > 0:
 		health_ratio = float(health) / float(max_health)
 
+	# Position the health bar above the enemy
+	var bar_y: float = -20.0
+	var bar_width: float = 20.0
+
+	match enemy_type:
+
+		EnemyType.STANDARD:
+			bar_y = -20.0
+			bar_width = 20.0
+
+		EnemyType.FAST:
+			bar_y = -14.0
+			bar_width = 16.0
+
+		EnemyType.HEAVY:
+			bar_y = -28.0
+			bar_width = 30.0
+			
+		EnemyType.RANGED:
+			bar_y = -20.0
+			bar_width = 18.0
+
+	# Health bar background
 	draw_rect(
-		Rect2(-10, -15, 20, 4),
-		Color(0.25, 0.25, 0.25)
+		Rect2(
+			-bar_width / 2.0,
+			bar_y,
+			bar_width,
+			4.0
+		),
+		Color(0.15, 0.15, 0.15)
 	)
 
+	# Remaining health
 	draw_rect(
-		Rect2(-10, -15, 20 * health_ratio, 4),
+		Rect2(
+			-bar_width / 2.0,
+			bar_y,
+			bar_width * health_ratio,
+			4.0
+		),
 		Color(0.2, 0.8, 0.2)
 	)

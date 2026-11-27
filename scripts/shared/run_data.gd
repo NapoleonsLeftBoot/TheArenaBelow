@@ -1,9 +1,7 @@
 
 extends Node
 
-# The Arena Below - Shared Run Data
-# Stores the weapon and upgrades for the current run.
-# The arena will read these values later.
+# Stores everything that must survive scene changes.
 
 signal weapon_changed(weapon: WeaponData)
 signal upgrades_changed
@@ -12,8 +10,67 @@ var selected_weapon: WeaponData = null
 
 var bonus_damage: int = 0
 var bonus_max_health: int = 0
-
 var rewards_collected: int = 0
+
+var base_max_health: int = 100
+var current_health: int = 100
+
+var max_mana: float = 100.0
+var current_mana: float = 100.0
+
+
+func reset_run() -> void:
+	selected_weapon = null
+	bonus_damage = 0
+	bonus_max_health = 0
+	rewards_collected = 0
+
+	base_max_health = 100
+	current_health = 100
+	max_mana = 100.0
+	current_mana = 100.0
+
+	upgrades_changed.emit()
+	print("New run started.")
+
+
+func get_max_health() -> int:
+	return base_max_health + bonus_max_health
+
+
+func save_health(value: int) -> void:
+	current_health = clampi(value, 0, get_max_health())
+
+
+func save_mana(value: float) -> void:
+	current_mana = clampf(value, 0.0, max_mana)
+
+
+func save_dungeon_player(player: Node) -> void:
+	save_health(player.health)
+	max_mana = player.max_mana
+	save_mana(player.mana)
+
+
+func restore_dungeon_player(player: Node) -> void:
+	player.max_health = get_max_health()
+	player.health = current_health
+
+	player.max_mana = max_mana
+	player.mana = current_mana
+
+	if selected_weapon != null:
+		player.current_weapon = selected_weapon
+		player.weapon_equipped.emit(selected_weapon)
+
+	player.health_changed.emit(
+		player.health, player.max_health
+	)
+	player.mana_changed.emit(
+		player.mana, player.max_mana
+	)
+
+	player.queue_redraw()
 
 
 func select_weapon(weapon: WeaponData) -> void:
@@ -22,8 +79,6 @@ func select_weapon(weapon: WeaponData) -> void:
 
 	selected_weapon = weapon
 	weapon_changed.emit(selected_weapon)
-
-	print("Run weapon selected: ", weapon.weapon_name)
 
 
 func get_weapon() -> WeaponData:
@@ -51,10 +106,7 @@ func get_weapon_damage() -> int:
 func add_damage_upgrade() -> void:
 	bonus_damage += 1
 	rewards_collected += 1
-
 	upgrades_changed.emit()
-
-	print("Bonus weapon damage: +", bonus_damage)
 
 
 func add_max_health_upgrade(amount: int) -> void:
@@ -63,24 +115,9 @@ func add_max_health_upgrade(amount: int) -> void:
 
 	bonus_max_health += amount
 	rewards_collected += 1
-
 	upgrades_changed.emit()
-
-	print("Bonus maximum health: +", bonus_max_health)
 
 
 func record_healing_reward() -> void:
 	rewards_collected += 1
 	upgrades_changed.emit()
-
-
-func reset_run() -> void:
-	selected_weapon = null
-
-	bonus_damage = 0
-	bonus_max_health = 0
-	rewards_collected = 0
-
-	upgrades_changed.emit()
-
-	print("Run data reset.")

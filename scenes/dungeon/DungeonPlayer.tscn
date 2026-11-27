@@ -1,9 +1,73 @@
 [gd_scene format=3 uid="uid://btwnpybhqi71q"]
 
 [ext_resource type="Script" uid="uid://d130gu7fts7p4" path="res://scripts/dungeon/dungeon_player.gd" id="1_qo1o2"]
+[ext_resource type="Texture2D" uid="uid://fsfwkik8kw28" path="res://art/dungeon/source_assets/0x72_DungeonTilesetII_v1.7/0x72_DungeonTilesetII_v1.7.png" id="2_yfdks"]
+[ext_resource type="Texture2D" uid="uid://bold6jbf7me3w" path="res://art/dungeon/weapons/spear.tres" id="3_gn2q1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wblkt"]
 size = Vector2(14, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yfdks"]
+atlas = ExtResource("2_yfdks")
+region = Rect2(144, 96, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gn2q1"]
+atlas = ExtResource("2_yfdks")
+region = Rect2(176, 96, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qhe6n"]
+atlas = ExtResource("2_yfdks")
+region = Rect2(128, 96, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vc5bi"]
+atlas = ExtResource("2_yfdks")
+region = Rect2(160, 96, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1avdl"]
+atlas = ExtResource("2_yfdks")
+region = Rect2(208, 96, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_saxs7"]
+atlas = ExtResource("2_yfdks")
+region = Rect2(224, 96, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p88n6"]
+atlas = ExtResource("2_yfdks")
+region = Rect2(240, 96, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wblkt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yfdks")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gn2q1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qhe6n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vc5bi")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1avdl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_saxs7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p88n6")
+}],
+"loop": 1,
+"name": &"run",
+"speed": 8.0
+}]
 
 [node name="DungeonPlayer" type="CharacterBody2D" unique_id=428537041]
 collision_layer = 2
@@ -11,3 +75,20 @@ script = ExtResource("1_qo1o2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=394702026]
 shape = SubResource("RectangleShape2D_wblkt")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1031661209]
+texture_filter = 1
+scale = Vector2(1.25, 1.25)
+sprite_frames = SubResource("SpriteFrames_wblkt")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.19761255
+
+[node name="WeaponSprite" type="Sprite2D" parent="." unique_id=1615922777]
+z_index = 1
+texture_filter = 1
+position = Vector2(-5, -1)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("3_gn2q1")
+offset = Vector2(0, -10)
+region_rect = Rect2(288, 64, 16, 32)

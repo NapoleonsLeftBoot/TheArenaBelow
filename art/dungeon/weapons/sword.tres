@@ -1,0 +1,8 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://d4kc74xevg2vm"]
+
+[ext_resource type="Texture2D" uid="uid://fsfwkik8kw28" path="res://art/dungeon/source_assets/0x72_DungeonTilesetII_v1.7/0x72_DungeonTilesetII_v1.7.png" id="1_vhfra"]
+
+[resource]
+atlas = ExtResource("1_vhfra")
+region = Rect2(288, 64, 16, 32)
+filter_clip = true
