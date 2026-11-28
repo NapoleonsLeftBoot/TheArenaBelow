@@ -3,7 +3,7 @@ extends PlayerState
 
 func enter() -> void:
 	if player.transition_anim != &"":
-		player.animation.play(player.current_moveset[player.transition_anim].animation)
+		player.animation.play(player.current_moveset.get(player.transition_anim).animation)
 		player.animation.queue(player.current_moveset.idle.animation)
 		player.transition_anim = &""
 	else:

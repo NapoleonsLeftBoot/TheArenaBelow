@@ -5,10 +5,10 @@
 
 [sub_resource type="Resource" id="Resource_0pwwq"]
 script = ExtResource("1_0pwwq")
-start_tick = 16
+start_tick = 15
 end_tick = 19
 size = Vector2(232.545, 94.97)
-offset = Vector2(-100.895, -228.61)
+offset = Vector2(-83.85, -211.405)
 hit_attribute = "High"
 damage = 11
 knockback = Vector2(-1088.397, -717.83)
@@ -19,10 +19,10 @@ metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [sub_resource type="Resource" id="Resource_pn30r"]
 script = ExtResource("1_0pwwq")
-start_tick = 21
-end_tick = 24
+start_tick = 22
+end_tick = 25
 size = Vector2(232.545, 94.97)
-offset = Vector2(124.155, -228.61)
+offset = Vector2(132.905, -130.76)
 hit_attribute = "High"
 damage = 11
 knockback = Vector2(1127.502, -717.83)
@@ -33,7 +33,7 @@ metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [resource]
 script = ExtResource("2_exyrh")
-animation = "fists_air_light"
+animation = "axe_air_heavy"
 total_frames = 45
 hitboxes = Array[ExtResource("1_0pwwq")]([SubResource("Resource_0pwwq"), SubResource("Resource_pn30r")])
 traction = 0.7

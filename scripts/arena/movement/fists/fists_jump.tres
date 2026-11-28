@@ -5,5 +5,6 @@
 
 [resource]
 script = ExtResource("2_v7rov")
+name = "jump"
 animation = "jump"
 metadata/_custom_type_script = "uid://dumcnysw81a4l"

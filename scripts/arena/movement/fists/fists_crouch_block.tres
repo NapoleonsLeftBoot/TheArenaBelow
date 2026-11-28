@@ -5,5 +5,6 @@
 
 [resource]
 script = ExtResource("2_so7n0")
+name = "crouch_block"
 animation = "crouch_block"
 metadata/_custom_type_script = "uid://dumcnysw81a4l"

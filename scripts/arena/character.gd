@@ -74,7 +74,7 @@ func _ready():
 	#if no weapon type was passed from other scene
 	#then just default to fists
 	if current_moveset == null:
-		set_weapon(WeaponData.WeaponType.FISTS)
+		set_weapon(WeaponData.WeaponType.BATTLE_AXE)
 	state_machine.init(current_moveset)
 
 func _process(delta):

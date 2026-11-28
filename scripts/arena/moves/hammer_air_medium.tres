@@ -19,7 +19,7 @@ metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [resource]
 script = ExtResource("2_fv4pk")
-animation = "fists_air_light"
+animation = "axe_air_medium"
 total_frames = 42
 hitboxes = Array[ExtResource("1_u5yea")]([SubResource("Resource_pn30r")])
 traction = 0.7

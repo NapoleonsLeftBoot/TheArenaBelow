@@ -31,6 +31,6 @@ func process_physics(delta: float) -> State:
 	if player.buffer.consume(heavy_key):
 		return start_attack(crouch_heavy_state, player.current_moveset.crouch_heavy)
 	if not player.is_held(down_key):
-		player.transition_anim = player.current_moveset.uncrouch.animation
+		player.transition_anim = player.current_moveset.uncrouch.name
 		return idle_state
 	return null

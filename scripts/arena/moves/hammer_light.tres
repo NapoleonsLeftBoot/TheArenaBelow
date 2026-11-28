@@ -15,6 +15,7 @@ metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [resource]
 script = ExtResource("2_bcxgs")
+animation = "axe_light"
 total_frames = 14
 hitboxes = Array[ExtResource("1_acumg")]([SubResource("Resource_xea6m")])
 cancel_start = 6

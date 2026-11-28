@@ -7,8 +7,8 @@
 script = ExtResource("1_4jd2e")
 start_tick = 5
 end_tick = 8
-size = Vector2(242.315, 63.885)
-offset = Vector2(99.37, -146.26)
+size = Vector2(223.93, 63.885)
+offset = Vector2(81.725, -146.26)
 hit_attribute = "Low"
 knockback = Vector2(460.835, -170.49)
 hitstun_frames = 14
@@ -17,6 +17,7 @@ metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [resource]
 script = ExtResource("2_sjpx2")
+animation = "axe_crouch_light"
 total_frames = 16
 hitboxes = Array[ExtResource("1_4jd2e")]([SubResource("Resource_vgiv5")])
 crouch = true

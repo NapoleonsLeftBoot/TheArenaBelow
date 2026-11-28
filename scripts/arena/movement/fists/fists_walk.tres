@@ -5,5 +5,6 @@
 
 [resource]
 script = ExtResource("2_po5m8")
+name = "walk"
 animation = "walk"
 metadata/_custom_type_script = "uid://dumcnysw81a4l"

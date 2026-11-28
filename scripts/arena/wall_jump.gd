@@ -37,9 +37,9 @@ func process_physics(delta: float) -> State:
 
 	if tick >= wall_jump_lockout:
 		if facing_wall:
-			player.transition_anim = player.current_moveset.walljump_to_fall.animation
+			player.transition_anim = player.current_moveset.walljump_to_fall.name
 		else:
-			player.transition_anim = player.current_moveset.away_walljump_to_fall.animation
+			player.transition_anim = player.current_moveset.away_walljump_to_fall.name
 		return jump_state
 
 	return next_state

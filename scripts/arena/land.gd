@@ -11,7 +11,7 @@ func enter() -> void:
 func exit(new_state: State = null) -> void:
 	super(new_state)
 	if new_state is PlayerIdleState:
-		player.transition_anim = player.current_moveset.land_to_idle.animation
+		player.transition_anim = player.current_moveset.land_to_idle.name
 
 func process_physics(delta: float) -> State:
 	player.velocity.x *= land_traction

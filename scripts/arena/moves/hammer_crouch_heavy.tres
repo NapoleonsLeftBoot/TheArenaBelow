@@ -32,6 +32,7 @@ metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [resource]
 script = ExtResource("2_3eji2")
+animation = "axe_crouch_heavy"
 total_frames = 42
 hitboxes = Array[ExtResource("1_y8lim")]([SubResource("Resource_vgiv5"), SubResource("Resource_y8lim")])
 crouch = true

@@ -3,9 +3,11 @@
 [ext_resource type="Script" uid="uid://cuc1kwm5gk7wx" path="res://scripts/arena/hud.gd" id="1_8amx1"]
 [ext_resource type="PackedScene" uid="uid://disqqu6qqxio5" path="res://scenes/arena/character.tscn" id="2_0ik2u"]
 [ext_resource type="PackedScene" uid="uid://cmnl76s1q35yh" path="res://scenes/arena/boss.tscn" id="2_8amx1"]
+[ext_resource type="Texture2D" uid="uid://cgpwhr6ahbcuy" path="res://art/arena/over.png" id="3_15r7h"]
 [ext_resource type="Texture2D" uid="uid://minjwfumcyd3" path="res://art/arena/no health bar.png" id="3_h1fw1"]
 [ext_resource type="Texture2D" uid="uid://ctrssblisybig" path="res://art/arena/health.png" id="3_tfkaf"]
 [ext_resource type="Script" uid="uid://dfmbt3sam5dh8" path="res://scenes/arena/track.gd" id="4_h1fw1"]
+[ext_resource type="Texture2D" uid="uid://bkk1rhyenyd5y" path="res://art/arena/over flipped.png" id="5_ld3in"]
 [ext_resource type="Texture2D" uid="uid://dvv57dse1g8cf" path="res://art/arena/prison_layer_floor.png" id="6_a5r5p"]
 [ext_resource type="Resource" uid="uid://cw6feqmbl7x4g" path="res://scripts/arena/sword_moveset.tres" id="7_2rf7r"]
 [ext_resource type="Texture2D" uid="uid://ddgwhgt8131mf" path="res://art/arena/prison_layer._background.png" id="7_tfkaf"]
@@ -29,27 +31,30 @@ player = NodePath("../Player")
 boss = NodePath("../Boss")
 
 [node name="BetterPlayerBar" type="TextureProgressBar" parent="Hud" unique_id=1699492553]
+offset_left = 25.0
 offset_top = 25.0
-offset_right = 962.36847
-offset_bottom = 140.0
+offset_right = 938.0
+offset_bottom = 89.0
 value = 100.0
 nine_patch_stretch = true
 texture_under = ExtResource("3_h1fw1")
+texture_over = ExtResource("3_15r7h")
 texture_progress = ExtResource("3_tfkaf")
 
 [node name="BetterBossBar" type="TextureProgressBar" parent="Hud" unique_id=628234908]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -887.053
+offset_left = -935.0
 offset_top = 25.0
-offset_right = -0.00024414063
-offset_bottom = 131.0
+offset_right = -22.0
+offset_bottom = 89.0
 grow_horizontal = 0
 value = 100.0
 fill_mode = 1
 nine_patch_stretch = true
 texture_under = ExtResource("3_h1fw1")
+texture_over = ExtResource("5_ld3in")
 texture_progress = ExtResource("3_tfkaf")
 
 [node name="Result" type="Label" parent="Hud" unique_id=667003582]
@@ -94,15 +99,12 @@ zoom_speed = 20.0
 [node name="Boss" parent="." unique_id=1279432752 instance=ExtResource("2_8amx1")]
 z_index = 1
 position = Vector2(939, 766)
-max_health = null
 sword_moveset = ExtResource("7_2rf7r")
 spear_moveset = ExtResource("8_ldnau")
 
 [node name="Player" parent="." unique_id=475324690 instance=ExtResource("2_0ik2u")]
 z_index = 1
 position = Vector2(200, 700)
-max_health = null
-is_ai = null
 sword_moveset = ExtResource("7_2rf7r")
 spear_moveset = ExtResource("8_ldnau")
 

@@ -30,6 +30,7 @@ metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [resource]
 script = ExtResource("2_1foti")
+animation = "axe_medium"
 total_frames = 30
 hitboxes = Array[ExtResource("1_uny4i")]([SubResource("Resource_mhp46"), SubResource("Resource_uny4i")])
 strength = 2

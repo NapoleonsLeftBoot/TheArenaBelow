@@ -2,6 +2,7 @@
 class_name MoveData
 extends Resource
 
+@export var name: String = ""
 @export var animation: String = ""
 
 

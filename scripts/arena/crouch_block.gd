@@ -29,7 +29,7 @@ func process_physics(delta: float) -> State:
 
 	if not player.is_held(block_key):
 		if player.is_held(down_key):
-			player.animation.play(player.current_moveset.crouch_block.animation)
+			player.animation.play(player.current_moveset.crouch_unblock.animation)
 			return crouch_state
 		return idle_state
 	if not player.is_held(down_key):

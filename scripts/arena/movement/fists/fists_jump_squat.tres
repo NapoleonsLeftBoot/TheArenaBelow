@@ -5,5 +5,6 @@
 
 [resource]
 script = ExtResource("2_w3cjp")
+name = "jump_squat"
 animation = "jump_squat"
 metadata/_custom_type_script = "uid://dumcnysw81a4l"

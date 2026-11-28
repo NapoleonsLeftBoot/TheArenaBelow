@@ -89,6 +89,7 @@ metadata/_custom_type_script = "uid://dhq073jonmyno"
 
 [resource]
 script = ExtResource("2_wy7x0")
+animation = "axe_heavy"
 total_frames = 45
 hitboxes = Array[ExtResource("1_2hr6k")]([SubResource("Resource_mjbq0"), SubResource("Resource_evnfq"), SubResource("Resource_02ogm"), SubResource("Resource_2hr6k"), SubResource("Resource_wy7x0"), SubResource("Resource_uj3dq")])
 strength = 3

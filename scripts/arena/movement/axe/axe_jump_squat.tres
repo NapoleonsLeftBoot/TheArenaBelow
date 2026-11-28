@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://bw0cikcchhksv"]
+
+[ext_resource type="Script" uid="uid://dhq073jonmyno" path="res://scripts/arena/moves/hitbox_data.gd" id="1_gc4ew"]
+[ext_resource type="Script" uid="uid://dumcnysw81a4l" path="res://scripts/arena/moves/move_data.gd" id="2_2i8el"]
+
+[resource]
+script = ExtResource("2_2i8el")
+name = "jump_squat"
+animation = "axe_jump_squat"
+metadata/_custom_type_script = "uid://dumcnysw81a4l"

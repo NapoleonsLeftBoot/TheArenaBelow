@@ -5,5 +5,6 @@
 
 [resource]
 script = ExtResource("2_eqe8p")
+name = "idle"
 animation = "idle"
 metadata/_custom_type_script = "uid://dumcnysw81a4l"
